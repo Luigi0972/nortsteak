@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Oswald:wght@200..700&family=Roboto+Slab:wght@100..900&display=swap');
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.header {
+  background-color: rgb(235, 21, 21);
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 2rem;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 100;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
+  .header {
+    font-size: 1.5rem;
+    padding: 0.8rem;
+  }
+}
+
+
+/* Contenedor del encabezado */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    /*gap: 1rem;*/
+    flex-wrap: wrap;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    box-sizing: border-box; /* 🔒 Importante para evitar desbordes */
+}
+.logo {
+    max-width: 150px;
+    /*padding: 1rem;*/
+}
+
+/* Buscador */
+.search-container {
+    flex-grow: 1; /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
+    max-width: 800px; /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
+    margin: 0 20px;
+}
+
+.search-form {
+    display: flex; /*lo transforma en un contenedor flex*/
+    width: 100%;/*ocupara el maximo*/
+}
+
+.search-input {
+    min-width: 0; /*hace que el elemento se encoja lo que pueda para adaptarse al contenedor*/  
+    flex-grow: 1; /*crecera para ocupar el esapcio restante*/
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px 0 0 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: rgb(235, 21, 21);
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #b30000;
+}
+
+/* Íconos */
+.icon-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.icon {
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    color: #333;
+    padding: 8px;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    color:rgb(235, 21, 21);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo {
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        max-width: 200px;
+    }
+
+  }
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .icon-container {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .search-button {
+        padding: 8px 16px;
+    }
+
+    .icon {
+        font-size: 1.8rem;
+    }
+}
+
+
+   .carrito {
+    max-width: 700px;
+    margin: auto;
+    margin-top: 20vh;
+  }
+  .carrito-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 25px;
+
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+  }
+  .item-info {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    font-family: "Roboto Slab", serif;
+    
+  }
+  .item-info img {
+    width: 150px;
+    border-radius: 8px;
+  }
+  .detalles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    
+  }
+  .nombre-producto {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 8px;
+    
+    font-family: "oswald", sans-serif;
+    font-size: 18px;
+  }
+  .cantidad {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+  }
+  .cantidad button {
+    background: red;
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    
+  }
+  .cantidad span {
+    min-width: 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .precio {
+    width: 120px;
+    text-align: right;
+    font-weight: bold;
+    font-family: "oswald", sans-serif;
+    font-size: 20px;
+  }
+  .total {
+    text-align: right;
+    margin-top: 10px;
+    font-weight: bold;
+    font-family: "oswald", sans-serif;
+    font-size: 20px;
+  }
+  .pagar {
+    display: block;
+    background: red;
+    color: white;
+    border: none;
+    padding: 15px 30px 15px;
+    font-size: 16px;
+    margin: 25px auto 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+  }

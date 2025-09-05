@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NortSteak</title>
+
+    <!-- Iconos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tus CSS -->
+    <link rel="stylesheet" href="/Css/css.css">
+    <link rel="stylesheet" href="/Css/login.css">
+    <link rel="stylesheet" href="/Css/registro.css">
+    <link rel="stylesheet" href="/Css/test.css">
+    <link rel="stylesheet" href="/Css/nosotros.css">
+</head>
+<body>
+
+    <div class="header">LSJ</div>
+    <div class="header-container">
+        <a href="/index.html" class="logo">
+          <img class="logo" src="/imagenes/logo.png" alt="Logo de la tienda">
+        </a>
+    
+        <div class="search-container">
+            <form class="search-form" action="/buscar" method="get" title="buscar">
+                <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    
+        <div class="icon-container">
+            <a href="/registro.html" class="icon" title="Registro">
+                <i class="fas fa-user-plus"></i>
+            </a>
+            <a href="/catalogo.html" class="icon" title="Catálogo">
+                <i class="fas fa-book"></i>
+            </a>
+            <a href="/pasarela.html" class="icon" title="Carrito de compras">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Carrusel -->
+    <div class="carrusel">
+        <div class="atras">
+            <img id="atras" src="/imagenes/atras.svg" alt="Atrás" loading="lazy"/>
+        </div>
+
+        <div class="imagenes">
+            <div id="img">
+                <img class="img" src="/imagenes/Vaca.webp" alt="Imagen 1" loading="lazy"/>
+            </div>
+            <div id="texto" class="texto">
+                <h3>Premium Beef</h3>
+                <p>En NortSteak encontrarás la carne de mejor calidad, adquirida 100% de ganaderos de Norte de Santander. Apoyamos a nuestros campesinos locales.</p>
+            </div>
+        </div>
+
+        <div class="adelante" id="adelante">
+            <img src="/imagenes/adelante.svg" alt="Adelante" loading="lazy">
+        </div>
+
+        <div class="controles-movil">
+            <img id="atras-movil" src="/imagenes/atras.svg" alt="Atrás" loading="lazy">
+            <img id="adelante-movil" src="/imagenes/adelante.svg" alt="Adelante" loading="lazy">
+        </div>
+    </div>
+
+    <div class="puntos" id="puntos"></div>
+
+    <!-- Script -->
+    <script src="/js/script.js"></script>
+
+    <div class="promo">
+        <marquee>Todos los martes 15 % de descuento en todos nuestros productos seleccionados</marquee>
+    </div>
+
+    <div class="productos">PRODUCTOS DESTACADOS</div>
+    <br><br>
+
+    <div class="contenedor-cortes">
+        <div class="tarjeta-corte">
+          <img src="/imagenes-catalogo/destacado1.webp" alt="Corte New York">
+          <h3><em>Corte New York</em></h3>
+          <hr>
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="tarjeta-corte">
+          <img src="/imagenes-catalogo/destacada2.jpg" alt="Corte Tomahawk">
+          <h3><em>Corte Tomahawk</em></h3>
+          <hr>
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="tarjeta-corte">
+          <img src="/imagenes-catalogo/destacada3.jpg" alt="Corte Filete Mignon">
+          <h3><em>Corte Filete Mignon</em></h3>
+          <hr>
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+    </div>
+
+    <br><br>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-column1">
+        <img src="/imagenes/logo-removebg-preview (1).png" class="logo2">
+        <h3><em>Acerca de:</em></h3>
+        <ul>
+          <li><a href="/sobreNosotros.html#sobre-nosotros">Sobre nosotros</a></li>
+          <li><a href="/sobreNosotros.html#informacion-entrega">Información de entrega</a></li>
+          <li><a href="/sobreNosotros.html#politica-privacidad">Política de privacidad</a></li>
+          <li><a href="/sobreNosotros.html#proveedores">Proveedores locales</a></li>
+        </ul>
+        <div class="social-icons">
+          <a href="https://wa.me/573223738274" target="_blank" title="Chatea con nosotros en WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://www.instagram.com/nortsteak_oficial" target="_blank" title="Síguenos en Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://web.facebook.com/profile.php?id=61578975458021" target="_blank" title="Visítanos en Facebook">
+            <i class="fab fa-facebook"></i>
+          </a>
+        </div>
+        <p class="copyright">
+          &copy; 2025 NortSteak. Todos los derechos reservados.
+        </p>
+      </div>
+
+      <div class="footer-column2">
+        <h3><em>¿Necesitas ayuda?</em></h3>
+        <p class="contact-button">
+          Contáctanos: +57 3223738274
+          <i class="fas fa-phone"></i>
+        </p>
+
+        <h3><em>Bancos aliados</em></h3>
+        <div class="bancos">
+          <img src="/imagenes/FalabellaBlanco.png" class="logo-falabella">
+          <img src="/imagenes/NequiBlanco.png" class="logo-nequi">
+          <img src="/imagenes/BancolombiaBlanco.png" class="logo-bancolombia">
+        </div>
+
+        <h3><em>Ubicación</em></h3>
+        <div class="ubicacion-mapa">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.938590607054!2d-72.50586998941517!3d7.9014847920886275"
+            style="width: 100%; height: 100%; border: 0; border-radius: 12px;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </footer>
+
+</body>
+</html>
