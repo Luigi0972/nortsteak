@@ -13,9 +13,9 @@ public class PaginasController {
     }
 
     // Login
-    @GetMapping("/login")
+    @GetMapping("/login2")
     public String login() {
-        return "login"; // busca templates/login.html
+        return "login2"; // busca templates/login.html
     }
 
     // Registro
