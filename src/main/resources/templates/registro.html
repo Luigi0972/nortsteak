@@ -14,8 +14,8 @@
 <body>
 <div class="header">LSJ</div>
     <div class="header-container">
-        <a href="index.html" class="logo">
-          <img class="logo" src="imagenes/logo.png" alt="Logo de la tienda">
+        <a th:href="@{/}" class="logo">
+          <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
         </a>
     
     <div class="search-container">
@@ -28,17 +28,17 @@
     </div>
     
 
-   <div class="icon-container">
-            <a href="registro.html" class="icon" title="Registro">
+
+        <div class="icon-container">
+            <a th:href="@{/registro}" class="icon" title="Registro">
                 <i class="fas fa-user-plus"></i>
             </a>
-            <a href="catalogo.html" class="icon" title="Catálogo">
+            <a th:href="@{/catalogo}" class="icon" title="Catálogo">
                 <i class="fas fa-book"></i>
-                </a>
-            <a href="pasarela.html" class="icon" title="Carrito de compras">
+            </a>
+            <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
                 <i class="fas fa-shopping-cart"></i>
-                </a>
-            </div>
+            </a>
         </div>
     </div>
 
@@ -95,7 +95,7 @@
 
   <!-- Imagen -->
   <div class="image-container">
-    <img src="Imagenes/icono_logo.png" alt="Imagen Registro">
+    <img th:src="@{/CSS/img/icono_logo.png}" alt="Imagen Registro">
   </div>
 </div>
 
