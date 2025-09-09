@@ -1,38 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NortSteak</title>
 
     <!-- Iconos Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}">
 
-    <!-- Tus CSS (Thymeleaf) -->
+    <!-- Tu CSS externo -->
     <link rel="stylesheet" th:href="@{/Css/css.css}">
-    <link rel="stylesheet" th:href="@{/Css/login.css}">
-    <link rel="stylesheet" th:href="@{/Css/registro.css}">
-    <link rel="stylesheet" th:href="@{/Css/test.css}">
-    <link rel="stylesheet" th:href="@{/Css/nosotros.css}">
     <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
 </head>
 <body>
-
     <div class="header">LSJ</div>
     <div class="header-container">
         <a th:href="@{/}" class="logo">
           <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
         </a>
-    
-        <div class="search-container">
-            <form class="search-form" th:action="@{/buscar}" method="get" title="buscar">
-                <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
-                <button type="submit" class="search-button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </div>
-    
+
+    <!-- Barra de búsqueda -->
+    <div class="search-container">
+        <form class="search-form" th:action="@{/buscar}" method="get" title="buscar">
+            <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
+            <button type="submit" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Iconos -->
         <div class="icon-container">
             <a th:href="@{/registro}" class="icon" title="Registro">
                 <i class="fas fa-user-plus"></i>
@@ -82,29 +79,6 @@
     </div>
 
     <div class="productos">PRODUCTOS DESTACADOS</div>
-    <br><br>
-
-    <div class="contenedor-cortes">
-        <div class="tarjeta-corte">
-          <img th:src="@{/Css/img/destacado1.webp}" alt="Corte New York">
-          <h3><em>Corte New York</em></h3>
-          <hr>
-          <i class="fas fa-shopping-cart"></i>
-        </div>
-        <div class="tarjeta-corte">
-          <img th:src="@{/Css/img/destacada2.jpg}" alt="Corte Tomahawk">
-          <h3><em>Corte Tomahawk</em></h3>
-          <hr>
-          <i class="fas fa-shopping-cart"></i>
-        </div>
-        <div class="tarjeta-corte">
-          <img th:src="@{/Css/img/destacada3.jpg}" alt="Corte Filete Mignon">
-          <h3><em>Corte Filete Mignon</em></h3>
-          <hr>
-          <i class="fas fa-shopping-cart"></i>
-        </div>
-    </div>
-
     <br><br>
 
     <!-- Footer -->
