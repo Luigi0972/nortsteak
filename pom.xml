@@ -70,6 +70,14 @@
         <artifactId>spring-security-test</artifactId>
         <scope>test</scope>
     </dependency>
+
+    <dependency>
+    <groupId>org.springframework.boot</groupId> <!-- Esto es para que se actualice la pagina cuando haya un cambio -->
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
+    </dependency>
+
+
 </dependencies>
 
 
