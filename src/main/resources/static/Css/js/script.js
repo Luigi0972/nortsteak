@@ -15,17 +15,17 @@ function buscar() {
 window.addEventListener('DOMContentLoaded', () => {
   const imagenes = [
     {
-      src: "Imagenes/Vaca2.jpeg",
+      src: "/Css/img/Vaca2.jpeg",
       titulo: "NortSteak",
       descripcion: "NortSteak es una plataforma de venta de cortes finos de carne. Nuestra prioridad es vender productos frescos de calidad premium"
     },
     {
-      src: "Imagenes/Vaca5.jpg",
+      src: "/Css/img/Vaca5.jpg",
       titulo: "Norte de Santander",
       descripcion: "Todos los productos de nuestra plataforma son 100% de Norte de Santander, apoyando a nuestra ganadería local"
     },
     {
-      src: "Imagenes/fondo carne.jpg",
+      src: "/Css/img/fondo carne.jpg",
       titulo: "Premium Beef",
       descripcion: "Aquí encontrarás los mejores cortes a precios razonables, para que puedas disfrutarlos con tu familia"
     }
