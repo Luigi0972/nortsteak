@@ -7,15 +7,15 @@
 <link rel="stylesheet" href="Css/login.css">
 <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-          <link rel="icon" type="image/svg+xml" href="Imagenes/logo4.png">
+  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
 
 
 </head>
 <body>
 <div class="header">LSJ</div>
     <div class="header-container">
-        <a href="index.html" class="logo">
-          <img class="logo" src="imagenes/logo.png" alt="Logo de la tienda">
+        <a th:href="@{/}" class="logo">
+          <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
         </a>
     
     <div class="search-container">
@@ -76,9 +76,10 @@
       </div>
 
       <div class="btn-container">
-        <button type="button" class="btn btn-red" onclick="window.location.href='registro.html'">
+        <button type="button" class="btn btn-red" onclick="window.location.href='registro'">
           Registrarse
         </button>
+        
         <button type="submit" class="btn btn-outline">
           Iniciar Sesión
         </button>
@@ -91,7 +92,7 @@
 
   <!-- Imagen -->
   <div class="image-container">
-    <img src="Imagenes/icono_logo.png" alt="Imagen Registro">
+    <img th:src="@{/CSS/img/icono_logo.png}" alt="Imagen Registro">
   </div>
 </div>
 
