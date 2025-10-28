@@ -52,11 +52,113 @@ body {
     flex-grow: 1; /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
     max-width: 800px; /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
     margin: 0 20px;
+    position: relative; /* Necesario para posicionar las sugerencias */
 }
 
 .search-form {
     display: flex; /*lo transforma en un contenedor flex*/
     width: 100%;/*ocupara el maximo*/
+}
+
+/* Sugerencias de búsqueda */
+.sugerencias-container {
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 5px;
+    z-index: 1000;
+    width: 100%;
+    max-width: 800px;
+}
+
+.sugerencias-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sugerencia-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+
+.sugerencia-item:last-child {
+    border-bottom: none;
+}
+
+.sugerencia-item:hover {
+    background-color: #f8f8f8;
+}
+
+.sugerencia-item:active {
+    background-color: rgb(235, 21, 21);
+    color: white;
+}
+
+/* Mensaje de error */
+.mensaje-error {
+    background-color: #ff4444;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease-out;
+    max-width: 600px;
+    text-align: center;
+}
+
+.mensaje-error i {
+    font-size: 20px;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Responsive para mensaje de error */
+@media (max-width: 768px) {
+    .mensaje-error {
+        margin: 15px 10px;
+        padding: 12px 20px;
+        font-size: 14px;
+        max-width: calc(100% - 20px);
+    }
+    
+    .mensaje-error i {
+        font-size: 18px;
+    }
 }
 
 .search-input {

@@ -11,6 +11,72 @@
 
   let precioUnitario = 0;
 
+  // Función para buscar y resaltar producto basado en parámetro de URL
+  function buscarProductoDesdeURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productoBuscado = urlParams.get('producto');
+    
+    if (productoBuscado) {
+      // Mapeo de nombres comunes a IDs
+      const mapeoNombres = {
+        'corte new york': 'corte-new-york',
+        'new york': 'corte-new-york',
+        'tomahawk': 'tomahawk',
+        'filete mignon': 'filete-mignon',
+        'mignon': 'filete-mignon',
+        'lomo de res': 'lomo-de-res',
+        'lomo res': 'lomo-de-res',
+        'lomo': 'lomo-de-res',
+        'ribeye': 'ribeye',
+        'picaña': 'picana',
+        'picana': 'picana',
+        't-bone': 't-bone',
+        'tbone': 't-bone',
+        'brisket': 'brisket',
+        'churrasco': 'churrasco'
+      };
+      
+      // Buscar el ID correspondiente
+      const nombreBuscadoLower = productoBuscado.toLowerCase().trim();
+      const idProducto = mapeoNombres[nombreBuscadoLower] || 
+                        productoBuscado.toLowerCase()
+                          .replace(/\s+/g, '-')
+                          .replace(/á/g, 'a')
+                          .replace(/é/g, 'e')
+                          .replace(/í/g, 'i')
+                          .replace(/ó/g, 'o')
+                          .replace(/ú/g, 'u')
+                          .replace(/ñ/g, 'n');
+      
+      // Buscar el producto por ID
+      const productoElement = document.getElementById(idProducto);
+      
+      if (productoElement) {
+        // Agregar clase de resaltado
+        productoElement.classList.add('producto-resaltado');
+        
+        // Scroll suave hasta el producto
+        setTimeout(() => {
+          productoElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }, 300);
+        
+        // Remover el resaltado después de 3 segundos
+        setTimeout(() => {
+          productoElement.classList.remove('producto-resaltado');
+          // Limpiar parámetro de URL
+          const nuevaURL = window.location.pathname;
+          window.history.replaceState({}, '', nuevaURL);
+        }, 3000);
+      }
+    }
+  }
+
+  // Ejecutar búsqueda al cargar la página
+  buscarProductoDesdeURL();
+
   // Función para formatear precio en pesos (ej: 1.234.567)
   function formatearPesos(n) {
     return new Intl.NumberFormat('es-CO').format(n) + " $";

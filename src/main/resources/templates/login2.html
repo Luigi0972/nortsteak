@@ -19,12 +19,13 @@
         </a>
     
     <div class="search-container">
-            <form class="search-form" action="/buscar" method="get" title="buscar">
-                <input type="text-2" class="search-input" placeholder="Buscar productos..." name="q">
+            <form class="search-form" action="/buscar" method="get" title="buscar" id="search-form">
+                <input type="text" class="search-input" placeholder="Buscar productos..." name="q" id="search-input" autocomplete="off">
                 <button type="submit" class="search-button">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
+            <div class="sugerencias-container" id="sugerencias-container" style="display: none;"></div>
     </div>
     
 
@@ -115,5 +116,6 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   } 
 });
 </script>
+<script th:src="@{/Css/js/buscar.js}"></script>
 </body>
 </html>

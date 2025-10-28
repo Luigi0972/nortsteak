@@ -21,12 +21,13 @@
 
     <!-- Barra de búsqueda -->
     <div class="search-container">
-        <form class="search-form" th:action="@{/buscar}" method="get" title="buscar">
-            <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
+        <form class="search-form" th:action="@{/buscar}" method="get" title="buscar" id="search-form">
+            <input type="text" class="search-input" placeholder="Buscar productos..." name="q" id="search-input" autocomplete="off">
             <button type="submit" class="search-button">
                 <i class="fas fa-search"></i>
             </button>
         </form>
+        <div class="sugerencias-container" id="sugerencias-container" style="display: none;"></div>
     </div>
 
     <!-- Iconos -->
@@ -71,8 +72,9 @@
 
     <div class="puntos" id="puntos"></div>
 
-    <!-- Script -->
+    <!-- Scripts -->
     <script th:src="@{/Css/js/script.js}"></script>
+    <script th:src="@{/Css/js/buscar.js}"></script>
 
     <div class="promo">
         <marquee>Todos los martes 15 % de descuento en todos nuestros productos seleccionados</marquee>
@@ -157,7 +159,6 @@
   </div>
       </div>
     </footer>
-
 </body>
 </html>
 
