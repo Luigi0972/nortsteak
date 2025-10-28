@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" th:href="@{/Css/admin.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="admin-container">
+        <h1 class="admin-header">🍖 Panel de Administración - Control de Stock</h1>
+        
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Producto</th>
+                    <th>Precio</th>
+                    <th>Stock Actual</th>
+                    <th>Editar Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="producto : ${productos}">
+                    <td th:text="${producto.idProducto}"></td>
+                    <td th:text="${producto.nombreProducto}"></td>
+                    <td class="price-cell" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></td>
+                    <td class="stock-cell" th:text="${producto.stock}"></td>
+                    <td>
+                        <form class="stock-form" th:action="@{/admin/actualizarStock}" method="post">
+                            <input type="hidden" name="id" th:value="${producto.idProducto}">
+                            <input type="number" class="stock-input" name="nuevoStock" min="0" th:value="${producto.stock}">
+                            <button type="submit" class="update-btn">
+                                📝 Actualizar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <a href="/" class="back-link">← Volver al inicio</a>
+    </div>
+</body>
+</html>
+
+
+
+

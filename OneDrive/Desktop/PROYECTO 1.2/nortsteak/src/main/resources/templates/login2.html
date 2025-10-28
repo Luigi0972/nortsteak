@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar Sesión</title>
+<link rel="stylesheet" href="Css/login.css">
+<!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
+
+
+</head>
+<body>
+<div class="header">LSJ</div>
+    <div class="header-container">
+        <a th:href="@{/}" class="logo">
+          <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
+        </a>
+    
+    <div class="search-container">
+            <form class="search-form" action="/buscar" method="get" title="buscar">
+                <input type="text-2" class="search-input" placeholder="Buscar productos..." name="q">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+    </div>
+    
+
+   <div class="icon-container">
+            <a th:href="@{/registro}" class="icon" title="Registro">
+                <i class="fas fa-user-plus"></i>
+            </a>
+            <a th:href="@{/catalogo}" class="icon" title="Catálogo">
+                <i class="fas fa-book"></i>
+            </a>
+            <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="container_formulario">
+  <!-- Formulario -->
+  <div class="form-container">
+    <h2>Inicia Sesión</h2>
+
+    <div class="social-icons">
+      <div class="icon-circle">
+        <i class="fab fa-google"></i>
+      </div>
+      <div class="icon-circle">
+        <i class="fab fa-facebook-f"></i>
+      </div>
+    </div>
+
+    <p style="color:#666; font-size:14px;">
+      o usa tu correo electrónico para iniciar sesión
+    </p>
+
+    <!-- Formulario con id -->
+    <form id="loginForm">
+      <input type="email" id="usuario" placeholder="Correo electrónico" required>
+      <input type="password" id="clave" placeholder="Contraseña" required>
+
+      <div class="checkbox">
+        <input type="checkbox" id="terminos" required>
+        <label for="terminos">
+          Acepto los <a href="#">Términos</a> y
+          <a href="#">Políticas de privacidad</a>.
+        </label>
+      </div>
+
+      <div class="btn-container">
+        <button type="button" class="btn btn-red" onclick="window.location.href='/registro'">
+          Registrarse
+        </button>
+        
+        <button type="submit" class="btn btn-outline">
+          Iniciar Sesión
+        </button>
+      </div>
+
+      <!-- Mensaje estilizado -->
+      <div id="mensaje" style="display:none; margin-top:10px; padding:8px; border-radius:5px; font-weight:bold;"></div>
+    </form>
+  </div>
+
+  <!-- Imagen -->
+  <div class="image-container">
+    <img th:src="@{/CSS/img/icono_logo.png}" alt="Imagen Registro">
+  </div>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  e.preventDefault(); // Evita que recargue la página
+
+  const correo = document.getElementById("usuario").value.trim();
+  const contrasena = document.getElementById("clave").value.trim();
+  const mensaje = document.getElementById("mensaje");
+
+  if (!correo || !contrasena) {
+    mensaje.textContent = "❌ Por favor completa todos los campos";
+    mensaje.style.display = "block";
+    mensaje.style.backgroundColor = "#ffebee";
+    mensaje.style.color = "#c62828";
+    return;
+  }
+
+  const payload = {
+    correo: correo,
+    contrasena: contrasena
+  };
+
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    
+    if (res.ok && data.status === "success") {
+      mensaje.textContent = "✅ " + data.message;
+      mensaje.style.display = "block";
+      mensaje.style.backgroundColor = "#e8f5e8";
+      mensaje.style.color = "#2e7d32";
+      
+      // Redirige después de 1 segundo
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1000);
+    } else {
+      mensaje.textContent = "❌ " + (data.message || "Error al iniciar sesión");
+      mensaje.style.display = "block";
+      mensaje.style.backgroundColor = "#ffebee";
+      mensaje.style.color = "#c62828";
+    }
+  } catch (err) {
+    console.error(err);
+    mensaje.textContent = "❌ Error de conexión con el servidor";
+    mensaje.style.display = "block";
+    mensaje.style.backgroundColor = "#ffebee";
+    mensaje.style.color = "#c62828";
+  }
+});
+</script>
+</body>
+</html>

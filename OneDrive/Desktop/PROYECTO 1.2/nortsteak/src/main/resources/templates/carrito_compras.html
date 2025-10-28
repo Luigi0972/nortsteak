@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!--iconos de fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <link rel="stylesheet" href="Css/carrito.css">
+    <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
+    <title>Catalogo</title>
+</head>
+<body>
+  
+ <div class="header">LSJ</div>
+
+    
+    <div class="header-container">
+        <a href="index.html" class="logo">
+          <img class="logo" src="imagenes/logo.png" alt="Logo de la tienda">
+        </a>
+    
+
+
+   <div class="icon-container">
+            <a href="registro.html" class="icon" title="Registro">
+                <i class="fas fa-user-plus"></i>
+            </a>
+            <a href="catalogo.html" class="icon" title="Catálogo">
+                <i class="fas fa-book"></i>
+                </a>
+            <a href="pasarela.html" class="icon" title="Carrito de compras">
+                <i class="fas fa-shopping-cart"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+<div class="carrito">
+  <div class="carrito-header">
+    <span>PRODUCTOS</span>
+    <span>PRECIO $</span>
+  </div>
+
+  <div class="item" data-precio="130000">
+    <div class="item-info">
+      <img src = Imagenes-catalogo/newyork.jpg alt="Corte New York">
+      <div class="detalles">
+        <span class="nombre-producto">Corte New York</span>
+        <div class="cantidad">
+        <button class="menos"><i class="fas fa-minus"></i></button>
+                <span class="valor">2</span>
+        <button class="mas"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="precio">130.000 $</div>
+  </div>
+
+  <div class="item" data-precio="200000">
+    <div class="item-info">
+      <img src = Imagenes-catalogo/milegnon.jpg alt="Milegnon">
+      <div class="detalles">
+        <span class="nombre-producto">Corte Filete Mignon</span>
+        <div class="cantidad">
+        <button class="menos"><i class="fas fa-minus"></i></button>
+                <span class="valor">2</span>
+        <button class="mas"><i class="fas fa-plus"></i></button>
+
+        </div>
+      </div>
+    </div>
+    <div class="precio">200.000 $</div>
+  </div>
+
+  <div class="total">TOTAL: <span id="total">460.000 </span> $</div>
+
+  <button class="pagar">PAGAR</button>
+</body>
+</html>
