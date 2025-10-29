@@ -1,0 +1,606 @@
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.header {
+  background-color: rgb(235, 21, 21);
+  color: white;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 2rem;
+  font-family: 'Roboto', Arial, sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Responsivo para pantallas pequeñas */
+@media (max-width: 600px) {
+  .header {
+    font-size: 1.5rem;
+    padding: 0.8rem;
+  }
+}
+
+
+/* Contenedor del encabezado */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    /*gap: 1rem;*/
+    flex-wrap: wrap;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    box-sizing: border-box; /* 🔒 Importante para evitar desbordes */
+}
+.logo {
+    max-width: 150px;
+    /*padding: 1rem;*/
+}
+
+/* Buscador */
+.search-container {
+    flex-grow: 1; /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
+    max-width: 800px; /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
+    margin: 0 20px;
+}
+
+.search-form {
+    display: flex; /*lo transforma en un contenedor flex*/
+    width: 100%;/*ocupara el maximo*/
+}
+
+.search-input {
+    min-width: 0; /*hace que el elemento se encoja lo que pueda para adaptarse al contenedor*/  
+    flex-grow: 1; /*crecera para ocupar el esapcio restante*/
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px 0 0 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: rgb(235, 21, 21);
+    color: white;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: #b30000;
+}
+
+/* Íconos */
+.icon-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.icon {
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    color: #333;
+    padding: 8px;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    color:rgb(235, 21, 21);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo {
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        max-width: 200px;
+    }
+
+  }
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .icon-container {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .search-button {
+        padding: 8px 16px;
+    }
+
+    .icon {
+        font-size: 1.8rem;
+    }
+}
+
+.NOSOTROS {
+  background-color: rgb(80, 80, 80);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 3rem;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.329);
+}
+
+@media (max-width: 770px) {
+  .NOSOTROS {
+    font-size: 2rem;
+    padding: 1rem;
+  }
+  .sobre-nosotros {
+    padding: 40px 20px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .NOSOTROS {
+    font-size: 1.8rem;
+    padding: 1rem;
+  }
+
+    .sobre-nosotros {
+    padding: 40px 20px;
+    text-align: center;
+  }
+}
+
+
+
+.sobre-nosotros {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.informacion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.info-text {
+  flex: 1;
+  padding: 20px;
+  min-width: 300px;
+}
+
+.info-text h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.info-text .rojo {
+  color: #e60023; 
+  border-bottom: 3px solid #e60023;
+}
+
+.info-text p {
+  font-size: 18px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.info-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+}
+
+
+.icono-sobre {
+  font-size: 10rem;
+  color: #ff2121;
+  transition: transform 0.4s ease, color 0.4s ease;
+  cursor: pointer;
+}
+
+.icono-sobre:hover {
+  color: #ff1a1a;
+  transform: scale(1.2) rotate(5deg);
+  text-shadow: 0px 0px 20px rgba(255, 76, 76, 0.7);
+}
+
+
+
+
+
+
+
+.proveedores {
+    background-color: rgb(80, 80, 80);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    width: 100%;
+    box-sizing: border-box;
+      font-family: 'Roboto', Arial, sans-serif;
+
+}
+
+/* sobre nosotros diseño*/
+
+
+
+
+/*PROVEEDORES ESTILOS */
+
+.proveedores2 {
+  max-width: 1000px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+  gap: 60px;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.proveedor-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.proveedor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.proveedor-card h3 {
+  background-color: rgb(235, 21, 21);
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  margin: -20px -20px 15px -20px;
+  font-family: 'Roboto', Arial, sans-serif;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.proveedor-content {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  align-items: flex-start;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.proveedor-content img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid rgba(22, 22, 22, 0.438);
+}
+
+.proveedor-content .info {
+  flex: 1;
+}
+
+.proveedor-content p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: black;
+}
+
+.proveedor-content a {
+  color: red;
+  text-decoration: none;
+}
+
+.proveedor-content a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media screen and (max-width: 850px) {
+  .proveedor-card {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .proveedor-card h3 {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .proveedor-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .proveedor-content img {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .proveedor-card {
+    width: 95%;
+  }
+  .proveedor-card h3 {
+    font-size: 13px;
+  }
+}
+
+
+
+
+/*aqui sera el contenedor negro de la parte de abajo*/
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #000000; /* Más elegante que negro puro */
+  color: #fff;
+  padding: 5px 30px 40px 30px;
+  gap: 40px;
+  flex-wrap: wrap;
+  font-family: 'Segoe UI', sans-serif;
+  
+}
+
+.footer-column1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* Alinea todo a la izquierda */
+  padding-top: 0;           /* Elimina espacio superior */
+  gap: 10px;                /* Espaciado entre elementos */
+}
+
+.footer-column2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.footer-column1 ul li a {
+  text-decoration: none;
+  color: white; /* O el color que estés usando */
+  transition: color 0.3s;
+}
+
+.footer-column1 ul li a:hover {
+  color: #ff4040; /* Rojo brillante u otro tono que combine */
+}
+
+.logo2 {
+  max-width: 200px;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+ul li {
+  font-size: 1.2rem;
+  margin: 5px 0;
+}
+
+.social-icons {
+  margin-bottom: 15px;
+}
+
+.fa-whatsapp {
+  color: #25D366;
+}
+
+.fa-instagram {
+  color: #E1306C;
+}
+
+.fa-facebook {
+  color: #1877F2;
+}
+
+.social-icons i {
+  font-size: 25px;
+  margin-right: 15px;
+  transition: transform 0.3s;
+}
+
+.social-icons a {
+  text-decoration: none; /* Quita la línea azul debajo */
+  color: inherit;         /* Mantiene el color original del ícono */
+}
+.social-icons i:hover {
+  transform: scale(1.2);
+}
+
+.contact-button {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contact-button:hover {
+  background-color: #cc0000;
+  cursor: pointer;
+}
+
+.contact-button i {
+  margin-left: 10px;
+}
+
+
+.bancos img {
+  
+  height: auto; /* mantiene proporciones */
+  margin: 0 10px; /* espacio entre los logos */
+  transition: transform 0.3s;
+}
+
+.bancos img:hover {
+  transform: scale(1.2);
+    filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%) hue-rotate(357deg) brightness(98%) contrast(105%);
+}
+
+.logo-bancolombia {
+  width: 230px;
+  
+}
+
+.logo-falabella{
+  width: 180px;
+}
+
+.logo-nequi{
+  width: 180px;
+}
+
+.bancos {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* o space-around / space-between */
+  gap: 20px; /* separación entre logos */
+}
+
+.footer p.copyright {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.ubicacion-mapa {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 4 / 1.8; /* o usa padding-bottom si no tienes soporte para aspect-ratio */
+    margin: auto;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+
+/* esto es lo que lo hace responsive */
+@media screen and (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .footer-column1,
+  .footer-column2 {
+    width: 100%;
+    align-items: center; /* Centra contenido en móviles */
+    text-align: center;
+  }
+
+  .footer p.copyright {
+  font-size: 1.2rem;
+  color: #bbb;
+  }
+
+
+  .bancos {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .ubicacion-mapa {
+    max-width: 100%;
+    aspect-ratio: 4 / 2;
+  }
+}
+
+  @media (max-width: 1100px) { /* si el ancho de la pantalla es <= de 800px */
+  .footer-column2 {
+    display: flex;
+    flex-direction: column;
+    object-fit: cover;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  .bancos {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer {
+  gap: 20px;
+  }
+
+  .footer p.copyright {
+  font-size: 1.2rem;
+  color: #bbb;
+  margin-top: 25px;
+  
+}
+}
