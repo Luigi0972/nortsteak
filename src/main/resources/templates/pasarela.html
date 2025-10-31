@@ -4,18 +4,17 @@
   <meta charset="UTF-8">
   <title>Pasarela de Pago</title>
   <link rel="stylesheet" href="Css/css.css">
-  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/svg+xml" href="Imagenes/logo4.png">
 </head>
-  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
 
 <body>
+  <div class="header">LSJ</div>
 
-<div class="header">LSJ</div>
-    <div class="header-container">
-        <a th:href="@{/}" class="logo">
-          <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
-        </a>
+  <div class="header-container">
+    <a href="index.html">
+      <img class="logo" src="Imagenes/logo-removebg-preview (1).png" alt="Logo de la tienda">
+    </a>
 
     <div class="search-container">
       <form class="search-form" action="/buscar" method="get">
@@ -26,91 +25,72 @@
       </form>
     </div>
 
-   
-        <div class="icon-container">
-            <a th:href="@{/registro}" class="icon" title="Registro">
-                <i class="fas fa-user-plus"></i>
-            </a>
-            <a th:href="@{/catalogo}" class="icon" title="Catálogo">
-                <i class="fas fa-book"></i>
-            </a>
-            <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
-                <i class="fas fa-shopping-cart"></i>
-            </a>
-        </div>
+    <div class="icon-container">
+      <a href="registro.html" class="icon" title="Registro">
+        <i class="fas fa-user-plus"></i>
+      </a>
+      <a href="catalogo.html" class="icon" title="Catálogo">
+        <i class="fas fa-book"></i>
+      </a>
+      <a href="pasarela.html" class="icon" title="Carrito de compras">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+    </div>
+  </div>
+
+  <h1 class="titulo">Pasarela de Pago</h1>
+
+  <div class="main-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:40px; align-items:flex-start;">
+
+    <!-- Carrito de compras -->
+    <div class="carrito">
+      <h2>Carrito de compras</h2>
+      <ul class="lista-productos" id="listaCarrito">
+        <li>No hay productos seleccionados</li>
+      </ul>
+      <div class="total">
+        Total: <span id="totalPagar">$0</span>
+      </div>
     </div>
 
-  <h1 class="titulo">Selecciona el método de pago</h1>
-
-  <div class="container">
-    <!-- Botones método -->
-    <button class="btn-metodo btn-nequi" onclick="mostrarSeccion('nequi')">Pagar con Nequi</button>
-    <button class="btn-metodo btn-tarjeta" onclick="mostrarSeccion('tarjeta')">Pagar con Tarjeta</button>
-
-    <!-- Nequi -->
-    <div id="seccionNequi" class="seccion-pago">
+    <!-- Pasarela de pago -->
+    <div class="container">
       <div class="cuadro-producto">
-        Producto seleccionado: <span id="productoNequi">Ninguno</span>
-        <a th:href="@{/catalogo}" id="seleccionarNequi" class="seleccionar-producto">Seleccionar</a>
-        <div id="imagenNequi"></div>
+        Producto seleccionado: <span id="producto">Ninguno</span>
+        <a href="catalogo.html" id="seleccionarProducto" class="seleccionar-producto">Seleccionar</a>
+        <div id="imagenProducto"></div>
       </div>
 
-      <!-- Datos del cliente -->
-      <div id="datosClienteNequi" class="datos-cliente" style="display: none;">
+      <div id="datosCliente" class="datos-cliente">
         <h3>Datos del cliente</h3>
-        <input type="text" placeholder="Nombre completo" id="nombreNequi">
-        <input type="text" placeholder="Número de identificación" id="cedulaNequi">
-        <input type="tel" placeholder="Teléfono de contacto" id="telefonoNequi">
-        <input type="email" placeholder="Correo electrónico (se enviará la factura)" id="correoNequi">
-        <input type="text" placeholder="Dirección de envío" id="direccionNequi">
+        <input type="text" placeholder="Nombre completo" id="nombre">
+        <input type="text" placeholder="Número de identificación" id="cedula">
+        <input type="tel" placeholder="Teléfono de contacto" id="telefono">
+        <input type="email" placeholder="Correo electrónico (se enviará la factura)" id="correo">
+        <input type="text" placeholder="Dirección de envío" id="direccion">
       </div>
 
-      <p class="alerta" id="alertaProductoNequi">Selecciona un producto antes de continuar.</p>
-      <p class="texto-qr">Escanea nuestro código QR e ingresa el monto exacto a pagar</p>
+      <div id="botonesPago">
+        <button class="btn-metodo btn-nequi" id="btnNequi">Pagar con Nequi</button>
+        <button class="btn-metodo btn-tarjeta" id="btnTarjeta">Pagar con Tarjeta</button>
+        <p id="mensaje" style="color:red; display:none;">Primero selecciona un producto</p>
+      </div>
 
-      <button class="btn-pago" onclick="generarQR()">Mostrar QR</button>
-
-      <div id="qrNequi">
+      <div id="qrNequi" style="display: none;">
+        <p class="texto-qr">Escanea nuestro código QR e ingresa el monto exacto a pagar</p>
         <img src="imagenes/qr.jfif" class="qr" alt="QR Nequi">
+        <div class="banco-logos"><img src="imagenes/nequis.png" alt="Nequi"></div>
       </div>
 
-      <!-- Logo Nequi -->
-      <div id="logoNequi" class="banco-logos">
-        <img th:src="@{/Css/img/nequis.png}" alt="Nequi">
-      </div>
-    </div>
-
-    <!-- Tarjeta -->
-    <div id="seccionTarjeta" class="seccion-pago">
-      <div class="cuadro-producto">
-        Producto seleccionado: <span id="productoTarjeta">Ninguno</span>
-        <a th:href="@{/catalogo}" id="seleccionarTarjeta" class="seleccionar-producto">Seleccionar</a>
-        <div id="imagenTarjeta"></div>
-      </div>
-
-      <!-- Datos del cliente -->
-      <div id="datosClienteTarjeta" class="datos-cliente" style="display: none;">
-        <h3>Datos del cliente</h3>
-        <input type="text" placeholder="Nombre completo" id="nombreTarjeta">
-        <input type="text" placeholder="Número de identificación" id="cedulaTarjeta">
-        <input type="tel" placeholder="Teléfono de contacto" id="telefonoTarjeta">
-        <input type="email" placeholder="Correo electrónico (se enviará la factura)" id="correoTarjeta">
-        <input type="text" placeholder="Dirección de envío" id="direccionTarjeta">
-      </div>
-
-      <p class="alerta" id="alertaProductoTarjeta">Selecciona un producto antes de continuar.</p>
-      <p class="texto-qr">Dale click en pagar y introduce tus datos de pago</p>
-
-      <button class="btn-pago" onclick="redirigirALink()">Pagar</button>
-
-      <div id="bancos" class="banco-logos">
-        <img th:src="@{/Css/img/Bancolombia.png}" alt="Bancolombia">
-        <img th:src="@{/Css/img/BBVA.png}" alt="BBVA">
-        <img th:src="@{/Css/img/Fallabella.png}" alt="Falabella">
+      <div id="bancos" class="banco-logos" style="display: none;">
+        <img src="imagenes/Bancolombia.png" alt="Bancolombia">
+        <img src="imagenes/BBVA.png" alt="BBVA">
+        <img src="imagenes/Fallabella.png" alt="Falabella">
       </div>
     </div>
   </div>
 
-  <script th:src="@{/Css/js/pasarela.js}"></script>
+ <script src="pasarela.js"></script>
+
 </body>
 </html>
