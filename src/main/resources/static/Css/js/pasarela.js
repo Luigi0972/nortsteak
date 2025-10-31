@@ -119,7 +119,7 @@ function procesarPago() {
   })
     .then(res => res.json())
     .then(data => {
-      mostrarMensaje("Pago procesado correctamente ✅", false);
+      mostrarMensaje("Pago procesado correctamente", false);
       console.log("Respuesta del servidor:", data);
       localStorage.removeItem("carrito");
       setTimeout(() => (window.location.href = "catalogo.html"), 2000);
