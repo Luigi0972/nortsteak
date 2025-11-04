@@ -58,7 +58,6 @@ body {
 .search-form {
     display: flex; /*lo transforma en un contenedor flex*/
     width: 100%;/*ocupara el maximo*/
-    align-items: stretch; /* Asegura que los elementos tengan la misma altura */
 }
 
 .search-input {
@@ -79,10 +78,6 @@ body {
     border-radius: 0 10px 10px 0;
     cursor: pointer;
     transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: auto;
 }
 
 .search-button:hover {
@@ -885,8 +880,8 @@ body {
 
 
     .container {
-      max-width: 600px;
-      margin: 120px auto 40px;
+      max-width: 700px;
+      margin: 40px auto 40px;
       padding: 20px;
       background-color: rgb(238, 238, 238);
       border-radius: 10px;
@@ -1066,6 +1061,66 @@ body {
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 
+  
 
     
+/* ==== CONTENEDOR PRINCIPAL (alineado y compacto) ==== */
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px; /* espacio entre carrito y pasarela */
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+/* ==== CARRITO ==== */
+.carrito {
+  margin: 40px;
+  background-color: #f3f0f0e3;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: "Poppins", sans-serif;
+}
+
+.carrito h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.lista-productos {
+  list-style: none;
+  padding: 0;
+  margin: 10px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.lista-productos li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.lista-productos li span {
+  font-weight: 600;
+}
+
+.total {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #353535;
+  font-weight: bold;
+  border-top: 2px solid #eee;
+  padding-top: 10px;
+}
+
 
