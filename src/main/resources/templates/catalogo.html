@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,103 +57,19 @@
 
   <!-- Productos -->
   <section class="productos">
-    <div class="producto">
-      <img src="/img2/newyork.jpg" alt="Corte New York">
-      <h3><em>Corte New York</em></h3>
-      <p class="precio">130.000 $</p>
+    <div th:each="producto : ${productos}" class="producto" th:classappend="${producto.stock == 0} ? 'sin-stock'">
+      <img th:src="@{${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}}" th:alt="${producto.nombreProducto}">
+      <h3><em th:text="${producto.nombreProducto}"></em></h3>
+      <p class="precio" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
       <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
+      <div th:if="${producto.stock == 0}" class="no-disponible" style="color: red; font-weight: bold; margin: 10px 0;">
+        NO DISPONIBLE
+      </div>
+      <div th:if="${producto.stock > 0}" class="carrito" title="Añadir al carrito">
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/tomahawk.jpg" alt="Tomahawk">
-      <h3><em>Tomahawk</em></h3>
-      <p class="precio">165.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/milegnon.jpg" alt="Filete Mignon">
-      <h3><em>Filete Mignon</em></h3>
-      <p class="precio">100.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/lomores.jpg" alt="Lomo de res">
-      <h3><em>Lomo de res</em></h3>
-      <p class="precio">85.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/ribeye.jpg" alt="Ribeye">
-      <h3><em>Ribeye</em></h3>
-      <p class="precio">120.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/picaña.jpg" alt="Picaña">
-      <h3><em>Picaña</em></h3>
-      <p class="precio">170.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/tbone.jpg" alt="T-Bone">
-      <h3><em>T-Bone</em></h3>
-      <p class="precio">97.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/brisket.jpg" alt="Brisket">
-      <h3><em>Brisket</em></h3>
-      <p class="precio">285.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
-    </div>
-
-    <div class="producto">
-      <img src="/img2/churrasco.jpg" alt="Churrasco">
-      <h3><em>Churrasco</em></h3>
-      <p class="precio">78.000 $</p>
-      <div class="linea"></div>
-      <div class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button>Comprar ahora</button>
+      <button th:if="${producto.stock > 0}">Comprar ahora</button>
+      <button th:if="${producto.stock == 0}" disabled style="background-color: #ccc; cursor: not-allowed;">No disponible</button>
     </div>
   </section>
 

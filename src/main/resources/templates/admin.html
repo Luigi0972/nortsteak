@@ -9,28 +9,39 @@
 </head>
 <body>
     <div class="admin-container">
-        <h1 class="admin-header">🍖 Panel de Administración - Control de Stock</h1>
+        <h1 class="admin-header">🍖 Panel de Administración - Control de Productos</h1>
         
         <table class="admin-table">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre del Producto</th>
-                    <th>Precio</th>
-                    <th>Stock Actual</th>
+                    <th>Editar Precio</th>
                     <th>Editar Stock</th>
+                    <th>Actualizar</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="producto : ${productos}">
                     <td th:text="${producto.idProducto}"></td>
                     <td th:text="${producto.nombreProducto}"></td>
-                    <td class="price-cell" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></td>
-                    <td class="stock-cell" th:text="${producto.stock}"></td>
                     <td>
-                        <form class="stock-form" th:action="@{/admin/actualizarStock}" method="post">
+                        <form class="product-form" th:action="@{/admin/actualizarProducto}" method="post">
                             <input type="hidden" name="id" th:value="${producto.idProducto}">
-                            <input type="number" class="stock-input" name="nuevoStock" min="0" th:value="${producto.stock}">
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <label style="font-size: 12px; color: #666;">Precio Actual:</label>
+                                <span class="price-cell" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></span>
+                                <input type="number" class="price-input" name="nuevoPrecio" min="0" step="0.01" th:value="${producto.precioProducto}" style="width: 120px; padding: 5px; margin-top: 5px;">
+                            </div>
+                    </td>
+                    <td>
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <label style="font-size: 12px; color: #666;">Stock Actual:</label>
+                                <span class="stock-cell" th:text="${producto.stock}"></span>
+                                <input type="number" class="stock-input" name="nuevoStock" min="0" th:value="${producto.stock}" style="width: 120px; padding: 5px; margin-top: 5px;">
+                            </div>
+                    </td>
+                    <td>
                             <button type="submit" class="update-btn">
                                 📝 Actualizar
                             </button>

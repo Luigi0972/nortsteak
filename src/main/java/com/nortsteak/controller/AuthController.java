@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody Map<String, String> loginData, HttpSession session) {
         Map<String, Object> response = new HashMap<>();
         
         try {
@@ -86,6 +87,11 @@ public class AuthController {
             
             // Verificar contraseña
             if (passwordEncoder.matches(contrasena, user.getContrasena())) {
+                // Guardar información del usuario en la sesión
+                session.setAttribute("userEmail", user.getCorreoElectronico());
+                session.setAttribute("userNombre", user.getNombre());
+                session.setAttribute("userId", user.getId_cliente());
+                
                 response.put("status", "success");
                 response.put("message", "Inicio de sesión exitoso");
                 response.put("user", Map.of(
@@ -105,5 +111,30 @@ public class AuthController {
             response.put("message", "Error interno del servidor: " + e.getMessage());
             return ResponseEntity.internalServerError().body(response);
         }
+    }
+
+    @GetMapping("/session")
+    public ResponseEntity<Map<String, Object>> getSession(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        String userEmail = (String) session.getAttribute("userEmail");
+        
+        if (userEmail != null) {
+            response.put("loggedIn", true);
+            response.put("userEmail", userEmail);
+            response.put("userNombre", session.getAttribute("userNombre"));
+        } else {
+            response.put("loggedIn", false);
+        }
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Object>> logout(HttpSession session) {
+        session.invalidate();
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("message", "Sesión cerrada exitosamente");
+        return ResponseEntity.ok(response);
     }
 }

@@ -106,11 +106,11 @@
   <br>
   <br>
 
-  <div class="Boton admin">
-  <a th:href="@{/admin/panel}">
-    <button>ADMIN</button>
-  </a>
-</div>
+  <div class="Boton admin" th:if="${isAdmin}">
+    <a th:href="@{/admin/panel}">
+      <button>ADMIN</button>
+    </a>
+  </div>
 
     <!-- Footer -->
     <footer class="footer">
