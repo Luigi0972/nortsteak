@@ -21,7 +21,7 @@ public class AdminController {
         String userEmail = (String) session.getAttribute("userEmail");
         
         // Verificar que el usuario esté logueado y sea el admin
-        if (userEmail == null || !"sebasmondragon@gmail.com".equals(userEmail)) {
+		if (userEmail == null || !( "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail) )) {
             return "redirect:/";
         }
         
@@ -34,7 +34,7 @@ public class AdminController {
     public String actualizarStock(@RequestParam("id") Long id,
             @RequestParam("nuevoStock") int nuevoStock, HttpSession session) {
         String userEmail = (String) session.getAttribute("userEmail");
-        if (userEmail == null || !"sebasmondragon@gmail.com".equals(userEmail)) {
+		if (userEmail == null || !( "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail) )) {
             return "redirect:/";
         }
         
@@ -50,7 +50,7 @@ public class AdminController {
     public String actualizarPrecio(@RequestParam("id") Long id,
             @RequestParam("nuevoPrecio") double nuevoPrecio, HttpSession session) {
         String userEmail = (String) session.getAttribute("userEmail");
-        if (userEmail == null || !"sebasmondragon@gmail.com".equals(userEmail)) {
+		if (userEmail == null || !( "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail) )) {
             return "redirect:/";
         }
         
@@ -67,7 +67,7 @@ public class AdminController {
             @RequestParam("nuevoStock") int nuevoStock,
             @RequestParam("nuevoPrecio") double nuevoPrecio, HttpSession session) {
         String userEmail = (String) session.getAttribute("userEmail");
-        if (userEmail == null || !"sebasmondragon@gmail.com".equals(userEmail)) {
+		if (userEmail == null || !( "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail) )) {
             return "redirect:/";
         }
         
