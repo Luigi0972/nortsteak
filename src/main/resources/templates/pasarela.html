@@ -12,9 +12,10 @@
   <div class="header">LSJ</div>
 
   <div class="header-container">
-    <a href="index.html">
-      <img class="logo" src="Imagenes/logo-removebg-preview (1).png" alt="Logo de la tienda">
+    <a th:href="@{ / }">
+      <img class="logo" th:src="@{/img2/logo.png}" alt="Logo de la tienda">
     </a>
+
 
     <div class="search-container">
       <form class="search-form" action="/buscar" method="get">
@@ -26,13 +27,13 @@
     </div>
 
     <div class="icon-container">
-      <a href="registro.html" class="icon" title="Registro">
+      <a th:href="@{/registro}" class="icon" title="Registro">
         <i class="fas fa-user-plus"></i>
       </a>
-      <a href="catalogo.html" class="icon" title="Catálogo">
+      <a th:href="@{/catalogo}" class="icon" title="Catálogo">
         <i class="fas fa-book"></i>
       </a>
-      <a href="pasarela.html" class="icon" title="Carrito de compras">
+      <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
         <i class="fas fa-shopping-cart"></i>
       </a>
     </div>
@@ -57,7 +58,7 @@
     <div class="container">
       <div class="cuadro-producto">
         Producto seleccionado: <span id="producto">Ninguno</span>
-        <a href="catalogo.html" id="seleccionarProducto" class="seleccionar-producto">Seleccionar</a>
+        <a th:href="@{/catalogo}" id="seleccionarProducto">Seleccionar</a>
         <div id="imagenProducto"></div>
       </div>
 
