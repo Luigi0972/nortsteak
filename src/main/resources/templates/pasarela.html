@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Pasarela de Pago</title>
-  <link rel="stylesheet" href="Css/css.css">
+  <title>Pasarela de pago simulada</title>
+  <link rel="stylesheet" th:href="@{/Css/css.css}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="icon" type="image/svg+xml" href="Imagenes/logo4.png">
+  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
 </head>
 
 <body>
   <div class="header">LSJ</div>
 
   <div class="header-container">
-    <a th:href="@{ / }">
+    <a th:href="@{/}" class="logo">
       <img class="logo" th:src="@{/img2/logo.png}" alt="Logo de la tienda">
     </a>
 
-
     <div class="search-container">
-      <form class="search-form" action="/buscar" method="get">
+      <form class="search-form" action="#" method="get" title="Buscar en el sitio">
         <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
         <button type="submit" class="search-button">
           <i class="fas fa-search"></i>
@@ -33,65 +32,158 @@
       <a th:href="@{/catalogo}" class="icon" title="Catálogo">
         <i class="fas fa-book"></i>
       </a>
-      <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
+      <a th:href="@{/carrito}" class="icon" title="Carrito de compras">
         <i class="fas fa-shopping-cart"></i>
       </a>
     </div>
   </div>
 
-  <h1 class="titulo">Pasarela de Pago</h1>
+  <main class="pasarela-layout">
+    <section class="pasarela-card resumen">
+      <header>
+        <h2>Resumen de compra</h2>
+        <p>Confirma los productos antes de continuar</p>
+      </header>
 
-  <div class="main-container" style="display:flex; flex-wrap:wrap; justify-content:center; gap:40px; align-items:flex-start;">
-
-    <!-- Carrito de compras -->
-    <div class="carrito">
-      <h2>Carrito de compras</h2>
-      <ul class="lista-productos" id="listaCarrito">
-        <li>No hay productos seleccionados</li>
-      </ul>
-      <div class="total">
-        Total: <span id="totalPagar">$0</span>
-      </div>
-    </div>
-
-    <!-- Pasarela de pago -->
-    <div class="container">
-      <div class="cuadro-producto">
-        Producto seleccionado: <span id="producto">Ninguno</span>
-        <a th:href="@{/catalogo}" id="seleccionarProducto">Seleccionar</a>
-        <div id="imagenProducto"></div>
+      <div id="resumen-empty" class="resumen-vacio">
+        <i class="fas fa-box-open"></i>
+        <p>Tu carrito está vacío. Regresa al catálogo para elegir productos.</p>
       </div>
 
-      <div id="datosCliente" class="datos-cliente">
-        <h3>Datos del cliente</h3>
-        <input type="text" placeholder="Nombre completo" id="nombre">
-        <input type="text" placeholder="Número de identificación" id="cedula">
-        <input type="tel" placeholder="Teléfono de contacto" id="telefono">
-        <input type="email" placeholder="Correo electrónico (se enviará la factura)" id="correo">
-        <input type="text" placeholder="Dirección de envío" id="direccion">
+      <div id="carrito-lista" class="resumen-lista"></div>
+
+      <div class="resumen-total">
+        <span>Total a pagar</span>
+        <strong id="total-pagar">$0</strong>
       </div>
 
-      <div id="botonesPago">
-        <button class="btn-metodo btn-nequi" id="btnNequi">Pagar con Nequi</button>
-        <button class="btn-metodo btn-tarjeta" id="btnTarjeta">Pagar con Tarjeta</button>
-        <p id="mensaje" style="color:red; display:none;">Primero selecciona un producto</p>
-      </div>
+      <a class="btn-link" th:href="@{/carrito}">Editar carrito</a>
+    </section>
 
-      <div id="qrNequi" style="display: none;">
-        <p class="texto-qr">Escanea nuestro código QR e ingresa el monto exacto a pagar</p>
-        <img src="imagenes/qr.jfif" class="qr" alt="QR Nequi">
-        <div class="banco-logos"><img src="imagenes/nequis.png" alt="Nequi"></div>
-      </div>
+    <section class="pasarela-card simulador">
+      <header>
+        <h2>Simulador de pago</h2>
+        <p>Completa tus datos y confirma la transferencia</p>
+      </header>
 
-      <div id="bancos" class="banco-logos" style="display: none;">
-        <img src="imagenes/Bancolombia.png" alt="Bancolombia">
-        <img src="imagenes/BBVA.png" alt="BBVA">
-        <img src="imagenes/Fallabella.png" alt="Falabella">
-      </div>
-    </div>
-  </div>
+      <form id="form-pago" class="form-pago" autocomplete="off">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="nombre">Nombre completo *</label>
+            <input type="text" id="nombre" name="nombre" required>
+          </div>
+          <div class="form-field">
+            <label for="cedula">Número de identificación *</label>
+            <input type="text" id="cedula" name="cedula" required>
+          </div>
+          <div class="form-field">
+            <label for="telefono">Teléfono de contacto *</label>
+            <input type="tel" id="telefono" name="telefono" required>
+          </div>
+          <div class="form-field">
+            <label for="correo">Correo electrónico *</label>
+            <input type="email" id="correo" name="correo" required>
+          </div>
+          <div class="form-field form-field-full">
+            <label for="direccion">Dirección de envío *</label>
+            <input type="text" id="direccion" name="direccion" required>
+          </div>
+        </div>
 
- <script src="pasarela.js"></script>
+        <div class="metodos">
+          <h3>Método de pago</h3>
+          <div class="metodos-grid">
+            <label class="metodo-option active" data-metodo="NEQUI">
+              <input type="radio" name="metodo" value="NEQUI" checked>
+              <span>Nequi</span>
+              <img th:src="@{/Css/img/nequis.png}" alt="Logo Nequi">
+            </label>
+            <label class="metodo-option" data-metodo="BANCOLOMBIA">
+              <input type="radio" name="metodo" value="BANCOLOMBIA">
+              <span>Bancolombia</span>
+              <img th:src="@{/Css/img/Bancolombia.png}" alt="Logo Bancolombia">
+            </label>
+            <label class="metodo-option" data-metodo="FALABELLA">
+              <input type="radio" name="metodo" value="FALABELLA">
+              <span>Falabella</span>
+              <img th:src="@{/Css/img/Falabella.png}" alt="Logo Falabella">
+            </label>
+          </div>
+        </div>
 
+        <div class="panel-metodo active" data-panel="NEQUI">
+          <div class="panel-header">
+            <h4>Simula tu pago con Nequi</h4>
+            <p>Escanea el código y escribe el código de aprobación</p>
+          </div>
+          <div class="panel-contenido">
+            <img class="panel-qr" th:src="@{/Css/img/qr.jfif}" alt="QR Nequi">
+            <div class="panel-form">
+              <div class="form-field">
+                <label for="nequi-telefono">Teléfono o alias utilizado *</label>
+                <input type="text" id="nequi-telefono">
+              </div>
+              <div class="form-field">
+                <label for="nequi-codigo">Código de aprobación *</label>
+                <input type="text" id="nequi-codigo" maxlength="8">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-metodo" data-panel="BANCOLOMBIA">
+          <div class="panel-header">
+            <h4>Transferencia Bancolombia</h4>
+            <p>Usa una cuenta de ahorros y confirma el número del comprobante</p>
+          </div>
+          <div class="panel-contenido">
+            <div class="panel-form panel-form-full">
+              <div class="form-field">
+                <label for="bancolombia-cuenta">Número de cuenta origen *</label>
+                <input type="text" id="bancolombia-cuenta">
+              </div>
+              <div class="form-field">
+                <label for="bancolombia-aprobacion">Número de aprobación *</label>
+                <input type="text" id="bancolombia-aprobacion">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-metodo" data-panel="FALABELLA">
+          <div class="panel-header">
+            <h4>Paga con tarjeta Falabella</h4>
+            <p>Ingresa los datos de tu tarjeta para simular la compra</p>
+          </div>
+          <div class="panel-contenido">
+            <div class="panel-form panel-form-full">
+              <div class="form-field">
+                <label for="falabella-tarjeta">Número de tarjeta *</label>
+                <input type="text" id="falabella-tarjeta" maxlength="16">
+              </div>
+              <div class="form-field">
+                <label for="falabella-autorizacion">Código de autorización *</label>
+                <input type="text" id="falabella-autorizacion" maxlength="6">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <label class="checkbox-confirmacion">
+          <input type="checkbox" id="confirmacion" required>
+          Confirmo que realicé la transferencia por el valor mostrado.
+        </label>
+
+        <div class="acciones-pago">
+          <button type="submit" id="btn-simular">Confirmar pago simulado</button>
+          <a class="btn-secundario" th:href="@{/catalogo}">Seguir comprando</a>
+        </div>
+
+        <div id="estado-pago" class="estado-pago" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <script th:src="@{/Css/js/pasarela.js}"></script>
 </body>
 </html>

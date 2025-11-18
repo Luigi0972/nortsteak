@@ -742,3 +742,29 @@ ul li {
   
 }
 }
+
+.cart-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background-color: rgba(15, 15, 15, 0.92);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 999;
+}
+
+.cart-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -46,7 +46,7 @@
             <a th:href="@{/catalogo}" class="icon" title="Catálogo">
                 <i class="fas fa-book"></i>
             </a>
-            <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
+            <a th:href="@{/carrito}" class="icon" title="Carrito de compras">
                 <i class="fas fa-shopping-cart"></i>
             </a>
         </div>
@@ -57,7 +57,11 @@
 
   <!-- Productos -->
   <section class="productos">
-    <div th:each="producto : ${productos}" class="producto" th:classappend="${producto.stock == 0} ? 'sin-stock'">
+    <div
+      th:each="producto : ${productos}"
+      class="producto"
+      th:classappend="${producto.stock == 0} ? 'sin-stock'"
+      th:attr="data-id=${producto.idProducto},data-nombre=${producto.nombreProducto},data-precio=${producto.precioProducto},data-stock=${producto.stock},data-imagen=${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}">
       <img th:src="@{${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}}" th:alt="${producto.nombreProducto}">
       <h3><em th:text="${producto.nombreProducto}"></em></h3>
       <p class="precio" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
@@ -68,7 +72,6 @@
       <div th:if="${producto.stock > 0}" class="carrito" title="Añadir al carrito">
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
-      <button th:if="${producto.stock > 0}">Comprar ahora</button>
       <button th:if="${producto.stock == 0}" disabled style="background-color: #ccc; cursor: not-allowed;">No disponible</button>
     </div>
   </section>
@@ -83,9 +86,14 @@
       <label for="cantidad">Cantidad:</label>
       <input type="number" id="modal-cantidad" value="1" min="1" max="99"/>
       <p>Total: <strong id="modal-precio-total"></strong></p>
-      <button id="modal-comprar">Comprar ahora</button>
+      <div class="modal-acciones">
+        <button id="modal-agregar-carrito" type="button">Agregar al carrito</button>
+        <button id="modal-comprar" type="button">Comprar ahora</button>
+      </div>
     </div>
   </div>
+
+  <div id="cart-toast" class="cart-toast" role="status" aria-live="polite"></div>
 
   <!-- Tu JS -->
    <script th:src="@{/Css/js/catalogo.js}"></script>

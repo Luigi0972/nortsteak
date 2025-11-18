@@ -1,25 +1,31 @@
 package com.nortsteak.controller;
 
+import com.nortsteak.dto.SimulatedPaymentRequest;
+import com.nortsteak.dto.SimulatedPaymentResponse;
+import com.nortsteak.services.PagoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pago")
-@CrossOrigin(origins = "http://localhost:5500") // Ajusta según tu puerto del front
+@CrossOrigin(origins = "*")
 public class PagoController {
 
-    @PostMapping
-    public Map<String, Object> procesarPago(@RequestBody Map<String, Object> datos) {
-        System.out.println("Datos recibidos del cliente:");
-        System.out.println(datos);
+    private final PagoService pagoService;
 
-        Map<String, Object> respuesta = new HashMap<>();
-        respuesta.put("mensaje", "Pago procesado correctamente");
-        respuesta.put("estado", "OK");
-        respuesta.put("total", datos.get("total"));
-        respuesta.put("productos", datos.get("productos"));
-        respuesta.put("fecha", new Date());
+    public PagoController(PagoService pagoService) {
+        this.pagoService = pagoService;
+    }
 
-        return respuesta;
+    @PostMapping("/simulado")
+    public ResponseEntity<?> procesarPagoSimulado(@RequestBody SimulatedPaymentRequest request) {
+        try {
+            SimulatedPaymentResponse response = pagoService.procesarPagoSimulado(request);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", ex.getMessage()));
+        }
     }
 }

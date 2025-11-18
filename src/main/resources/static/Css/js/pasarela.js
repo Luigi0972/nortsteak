@@ -1,140 +1,239 @@
-// Al cargar la página, mostrar el carrito
+const listaCarrito = document.getElementById("carrito-lista");
+const resumenVacio = document.getElementById("resumen-empty");
+const totalElemento = document.getElementById("total-pagar");
+const estadoPago = document.getElementById("estado-pago");
+const formPago = document.getElementById("form-pago");
+const btnSimular = document.getElementById("btn-simular");
+const metodoRadios = document.querySelectorAll('input[name="metodo"]');
+const metodoOptions = document.querySelectorAll(".metodo-option");
+const panelesMetodo = document.querySelectorAll(".panel-metodo");
+
+let carritoActual = [];
+
 document.addEventListener("DOMContentLoaded", () => {
-  mostrarCarrito();
-  configurarBotones();
+  renderizarResumen();
+  configurarMetodos();
+  formPago?.addEventListener("submit", manejarEnvio);
 });
 
-//  Mostrar Carrito
-function mostrarCarrito() {
-  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  const contenedor = document.getElementById("carrito-lista");
-  const totalDiv = document.getElementById("total");
+window.addEventListener("storage", (event) => {
+  if (event.key === "carrito") {
+    renderizarResumen();
+  }
+});
 
-  if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>No hay productos seleccionados.</p>";
-    totalDiv.innerHTML = "";
+function obtenerCarrito() {
+  try {
+    const almacenado = localStorage.getItem("carrito");
+    if (!almacenado) return [];
+    const parsed = JSON.parse(almacenado);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map(item => ({
+      ...item,
+      id: item.id != null ? Number(item.id) : null,
+      cantidad: Number(item.cantidad ?? 1),
+      precioUnitario: Number(item.precioUnitario ?? item.precio ?? 0),
+      imagen: item.imagen || "/img2/newyork.jpg"
+    }));
+  } catch (error) {
+    console.error("No se pudo leer el carrito", error);
+    return [];
+  }
+}
+
+function renderizarResumen() {
+  carritoActual = obtenerCarrito();
+  if (!listaCarrito || !totalElemento) return;
+
+  listaCarrito.innerHTML = "";
+  const hayProductos = carritoActual.length > 0;
+  if (resumenVacio) {
+    resumenVacio.style.display = hayProductos ? "none" : "block";
+  }
+  if (!hayProductos) {
+    totalElemento.textContent = "$0";
+    btnSimular?.setAttribute("disabled", "disabled");
     return;
   }
 
+  btnSimular?.removeAttribute("disabled");
   let total = 0;
-  contenedor.innerHTML = "";
 
-  carrito.forEach((producto, index) => {
-    const item = document.createElement("div");
-    item.classList.add("producto-item");
-    item.innerHTML = `
-      <div class="producto-info">
-        <img src="${producto.imagen || 'img/default.png'}" alt="${producto.nombre}" class="producto-imagen">
-        <div>
-          <h4>${producto.nombre}</h4>
-          <p>$${producto.precio.toLocaleString()}</p>
-        </div>
+  carritoActual.forEach(item => {
+    const cantidad = Math.max(item.cantidad || 1, 1);
+    const subtotal = item.precioUnitario * cantidad;
+    total += subtotal;
+
+    const contenedor = document.createElement("div");
+    contenedor.className = "resumen-item";
+    contenedor.innerHTML = `
+      <img src="${item.imagen}" alt="${item.nombre}">
+      <div class="item-info">
+        <strong>${item.nombre}</strong>
+        <small>Cantidad: ${cantidad}</small>
       </div>
-      <button class="eliminar-btn" data-index="${index}">Eliminar</button>
+      <div class="item-precio">${formatearPesos(subtotal)}</div>
     `;
-    contenedor.appendChild(item);
-    total += producto.precio;
+    listaCarrito.appendChild(contenedor);
   });
 
-  totalDiv.innerHTML = `<strong>Total: $${total.toLocaleString()}</strong>`;
+  totalElemento.textContent = formatearPesos(total);
+}
 
-  // Añadir eventos a los botones de eliminar
-  document.querySelectorAll(".eliminar-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      eliminarProducto(e.target.dataset.index);
-    });
+function configurarMetodos() {
+  metodoRadios.forEach(radio => {
+    radio.addEventListener("change", actualizarPanelMetodo);
+  });
+  actualizarPanelMetodo();
+}
+
+function actualizarPanelMetodo() {
+  const metodo = obtenerMetodoSeleccionado();
+  metodoOptions.forEach(option => {
+    option.classList.toggle("active", option.dataset.metodo === metodo);
+  });
+  panelesMetodo.forEach(panel => {
+    panel.classList.toggle("active", panel.dataset.panel === metodo);
   });
 }
 
-//  Eliminar Producto del Carrito
-function eliminarProducto(index) {
-  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  carrito.splice(index, 1);
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-  mostrarCarrito();
+function obtenerMetodoSeleccionado() {
+  return document.querySelector('input[name="metodo"]:checked')?.value || "NEQUI";
 }
 
-//  Configurar Botones de Pago
-function configurarBotones() {
-  const btnNequi = document.getElementById("btnNequi");
-  const btnTarjeta = document.getElementById("btnTarjeta");
-  const seccionNequi = document.getElementById("qrNequi");
-  const seccionTarjeta = document.getElementById("bancos");
+function manejarEnvio(event) {
+  event.preventDefault();
 
-
-  if (btnNequi && btnTarjeta && seccionNequi && seccionTarjeta) {
-    btnNequi.addEventListener("click", () => {
-      seccionNequi.style.display = "block";
-      seccionTarjeta.style.display = "none";
-    });
-
-    btnTarjeta.addEventListener("click", () => {
-      seccionTarjeta.style.display = "block";
-      seccionNequi.style.display = "none";
-    });
-  }
-
-  const btnPagar = document.getElementById("btnPagar");
-  if (btnPagar) btnPagar.addEventListener("click", procesarPago);
-}
-
-//procesar pago
-
-function procesarPago() {
-  const nombre = document.getElementById("nombre")?.value.trim();
-  const cedula = document.getElementById("cedula")?.value.trim();
-  const correo = document.getElementById("correo")?.value.trim();
-  const telefono = document.getElementById("telefono")?.value.trim();
-  const direccion = document.getElementById("direccion")?.value.trim();
-  const mensajeDiv = document.getElementById("mensaje");
-  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-  const total = carrito.reduce((acc, p) => acc + p.precio, 0);
-
-  if (!nombre || !cedula || !correo) {
-    mostrarMensaje("Por favor, completa todos los campos obligatorios.", true);
+  if (!formPago?.reportValidity()) {
     return;
   }
 
-  if (carrito.length === 0) {
-    mostrarMensaje("Tu carrito está vacío.", true);
+  if (!carritoActual.length) {
+    setEstado("Tu carrito está vacío. Vuelve al catálogo para agregar productos.", "error");
     return;
   }
 
-  const datos = {
-    nombre,
-    cedula,
-    correo,
-    telefono,
-    direccion,
-    total,
-    productos: carrito.map(p => p.nombre)
+  const productosSinId = carritoActual.filter(item => item.id == null);
+  if (productosSinId.length) {
+    setEstado("Algunos productos no tienen referencia válida. Agrégalos nuevamente desde el catálogo.", "error");
+    return;
+  }
+
+  const metodo = obtenerMetodoSeleccionado();
+
+  let referencia;
+  try {
+    referencia = obtenerReferenciaMetodo(metodo);
+  } catch (error) {
+    setEstado(error.message, "error");
+    return;
+  }
+
+  const payload = {
+    metodo,
+    referencia,
+    nombre: formPago.nombre.value.trim(),
+    cedula: formPago.cedula.value.trim(),
+    telefono: formPago.telefono.value.trim(),
+    correo: formPago.correo.value.trim(),
+    direccion: formPago.direccion.value.trim(),
+    totalEsperado: calcularTotal(),
+    items: carritoActual.map(item => ({
+      productoId: item.id,
+      cantidad: Math.max(item.cantidad || 1, 1)
+    }))
   };
 
-  mostrarMensaje("Procesando pago...", false);
-
-  fetch("http://localhost:8080/api/pago", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(datos),
-  })
-    .then(res => res.json())
-    .then(data => {
-      mostrarMensaje("Pago procesado correctamente", false);
-      console.log("Respuesta del servidor:", data);
-      localStorage.removeItem("carrito");
-      setTimeout(() => (window.location.href = "catalogo.html"), 2000);
-    })
-    .catch(err => {
-      console.error("Error al procesar el pago:", err);
-      mostrarMensaje("Ocurrió un error al procesar el pago.", true);
-    });
+  enviarPago(payload);
 }
 
-//  Mostrar Mensajes de Estad
-function mostrarMensaje(texto, error = false) {
-  const mensajeDiv = document.getElementById("mensaje");
-  if (!mensajeDiv) return;
+function obtenerReferenciaMetodo(metodo) {
+  if (metodo === "NEQUI") {
+    const telefono = document.getElementById("nequi-telefono")?.value.trim();
+    const codigo = document.getElementById("nequi-codigo")?.value.trim();
+    if (!telefono || !codigo) {
+      throw new Error("Completa los datos del pago con Nequi.");
+    }
+    return `NEQUI-${telefono}-${codigo}`;
+  }
 
-  mensajeDiv.textContent = texto;
-  mensajeDiv.style.color = error ? "red" : "green";
+  if (metodo === "BANCOLOMBIA") {
+    const cuenta = document.getElementById("bancolombia-cuenta")?.value.trim();
+    const aprobacion = document.getElementById("bancolombia-aprobacion")?.value.trim();
+    if (!cuenta || !aprobacion) {
+      throw new Error("Completa los datos de la transferencia Bancolombia.");
+    }
+    return `BANCOLOMBIA-${cuenta}-${aprobacion}`;
+  }
+
+  if (metodo === "FALABELLA") {
+    const tarjeta = document.getElementById("falabella-tarjeta")?.value.trim();
+    const autorizacion = document.getElementById("falabella-autorizacion")?.value.trim();
+    if (!tarjeta || !autorizacion) {
+      throw new Error("Completa los datos de la tarjeta Falabella.");
+    }
+    return `FALABELLA-${tarjeta}-${autorizacion}`;
+  }
+
+  throw new Error("Selecciona un método de pago válido.");
+}
+
+function enviarPago(payload) {
+  toggleCargando(true);
+  setEstado("Procesando pago simulado...", null);
+
+  fetch("/api/pago/simulado", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.mensaje || "No se pudo completar el pago.");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setEstado("¡Pago confirmado! Actualizamos el inventario en tiempo real.", "success");
+      localStorage.removeItem("carrito");
+      setTimeout(() => {
+        window.location.href = "/catalogo";
+      }, 2500);
+    })
+    .catch((error) => {
+      console.error(error);
+      setEstado(error.message || "Ocurrió un error inesperado.", "error");
+    })
+    .finally(() => toggleCargando(false));
+}
+
+function toggleCargando(estaCargando) {
+  if (!btnSimular) return;
+  btnSimular.disabled = estaCargando;
+  btnSimular.textContent = estaCargando ? "Procesando..." : "Confirmar pago simulado";
+}
+
+function setEstado(mensaje, tipo) {
+  if (!estadoPago) return;
+  estadoPago.textContent = mensaje || "";
+  estadoPago.classList.remove("error", "success");
+  if (tipo === "error") {
+    estadoPago.classList.add("error");
+  } else if (tipo === "success") {
+    estadoPago.classList.add("success");
+  }
+}
+
+function formatearPesos(valor) {
+  return "$" + new Intl.NumberFormat("es-CO", { minimumFractionDigits: 0 }).format(valor || 0);
+}
+
+function calcularTotal() {
+  return carritoActual.reduce((acc, item) => {
+    const cantidad = Math.max(item.cantidad || 1, 1);
+    return acc + item.precioUnitario * cantidad;
+  }, 0);
 }
