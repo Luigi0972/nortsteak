@@ -3,6 +3,9 @@ const totalElemento = document.getElementById("total");
 const vacioMensaje = document.getElementById("carrito-vacio");
 const btnVaciar = document.getElementById("btnVaciarCarrito");
 const btnIrPasarela = document.getElementById("btnIrPasarela");
+const alertaReciente = document.getElementById("carrito-alerta");
+
+const ULTIMO_AGREGADO_KEY = "carrito:lastAdded";
 
 function initCarrito() {
   renderizarCarrito();
@@ -49,12 +52,15 @@ function obtenerCarrito() {
     if (!almacenado) return [];
     const parsed = JSON.parse(almacenado);
     if (!Array.isArray(parsed)) return [];
-    return parsed.map(item => ({
+    return parsed.map((item) => ({
       ...item,
-    id: item.id != null && !Number.isNaN(Number(item.id)) ? Number(item.id) : null,
+      id:
+        item.id != null && !Number.isNaN(Number(item.id))
+          ? Number(item.id)
+          : null,
       precioUnitario: Number(item.precioUnitario ?? item.precio ?? 0),
       cantidad: Number(item.cantidad ?? 1),
-      imagen: item.imagen || ""
+      imagen: item.imagen || "",
     }));
   } catch (error) {
     console.error("No se pudo obtener el carrito", error);
@@ -67,11 +73,15 @@ function guardarCarrito(carrito) {
 }
 
 function formatearPesos(valor) {
-  return "$" + new Intl.NumberFormat("es-CO", { minimumFractionDigits: 0 }).format(valor);
+  return (
+    "$" +
+    new Intl.NumberFormat("es-CO", { minimumFractionDigits: 0 }).format(valor)
+  );
 }
 
 function renderizarCarrito() {
   const carrito = obtenerCarrito();
+  const ultimoAgregado = obtenerUltimoAgregado();
 
   if (!listaCarrito || !totalElemento || !vacioMensaje) return;
 
@@ -80,11 +90,13 @@ function renderizarCarrito() {
   if (carrito.length === 0) {
     vacioMensaje.style.display = "block";
     totalElemento.textContent = "$0";
+    mostrarAlertaReciente(null, 0);
     return;
   }
 
   vacioMensaje.style.display = "none";
   let total = 0;
+  let resaltadoAplicado = false;
 
   carrito.forEach((item, index) => {
     const subtotal = item.precioUnitario * item.cantidad;
@@ -92,6 +104,10 @@ function renderizarCarrito() {
 
     const html = document.createElement("div");
     html.className = "item";
+    if (!resaltadoAplicado && esProductoReciente(item, ultimoAgregado)) {
+      html.classList.add("item-reciente");
+      resaltadoAplicado = true;
+    }
     html.innerHTML = `
       <div class="item-info">
         <img src="${item.imagen || "/img2/newyork.jpg"}" alt="${item.nombre}">
@@ -109,7 +125,9 @@ function renderizarCarrito() {
         </div>
       </div>
       <div class="precio">${formatearPesos(subtotal)}</div>
-      <button class="eliminar" data-index="${index}" type="button" aria-label="Eliminar ${item.nombre}">
+      <button class="eliminar" data-index="${index}" type="button" aria-label="Eliminar ${
+      item.nombre
+    }">
         <i class="fas fa-trash"></i>
       </button>
     `;
@@ -117,6 +135,7 @@ function renderizarCarrito() {
   });
 
   totalElemento.textContent = formatearPesos(total);
+  mostrarAlertaReciente(ultimoAgregado, carrito.length);
 }
 
 function modificarCantidad(index, delta) {
@@ -124,7 +143,10 @@ function modificarCantidad(index, delta) {
   const producto = carrito[index];
   if (!producto) return;
 
-  producto.cantidad = Math.min(Math.max((producto.cantidad || 1) + delta, 1), 99);
+  producto.cantidad = Math.min(
+    Math.max((producto.cantidad || 1) + delta, 1),
+    99
+  );
   carrito[index] = producto;
   guardarCarrito(carrito);
   renderizarCarrito();
@@ -137,3 +159,48 @@ function eliminarProducto(index) {
   renderizarCarrito();
 }
 
+function obtenerUltimoAgregado() {
+  try {
+    const raw = localStorage.getItem(ULTIMO_AGREGADO_KEY);
+    if (!raw) return null;
+    const info = JSON.parse(raw);
+    if (!info?.timestamp) return null;
+    const expiracionMs = 5 * 60 * 1000;
+    if (Date.now() - info.timestamp > expiracionMs) {
+      localStorage.removeItem(ULTIMO_AGREGADO_KEY);
+      return null;
+    }
+    return info;
+  } catch (error) {
+    console.warn("No fue posible recuperar el último producto agregado", error);
+    return null;
+  }
+}
+
+function esProductoReciente(item, ultimoAgregado) {
+  if (!ultimoAgregado) return false;
+  if (ultimoAgregado.id != null && item.id != null) {
+    return Number(item.id) === Number(ultimoAgregado.id);
+  }
+  return item.nombre === ultimoAgregado.nombre;
+}
+
+function mostrarAlertaReciente(ultimoAgregado, totalItems) {
+  if (!alertaReciente) return;
+
+  if (!ultimoAgregado || !totalItems) {
+    alertaReciente.classList.remove("visible");
+    alertaReciente.innerHTML = "";
+    return;
+  }
+
+  const cantidad = Number(ultimoAgregado.cantidad) || 1;
+  alertaReciente.innerHTML = `
+    <i class="fas fa-bell"></i>
+    <span>Último agregado: ${cantidad}x ${
+    ultimoAgregado.nombre?.toUpperCase() || ""
+  }</span>
+    <span>| Productos en carrito: ${totalItems}</span>
+  `;
+  alertaReciente.classList.add("visible");
+}

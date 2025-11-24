@@ -12,8 +12,11 @@ const modalAgregarCarrito = document.getElementById("modal-agregar-carrito");
 const modalComprar = document.getElementById("modal-comprar");
 const carritoToast = document.getElementById("cart-toast");
 
+let toastTimeout;
+
 let precioUnitario = 0;
 let productoSeleccionado = null;
+const ULTIMO_AGREGADO_KEY = "carrito:lastAdded";
 
 // Función para formatear precio en pesos (ej: 1.234.567)
 function formatearPesos(n) {
@@ -26,6 +29,7 @@ function obtenerProductoDesdeCard(productoCard) {
   const precio = parseFloat(productoCard.dataset.precio || extraerPrecioDesdeTexto(precioTexto));
   const stock = Number(productoCard.dataset.stock ?? productoCard.dataset.Stock ?? 0);
   return {
+    elemento: productoCard,
     id: productoCard.dataset.id ? Number(productoCard.dataset.id) : null,
     nombre: productoCard.dataset.nombre || productoCard.querySelector("h3")?.innerText || "Producto",
     imagen: productoCard.dataset.imagen || productoCard.querySelector("img")?.src || "",
@@ -249,6 +253,8 @@ function agregarProductoAlCarrito(producto, cantidad = 1, opciones = {}) {
   }
 
   guardarCarrito(carrito);
+  persistirUltimoAgregado(producto, cantidadAgregar);
+  animarProductoEnCatalogo(producto);
   if (!opciones?.silenciarToast) {
     const mensaje = opciones?.mensajeToast || `${producto.nombre} se agregó al carrito.`;
     mostrarToast(mensaje);
@@ -272,10 +278,54 @@ modalComprar?.addEventListener("click", () => {
 
 function mostrarToast(mensaje, esError = false) {
   if (!carritoToast) return;
-  carritoToast.textContent = mensaje;
-  carritoToast.style.backgroundColor = esError ? "rgba(153, 0, 0, 0.92)" : "rgba(15, 15, 15, 0.92)";
+  if (toastTimeout) {
+    clearTimeout(toastTimeout);
+  }
+
+  const iconClass = esError ? "fa-circle-exclamation" : "fa-circle-check";
+  carritoToast.classList.remove("visible", "error", "success");
+  void carritoToast.offsetWidth;
+  carritoToast.innerHTML = `
+    <span class="toast-icon">
+      <i class="fa-solid ${iconClass}"></i>
+    </span>
+    <span class="toast-message">${mensaje}</span>
+  `;
+  carritoToast.classList.add(esError ? "error" : "success");
   carritoToast.classList.add("visible");
-  setTimeout(() => carritoToast.classList.remove("visible"), 2000);
+
+  toastTimeout = setTimeout(() => {
+    carritoToast.classList.remove("visible");
+  }, 2400);
+}
+
+function animarProductoEnCatalogo(producto) {
+  const card = obtenerCardDelProducto(producto);
+  if (!card) return;
+  card.classList.remove("producto-adding");
+  void card.offsetWidth;
+  card.classList.add("producto-adding");
+  setTimeout(() => {
+    card.classList.remove("producto-adding");
+  }, 900);
+  animarFlyToCart(card);
+}
+
+function obtenerCardDelProducto(producto) {
+  if (producto?.elemento instanceof HTMLElement) {
+    return producto.elemento;
+  }
+  if (producto?.id != null) {
+    return document.querySelector(`.producto[data-id="${producto.id}"]`);
+  }
+  if (producto?.nombre) {
+    return Array.from(document.querySelectorAll(".producto")).find(card => {
+      const dataNombre = card.dataset.nombre;
+      const titulo = card.querySelector("h3")?.innerText?.trim();
+      return dataNombre === producto.nombre || titulo === producto.nombre;
+    }) || null;
+  }
+  return null;
 }
 
 // Función para resaltar producto desde la búsqueda
@@ -312,3 +362,59 @@ function highlightProductoFromSearch() {
 
 // Ejecutar cuando la página cargue
 highlightProductoFromSearch();
+
+function persistirUltimoAgregado(producto, cantidad) {
+  try {
+    const info = {
+      id: producto.id ?? null,
+      nombre: producto.nombre ?? "",
+      cantidad: Math.max(1, cantidad),
+      timestamp: Date.now()
+    };
+    localStorage.setItem(ULTIMO_AGREGADO_KEY, JSON.stringify(info));
+  } catch (error) {
+    console.warn("No se pudo guardar el último producto agregado", error);
+  }
+}
+
+function animarFlyToCart(card) {
+  const imagen = card?.querySelector("img");
+  const iconoCarrito = document.querySelector('.icon[title="Carrito de compras"] i');
+  if (!imagen || !iconoCarrito) return;
+
+  const clone = imagen.cloneNode(true);
+  const imgRect = imagen.getBoundingClientRect();
+  const cartRect = iconoCarrito.getBoundingClientRect();
+
+  clone.classList.add("fly-to-cart");
+  Object.assign(clone.style, {
+    position: "fixed",
+    left: `${imgRect.left}px`,
+    top: `${imgRect.top}px`,
+    width: `${imgRect.width}px`,
+    height: `${imgRect.height}px`,
+    opacity: "1",
+    transform: "translate(0, 0)",
+     pointerEvents: "none",
+     zIndex: "9999",
+    transition: "transform 0.75s cubic-bezier(.7,-0.15,.3,1.15), opacity 0.75s ease, width 0.75s ease, height 0.75s ease"
+  });
+
+  document.body.appendChild(clone);
+
+  requestAnimationFrame(() => {
+    const translateX = cartRect.left + cartRect.width / 2 - (imgRect.left + imgRect.width / 2);
+    const translateY = cartRect.top + cartRect.height / 2 - (imgRect.top + imgRect.height / 2);
+    clone.style.transform = `translate(${translateX}px, ${translateY}px) scale(0.2)`;
+    clone.style.opacity = "0";
+    clone.style.width = "40px";
+    clone.style.height = "40px";
+  });
+
+  clone.addEventListener("transitionend", () => {
+    clone.remove();
+  }, { once: true });
+
+  iconoCarrito.classList.add("cart-icon-pulse");
+  setTimeout(() => iconoCarrito.classList.remove("cart-icon-pulse"), 600);
+}
