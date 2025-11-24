@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi cuenta | NortSteak</title>
+  <link rel="stylesheet" th:href="@{/Css/css.css}">
+  <link rel="stylesheet" th:href="@{/Css/account.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
+</head>
+<body>
+  <div class="header">LSJ</div>
+
+  <div class="header-container">
+    <a th:href="@{/}" class="logo">
+      <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
+    </a>
+
+    <div class="search-container">
+      <form class="search-form" action="#" method="get" title="Buscar en el sitio">
+        <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
+        <button type="submit" class="search-button">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="icon-container">
+      <a th:href="@{/registro}" class="icon" title="Registro">
+        <i class="fas fa-user-plus"></i>
+      </a>
+      <a th:href="@{/catalogo}" class="icon" title="Catálogo">
+        <i class="fas fa-book"></i>
+      </a>
+      <a th:href="@{/carrito}" class="icon" title="Carrito de compras">
+        <i class="fas fa-shopping-cart"></i>
+      </a>
+      <a th:href="@{/cuenta}" class="icon icon-profile" data-user-account-icon hidden aria-label="Ir a mi cuenta">
+        <span class="icon-profile-initial" data-user-account-initial>U</span>
+      </a>
+    </div>
+  </div>
+
+  <main class="account-layout">
+    <section class="account-hero">
+      <div>
+        <p class="account-eyebrow">Panel personal</p>
+        <h1>
+          Hola, <span id="accountHeroName" th:text="${userNombre}">Visitante</span>
+        </h1>
+        <p class="account-subtitle">
+          Aquí puedes actualizar tus datos, gestionar direcciones y seguir en tiempo real el estado de tus pedidos.
+        </p>
+      </div>
+      <div class="account-hero-status">
+        <span>Cliente activo</span>
+        <strong id="accountHeroEmail" th:text="${userEmail}">Sin correo</strong>
+      </div>
+    </section>
+
+    <section class="account-grid">
+      <article class="account-card">
+        <header>
+          <h2>Configuración de tu cuenta</h2>
+          <p>Actualiza tus datos básicos y preferencias.</p>
+        </header>
+        <form id="accountForm" class="account-form">
+          <div class="form-field">
+            <label for="accountName">Nombre completo</label>
+            <input type="text" id="accountName" name="nombre" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-field">
+            <label for="accountEmail">Correo</label>
+            <input type="email" id="accountEmail" name="correo" placeholder="correo@ejemplo.com" required>
+          </div>
+          <div class="form-field">
+            <label for="accountPhone">Teléfono</label>
+            <input type="tel" id="accountPhone" name="telefono" placeholder="+57 300 000 0000">
+          </div>
+          <div class="form-field">
+            <label for="accountAddress">Dirección principal</label>
+            <input type="text" id="accountAddress" name="direccion" placeholder="Calle 123 #45-67, Cúcuta" required>
+          </div>
+          <div class="form-field">
+            <label for="accountPreference">Preferencia de entrega</label>
+            <select id="accountPreference" name="preferencia">
+              <option value="ESTANDAR">Entrega estándar</option>
+              <option value="EXPRESS">Entrega express</option>
+              <option value="PROGRAMADA">Programar horario</option>
+            </select>
+          </div>
+          <div class="account-form-actions">
+            <button type="submit" class="primary">Guardar cambios</button>
+            <button type="button" id="accountLogout" class="ghost">
+              Cerrar sesión
+            </button>
+          </div>
+          <p id="accountFormStatus" class="account-feedback" role="status" aria-live="polite"></p>
+        </form>
+      </article>
+
+      <article class="account-card">
+        <header class="orders-header">
+          <div>
+            <h2>Seguimiento de pedidos</h2>
+            <p>Visualiza el progreso de tus compras recientes.</p>
+          </div>
+          <button type="button" class="orders-refresh" id="refreshOrders">
+            <i class="fas fa-rotate-right"></i> Actualizar
+          </button>
+        </header>
+
+        <div id="ordersEmpty" class="orders-empty" hidden>
+          <i class="fas fa-box-open"></i>
+          <p>Aún no tienes pedidos registrados.</p>
+        </div>
+
+        <div id="ordersList" class="orders-list"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="account-footer">
+    <p>¿Necesitas ayuda con tu entrega? Escríbenos al <strong>+57 322 373 8274</strong> o visita nuestra sección de soporte.</p>
+  </footer>
+
+  <script th:src="@{/Css/js/account.js}" type="module"></script>
+  <script th:src="@{/Css/js/session-user.js}" defer></script>
+</body>
+</html>
+

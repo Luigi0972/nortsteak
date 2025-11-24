@@ -222,6 +222,7 @@ function obtenerCarrito() {
 
 function guardarCarrito(carrito) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
+  notificarCambioCarrito();
 }
 
 function agregarProductoAlCarrito(producto, cantidad = 1, opciones = {}) {
@@ -375,6 +376,14 @@ function persistirUltimoAgregado(producto, cantidad) {
   } catch (error) {
     console.warn("No se pudo guardar el último producto agregado", error);
   }
+}
+
+function notificarCambioCarrito() {
+  window.dispatchEvent(
+    new CustomEvent("carrito:sync", {
+      detail: { updatedAt: Date.now() }
+    })
+  );
 }
 
 function animarFlyToCart(card) {

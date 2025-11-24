@@ -8,6 +8,7 @@ import com.nortsteak.repository.ProductoRepository;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PaginasController {
@@ -69,6 +70,19 @@ public class PaginasController {
     @GetMapping("/registro")
     public String registro() {
         return "registro"; // busca templates/registro.html
+    }
+
+    // Panel de cuenta
+    @GetMapping("/cuenta")
+    public String cuenta(Model model, HttpSession session) {
+        Object nombre = session != null ? session.getAttribute("userNombre") : null;
+        Object correo = session != null ? session.getAttribute("userEmail") : null;
+        Object userId = session != null ? session.getAttribute("userId") : null;
+
+        model.addAttribute("userNombre", nombre != null ? nombre : "Invitado");
+        model.addAttribute("userEmail", correo != null ? correo : "");
+        model.addAttribute("userId", userId);
+        return "cuenta";
     }
 
 }

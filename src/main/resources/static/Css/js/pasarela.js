@@ -9,6 +9,7 @@ const metodoOptions = document.querySelectorAll(".metodo-option");
 const panelesMetodo = document.querySelectorAll(".panel-metodo");
 
 let carritoActual = [];
+const ORDER_KEY_PREFIX = "nortsteak:pedidos:";
 
 document.addEventListener("DOMContentLoaded", () => {
   renderizarResumen();
@@ -198,7 +199,9 @@ function enviarPago(payload) {
     })
     .then((data) => {
       setEstado("¡Pago confirmado! Actualizamos el inventario en tiempo real.", "success");
+      registrarPedidoUsuario(payload, carritoActual);
       localStorage.removeItem("carrito");
+      notificarCambioCarrito();
       setTimeout(() => {
         window.location.href = "/catalogo";
       }, 2500);
@@ -236,4 +239,55 @@ function calcularTotal() {
     const cantidad = Math.max(item.cantidad || 1, 1);
     return acc + item.precioUnitario * cantidad;
   }, 0);
+}
+
+function notificarCambioCarrito() {
+  window.dispatchEvent(
+    new CustomEvent("carrito:sync", {
+      detail: { updatedAt: Date.now() }
+    })
+  );
+}
+
+async function registrarPedidoUsuario(payload, items) {
+  try {
+    const sessionRes = await fetch("/api/auth/session", {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    if (!sessionRes.ok) return;
+    const session = await sessionRes.json();
+    if (!session?.loggedIn) return;
+
+    const email = session.userEmail || session.userCorreo;
+    if (!email) return;
+
+    const storageKey = `${ORDER_KEY_PREFIX}${email}`;
+    const existentes = JSON.parse(localStorage.getItem(storageKey) || "[]");
+
+    const nuevoPedido = {
+      codigo: generarCodigoPedido(),
+      fecha: new Date().toISOString(),
+      direccion: payload.direccion,
+      total: formatearPesos(payload.totalEsperado),
+      step: 1,
+      estado: "PREPARACION",
+      resumen: `Pago con ${payload.metodo}`,
+      items: items.map((item) => ({
+        nombre: item.nombre,
+        cantidad: item.cantidad,
+        subtotal: formatearPesos(item.precioUnitario * item.cantidad),
+      })),
+    };
+
+    existentes.unshift(nuevoPedido);
+    localStorage.setItem(storageKey, JSON.stringify(existentes.slice(0, 20)));
+  } catch (error) {
+    console.warn("No se pudo registrar el pedido", error);
+  }
+}
+
+function generarCodigoPedido() {
+  const random = Math.floor(Math.random() * 9000 + 1000);
+  return `NS-${random}`;
 }

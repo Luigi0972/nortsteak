@@ -41,8 +41,10 @@ body {
   background-color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 100%;
-  box-sizing: border-box; /* 🔒 Importante para evitar desbordes */
+  box-sizing: border-box;
+  /* 🔒 Importante para evitar desbordes */
 }
+
 .logo {
   max-width: 150px;
   /*padding: 1rem;*/
@@ -50,19 +52,25 @@ body {
 
 /* Buscador */
 .search-container {
-  flex-grow: 1; /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
-  max-width: 800px; /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
+  flex-grow: 1;
+  /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
+  max-width: 800px;
+  /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
   margin: 0 20px;
 }
 
 .search-form {
-  display: flex; /*lo transforma en un contenedor flex*/
-  width: 100%; /*ocupara el maximo*/
+  display: flex;
+  /*lo transforma en un contenedor flex*/
+  width: 100%;
+  /*ocupara el maximo*/
 }
 
 .search-input {
-  min-width: 0; /*hace que el elemento se encoja lo que pueda para adaptarse al contenedor*/
-  flex-grow: 1; /*crecera para ocupar el esapcio restante*/
+  min-width: 0;
+  /*hace que el elemento se encoja lo que pueda para adaptarse al contenedor*/
+  flex-grow: 1;
+  /*crecera para ocupar el esapcio restante*/
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 10px 0 0 10px;
@@ -98,6 +106,64 @@ body {
   font-size: 2rem;
   color: #333;
   padding: 8px;
+}
+
+.icon.icon-cart {
+  position: relative;
+}
+
+.icon-profile {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #111, #2b2b2b);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+  margin: 0;
+}
+
+.icon-profile.visible {
+  display: inline-flex;
+}
+
+.icon-profile[hidden] {
+  display: none !important;
+}
+
+.icon-profile-initial {
+  letter-spacing: 0.05rem;
+}
+
+.cart-count-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff5555, #b80000);
+  color: #fff;
+  font-size: 0.7rem;
+  font-family: "Archivo Black", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(45%, -45%) scale(0.2);
+  transform-origin: top right;
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cart-count-badge.visible {
+  opacity: 1;
+  transform: translate(45%, -45%) scale(1);
 }
 
 .icon:hover {
@@ -150,8 +216,10 @@ body {
 .carrusel {
   position: relative;
   display: flex;
-  align-items: center; /* esto mueve las flechitas */
-  justify-content: center; /* esto mueve el banner*/
+  align-items: center;
+  /* esto mueve las flechitas */
+  justify-content: center;
+  /* esto mueve el banner*/
   overflow: hidden;
   /*height: 100vh;*/
   margin: 2rem 0 2rem;
@@ -172,7 +240,8 @@ body {
   margin: 30px;
   object-fit: contain;
   filter: saturate(100%);
-  box-shadow: 0 0 10px rgba(152, 4, 4, 0.49); /* sombra roja alrededor */
+  box-shadow: 0 0 10px rgba(152, 4, 4, 0.49);
+  /* sombra roja alrededor */
 }
 
 .texto {
@@ -225,6 +294,7 @@ body {
 
   text-shadow: 0px 0px 10px #000000;
 }
+
 .controles-movil {
   display: none;
 }
@@ -352,7 +422,8 @@ body {
 /* esto es lo de los productos destacados*/
 .contenedor-cortes {
   display: flex;
-  gap: 60px; /* separacion entre las imagenes*/
+  gap: 60px;
+  /* separacion entre las imagenes*/
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -405,7 +476,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: #000000; /* Más elegante que negro puro */
+  background-color: #000000;
+  /* Más elegante que negro puro */
   color: #fff;
   padding: 5px 30px 40px 30px;
   gap: 40px;
@@ -416,9 +488,12 @@ body {
 .footer-column1 {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinea todo a la izquierda */
-  padding-top: 0; /* Elimina espacio superior */
-  gap: 10px; /* Espaciado entre elementos */
+  align-items: flex-start;
+  /* Alinea todo a la izquierda */
+  padding-top: 0;
+  /* Elimina espacio superior */
+  gap: 10px;
+  /* Espaciado entre elementos */
 }
 
 .footer-column2 {
@@ -473,9 +548,12 @@ ul li {
 }
 
 .social-icons a {
-  text-decoration: none; /* Quita la línea azul debajo */
-  color: inherit; /* Mantiene el color original del ícono */
+  text-decoration: none;
+  /* Quita la línea azul debajo */
+  color: inherit;
+  /* Mantiene el color original del ícono */
 }
+
 .social-icons i:hover {
   transform: scale(1.2);
 }
@@ -502,15 +580,16 @@ ul li {
 }
 
 .bancos img {
-  height: auto; /* mantiene proporciones */
-  margin: 0 10px; /* espacio entre los logos */
+  height: auto;
+  /* mantiene proporciones */
+  margin: 0 10px;
+  /* espacio entre los logos */
   transition: transform 0.3s;
 }
 
 .bancos img:hover {
   transform: scale(1.2);
-  filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%)
-    hue-rotate(357deg) brightness(98%) contrast(105%);
+  filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%) hue-rotate(357deg) brightness(98%) contrast(105%);
 }
 
 .logo-bancolombia {
@@ -528,8 +607,10 @@ ul li {
 .bancos {
   display: flex;
   align-items: center;
-  justify-content: center; /* o space-around / space-between */
-  gap: 20px; /* separación entre logos */
+  justify-content: center;
+  /* o space-around / space-between */
+  gap: 20px;
+  /* separación entre logos */
 }
 
 .footer p.copyright {
@@ -541,7 +622,8 @@ ul li {
   position: relative;
   width: 100%;
   max-width: 500px;
-  aspect-ratio: 4 / 1.8; /* o usa padding-bottom si no tienes soporte para aspect-ratio */
+  aspect-ratio: 4 / 1.8;
+  /* o usa padding-bottom si no tienes soporte para aspect-ratio */
   margin: auto;
   overflow: hidden;
   border-radius: 12px;
@@ -559,7 +641,8 @@ ul li {
   .footer-column1,
   .footer-column2 {
     width: 100%;
-    align-items: center; /* Centra contenido en móviles */
+    align-items: center;
+    /* Centra contenido en móviles */
     text-align: center;
   }
 
@@ -580,6 +663,7 @@ ul li {
 }
 
 @media (max-width: 1100px) {
+
   /* si el ancho de la pantalla es <= de 800px */
   .footer-column2 {
     display: flex;
@@ -589,10 +673,12 @@ ul li {
     margin: 0 auto;
     max-width: 600px;
   }
+
   .bancos {
     flex-direction: column;
     gap: 10px;
   }
+
   .footer {
     gap: 20px;
   }
@@ -735,12 +821,14 @@ RESPONSIVE PINCHE SERGIO*/
 
 .footer-column1 ul li a {
   text-decoration: none;
-  color: white; /* O el color que estés usando */
+  color: white;
+  /* O el color que estés usando */
   transition: color 0.3s;
 }
 
 .footer-column1 ul li a:hover {
-  color: #ff4040; /* Rojo brillante u otro tono que combine */
+  color: #ff4040;
+  /* Rojo brillante u otro tono que combine */
 }
 
 /*PROVEEDORES ESTILOS */
@@ -750,7 +838,8 @@ RESPONSIVE PINCHE SERGIO*/
   margin: auto;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center; /* Centra horizontalmente */
+  justify-content: center;
+  /* Centra horizontalmente */
   gap: 60px;
   padding: 40px 20px;
   box-sizing: border-box;
@@ -812,7 +901,8 @@ RESPONSIVE PINCHE SERGIO*/
 
 @media screen and (max-width: 850px) {
   .proveedor-card {
-    width: 90%; /* Para que en celular se vea de a una */
+    width: 90%;
+    /* Para que en celular se vea de a una */
   }
 }
 
@@ -981,7 +1071,8 @@ body {
 .btn-pago,
 .btn-mostrar-qr {
   display: block;
-  margin: 20px auto; /* Centra horizontalmente */
+  margin: 20px auto;
+  /* Centra horizontalmente */
   padding: 12px 30px;
   background-color: red;
   color: white;
@@ -1038,7 +1129,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 10px; /* espacio entre carrito y pasarela */
+  gap: 10px;
+  /* espacio entre carrito y pasarela */
   margin-top: 40px;
   flex-wrap: wrap;
 }
@@ -1094,26 +1186,32 @@ body {
 
 /* ---------- Pasarela de pago simulada ---------- */
 .pasarela-layout {
-  max-width: 1200px;
-  margin: 2rem auto 4rem;
-  padding: 0 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
+  width: 100%;
+  max-width: 960px;
+  margin: 3rem auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+  box-sizing: border-box;
+  align-items: stretch;
 }
 
 .pasarela-card {
   background: #ffffff;
-  border-radius: 22px;
-  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.08);
-  padding: clamp(1.5rem, 2vw, 2.25rem);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+  padding: clamp(1rem, 3vw, 2rem);
+  border: 1px solid rgba(235, 21, 21, 0.12);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .pasarela-card.resumen {
-  position: sticky;
-  top: 1.5rem;
-  align-self: flex-start;
+  position: relative;
+  top: 0;
+  align-self: auto;
 }
 
 .pasarela-card header h2 {
@@ -1232,7 +1330,7 @@ body {
 .form-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
 .form-field {
@@ -1271,7 +1369,7 @@ body {
 .metodos-grid {
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
 }
 
 .metodo-option {
@@ -1325,9 +1423,9 @@ body {
 .panel-contenido {
   margin-top: 1rem;
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
 }
 
 .panel-qr {
@@ -1339,7 +1437,8 @@ body {
 .panel-form {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  width: 100%;
 }
 
 .panel-form-full {
@@ -1363,6 +1462,7 @@ body {
   gap: 1rem;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 }
 
 #btn-simular {
@@ -1384,6 +1484,15 @@ body {
 
 #btn-simular:not(:disabled):hover {
   transform: translateY(-1px);
+}
+
+#btn-simular,
+.btn-secundario {
+  min-width: 0;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  align-self: stretch;
 }
 
 .btn-secundario {
@@ -1414,12 +1523,8 @@ body {
 /* ---------- Pasarela responsive tweaks ---------- */
 @media (max-width: 1024px) {
   .pasarela-layout {
-    grid-template-columns: 1fr;
-    margin-top: 1.5rem;
-  }
-
-  .pasarela-card.resumen {
-    position: static;
+    margin: 2.5rem auto;
+    padding: 0 2rem;
   }
 }
 
@@ -1469,11 +1574,11 @@ body {
   }
 
   .pasarela-card {
-    padding: 1.25rem;
+    padding: 1.2rem;
   }
 
   .panel-qr {
-    width: 130px;
+    width: 120px;
     margin-bottom: 0.5rem;
   }
 
@@ -1486,12 +1591,21 @@ body {
     width: 100%;
     height: 140px;
   }
-}
 
-@media (max-width: 480px) {
   .form-grid,
   .panel-form {
     grid-template-columns: 1fr;
+  }
+
+  #btn-simular,
+  .btn-secundario {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pasarela-layout {
+    padding: 0 0.75rem;
   }
 
   .pasarela-card header h2 {
@@ -1541,6 +1655,7 @@ body {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -39,6 +39,7 @@ listaCarrito?.addEventListener("click", (event) => {
 
 btnVaciar?.addEventListener("click", () => {
   localStorage.removeItem("carrito");
+  notificarCambioCarrito();
   renderizarCarrito();
 });
 
@@ -70,6 +71,7 @@ function obtenerCarrito() {
 
 function guardarCarrito(carrito) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
+  notificarCambioCarrito();
 }
 
 function formatearPesos(valor) {
@@ -203,4 +205,12 @@ function mostrarAlertaReciente(ultimoAgregado, totalItems) {
     <span>| Productos en carrito: ${totalItems}</span>
   `;
   alertaReciente.classList.add("visible");
+}
+
+function notificarCambioCarrito() {
+  window.dispatchEvent(
+    new CustomEvent("carrito:sync", {
+      detail: { updatedAt: Date.now() }
+    })
+  );
 }

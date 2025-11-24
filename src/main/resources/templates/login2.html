@@ -39,6 +39,9 @@
             <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
                 <i class="fas fa-shopping-cart"></i>
             </a>
+            <a th:href="@{/cuenta}" class="icon icon-profile" data-user-account-icon hidden aria-label="Mi cuenta">
+                <span class="icon-profile-initial" data-user-account-initial>U</span>
+            </a>
             </div>
         </div>
     </div>
@@ -153,5 +156,6 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
 });
 </script>
 <script th:src="@{/Css/js/search.js}"></script>
+<script th:src="@{/Css/js/session-user.js}" defer></script>
 </body>
 </html>

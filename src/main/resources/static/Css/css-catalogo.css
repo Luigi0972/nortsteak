@@ -357,23 +357,30 @@ body {
       margin-bottom: 0.5rem;
     } */
 
-    .producto button {
+.producto button {
       background-color: red;
       color: white;
-      border: solid;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 999px;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      transition: transform 0.3s ease-in-out;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       font-family: "Josefin Sans", sans-serif;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0.75rem auto 0;
+      width: fit-content;
+      box-shadow: 0 10px 25px rgba(235, 21, 21, 0.25);
     }
 
     .producto button:hover {
       background-color: darkred;
-      transform: scale(1.1);
-      transition: transform 0.3s ease-in-out;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(235, 21, 21, 0.35);
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     }
 
   .carrito { /*para el icono del carrito*/
@@ -389,6 +396,36 @@ body {
 .carrito:hover {
   color: #c00;
   transform: translateY(-5px);
+}
+
+.icon.icon-cart {
+  position: relative;
+}
+
+.cart-count-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff5555, #b80000);
+  color: #fff;
+  font-size: 0.7rem;
+  font-family: "Archivo Black", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(45%, -45%) scale(0.2);
+  transform-origin: top right;
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cart-count-badge.visible {
+  opacity: 1;
+  transform: translate(45%, -45%) scale(1);
 }
 
 .cart-icon-pulse {
@@ -813,7 +850,7 @@ ul li {
 }
 
 .cart-toast.success {
-  background: linear-gradient(120deg, #111, #1f8c45);
+  background: linear-gradient(120deg, #2b0000, #c40000);
 }
 
 .cart-toast.error {

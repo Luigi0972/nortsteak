@@ -46,8 +46,12 @@
             <a th:href="@{/catalogo}" class="icon" title="Catálogo">
                 <i class="fas fa-book"></i>
             </a>
-            <a th:href="@{/carrito}" class="icon" title="Carrito de compras">
+            <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
                 <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
+            </a>
+            <a th:href="@{/cuenta}" class="icon icon-profile" data-user-account-icon hidden aria-label="Mi cuenta">
+                <span class="icon-profile-initial" data-user-account-initial>U</span>
             </a>
         </div>
   </div>
@@ -98,6 +102,8 @@
   <!-- Tu JS -->
    <script th:src="@{/Css/js/catalogo.js}"></script>
    <script th:src="@{/Css/js/search.js}"></script>
+   <script th:src="@{/Css/js/cart-badge.js}"></script>
+  <script th:src="@{/Css/js/session-user.js}" defer></script>
    
 
    <!-- Footer -->

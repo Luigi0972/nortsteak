@@ -100,6 +100,36 @@ body {
   padding: 8px;
 }
 
+.icon.icon-cart {
+  position: relative;
+}
+
+.cart-count-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff5555, #b80000);
+  color: #fff;
+  font-size: 0.7rem;
+  font-family: "Archivo Black", sans-serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(45%, -45%) scale(0.2);
+  transform-origin: top right;
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.cart-count-badge.visible {
+  opacity: 1;
+  transform: translate(45%, -45%) scale(1);
+}
+
 .icon:hover {
   transform: scale(1.1);
   color: rgb(235, 21, 21);
@@ -427,6 +457,16 @@ body {
 
   .carrito-acciones button {
     width: 100%;
+  }
+
+  .eliminar {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+  }
+
+  .eliminar i {
+    font-size: 1.35rem;
   }
 }
 
