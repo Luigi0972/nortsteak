@@ -112,7 +112,7 @@ body {
   position: relative;
 }
 
-.icon-profile {
+.account-pill {
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -128,15 +128,15 @@ body {
   margin: 0;
 }
 
-.icon-profile.visible {
+.account-pill.visible {
   display: inline-flex;
 }
 
-.icon-profile[hidden] {
+.account-pill[hidden] {
   display: none !important;
 }
 
-.icon-profile-initial {
+.account-pill-initial {
   letter-spacing: 0.05rem;
 }
 
@@ -589,7 +589,8 @@ ul li {
 
 .bancos img:hover {
   transform: scale(1.2);
-  filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%) hue-rotate(357deg) brightness(98%) contrast(105%);
+  filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%)
+    hue-rotate(357deg) brightness(98%) contrast(105%);
 }
 
 .logo-bancolombia {
@@ -663,7 +664,6 @@ ul li {
 }
 
 @media (max-width: 1100px) {
-
   /* si el ancho de la pantalla es <= de 800px */
   .footer-column2 {
     display: flex;

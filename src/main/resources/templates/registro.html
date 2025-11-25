@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Crear Cuenta</title>
 <link rel="stylesheet" href="Css/login.css">
+<link rel="stylesheet" th:href="@{/Css/css.css}">
 <link rel="stylesheet" th:href="@{/Css/search.css}">
 <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -37,11 +38,12 @@
             <a th:href="@{/catalogo}" class="icon" title="Catálogo">
                 <i class="fas fa-book"></i>
             </a>
-            <a th:href="@{/pasarela}" class="icon" title="Carrito de compras">
+            <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
                 <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
             </a>
-            <a th:href="@{/cuenta}" class="icon icon-profile" data-user-account-icon hidden aria-label="Mi cuenta">
-                <span class="icon-profile-initial" data-user-account-initial>U</span>
+            <a th:href="@{/cuenta}" class="icon account-pill" data-user-account-icon hidden aria-label="Mi cuenta">
+                <span class="account-pill-initial" data-user-account-initial>U</span>
             </a>
         </div>
     </div>
@@ -139,5 +141,6 @@ document.getElementById("registroForm").addEventListener("submit", async functio
 });
 </script>
 <script th:src="@{/Css/js/search.js}"></script>
+<script th:src="@{/Css/js/cart-badge.js}"></script>
 <script th:src="@{/Css/js/session-user.js}" defer></script>
 </html>

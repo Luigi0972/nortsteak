@@ -10,6 +10,7 @@ const ordersListEl = document.getElementById("ordersList");
 const ordersEmptyEl = document.getElementById("ordersEmpty");
 
 let currentSession = null;
+let currentProfile = null;
 let ordersData = [];
 const ORDER_KEY_PREFIX = "nortsteak:pedidos:";
 
@@ -17,7 +18,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   currentSession = await obtenerSesion();
   if (!currentSession) return;
 
-  poblarFormulario(currentSession);
+  currentProfile = await obtenerPerfilServidor();
+  poblarFormulario(currentProfile || currentSession);
   ordersData = obtenerPedidos(currentSession);
   renderizarPedidos();
 
@@ -52,35 +54,38 @@ async function obtenerSesion() {
   }
 }
 
-function poblarFormulario(session) {
-  const nombre = session?.userNombre || "Visitante NortSteak";
-  const correo = session?.userEmail || session?.userCorreo || "";
+async function obtenerPerfilServidor() {
+  try {
+    const res = await fetch("/api/auth/profile", {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    console.warn("No fue posible obtener el perfil", error);
+    return null;
+  }
+}
 
+function poblarFormulario(data) {
+  const nombre =
+    data?.nombre || currentSession?.userNombre || "Visitante NortSteak";
+  const correo =
+    data?.correo || currentSession?.userEmail || currentSession?.userCorreo || "";
+  const telefono = data?.telefono || "";
+  const direccion = data?.direccion || "";
   if (heroNameEl) heroNameEl.textContent = nombre;
   if (heroEmailEl) heroEmailEl.textContent = correo || "Sin correo";
 
   const nameInput = form?.querySelector("#accountName");
   const emailInput = form?.querySelector("#accountEmail");
+  const phoneInput = form?.querySelector("#accountPhone");
+  const addressInput = form?.querySelector("#accountAddress");
   if (nameInput) nameInput.value = nombre;
   if (emailInput) emailInput.value = correo;
-
-  const storedProfile = obtenerPerfilGuardado(correo);
-  if (storedProfile) {
-    form.querySelector("#accountPhone").value = storedProfile.telefono || "";
-    form.querySelector("#accountAddress").value = storedProfile.direccion || "";
-    form.querySelector("#accountPreference").value =
-      storedProfile.preferencia || "ESTANDAR";
-  }
-}
-
-function obtenerPerfilGuardado(email) {
-  if (!email) return null;
-  try {
-    const raw = localStorage.getItem(`nortsteak:perfil:${email}`);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
+  if (phoneInput) phoneInput.value = telefono;
+  if (addressInput) addressInput.value = direccion;
 }
 
 async function manejarEnvioFormulario(event) {
@@ -89,9 +94,8 @@ async function manejarEnvioFormulario(event) {
   const payload = {
     nombre: form.querySelector("#accountName").value.trim(),
     correo: form.querySelector("#accountEmail").value.trim(),
-    telefono: form.querySelector("#accountPhone").value.trim(),
-    direccion: form.querySelector("#accountAddress").value.trim(),
-    preferencia: form.querySelector("#accountPreference").value,
+    telefono: form.querySelector("#accountPhone").value.trim() || null,
+    direccion: form.querySelector("#accountAddress").value.trim() || null,
   };
 
   if (!payload.nombre || !payload.correo) {
@@ -100,10 +104,30 @@ async function manejarEnvioFormulario(event) {
   }
 
   try {
-    localStorage.setItem(
-      `nortsteak:perfil:${payload.correo}`,
-      JSON.stringify(payload)
-    );
+    const res = await fetch("/api/auth/profile", {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      const message =
+        data?.message || "No pudimos guardar tus datos, intenta más tarde.";
+      mostrarMensajeFormulario(message, true);
+      return;
+    }
+
+    currentProfile = data;
+    poblarFormulario(currentProfile);
+    if (currentSession) {
+      currentSession.userNombre = data.nombre;
+      currentSession.userEmail = data.correo;
+    }
     mostrarMensajeFormulario("Guardamos tus cambios correctamente.");
   } catch (error) {
     console.warn("No fue posible guardar el perfil", error);

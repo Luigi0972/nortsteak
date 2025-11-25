@@ -33,11 +33,12 @@
       <a th:href="@{/catalogo}" class="icon" title="Catálogo">
         <i class="fas fa-book"></i>
       </a>
-      <a th:href="@{/carrito}" class="icon" title="Carrito de compras">
+      <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
         <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
       </a>
-      <a th:href="@{/cuenta}" class="icon icon-profile" data-user-account-icon hidden aria-label="Ir a mi cuenta">
-        <span class="icon-profile-initial" data-user-account-initial>U</span>
+      <a th:href="@{/cuenta}" class="icon account-pill" data-user-account-icon hidden aria-label="Ir a mi cuenta">
+        <span class="account-pill-initial" data-user-account-initial>U</span>
       </a>
     </div>
   </div>
@@ -63,7 +64,7 @@
       <article class="account-card">
         <header>
           <h2>Configuración de tu cuenta</h2>
-          <p>Actualiza tus datos básicos y preferencias.</p>
+          <p>Actualiza tus datos básicos y tu información de contacto.</p>
         </header>
         <form id="accountForm" class="account-form">
           <div class="form-field">
@@ -81,14 +82,6 @@
           <div class="form-field">
             <label for="accountAddress">Dirección principal</label>
             <input type="text" id="accountAddress" name="direccion" placeholder="Calle 123 #45-67, Cúcuta" required>
-          </div>
-          <div class="form-field">
-            <label for="accountPreference">Preferencia de entrega</label>
-            <select id="accountPreference" name="preferencia">
-              <option value="ESTANDAR">Entrega estándar</option>
-              <option value="EXPRESS">Entrega express</option>
-              <option value="PROGRAMADA">Programar horario</option>
-            </select>
           </div>
           <div class="account-form-actions">
             <button type="submit" class="primary">Guardar cambios</button>
@@ -126,6 +119,7 @@
   </footer>
 
   <script th:src="@{/Css/js/account.js}" type="module"></script>
+  <script th:src="@{/Css/js/cart-badge.js}"></script>
   <script th:src="@{/Css/js/session-user.js}" defer></script>
 </body>
 </html>

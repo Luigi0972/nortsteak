@@ -1,9 +1,12 @@
 package com.nortsteak.controller;
 
+import com.nortsteak.dto.UpdateProfileRequest;
+import com.nortsteak.dto.UserProfileDTO;
 import com.nortsteak.models.User;
 import com.nortsteak.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -33,6 +37,7 @@ public class AuthController {
             String correo = userData.get("correo");
             String contrasena = userData.get("contrasena");
             String direccion = userData.get("direccion");
+            String telefono = userData.get("telefono");
 
             // Verificar si el usuario ya existe
             User existingUser = userRepository.findByCorreoElectronico(correo);
@@ -49,6 +54,7 @@ public class AuthController {
             newUser.setCorreoElectronico(correo);
             newUser.setContrasena(passwordEncoder.encode(contrasena));
             newUser.setDireccion(direccion);
+            newUser.setTelefono(telefono);
             newUser.setRol("ROLE_USER"); // Rol por defecto
 
             userRepository.save(newUser);
@@ -102,7 +108,9 @@ public class AuthController {
             response.put("user", Map.of(
                     "nombre", user.getNombre(),
                     "apellido", user.getApellido(),
-                    "correo", user.getCorreoElectronico()
+                    "correo", user.getCorreoElectronico(),
+                    "telefono", user.getTelefono(),
+                    "direccion", user.getDireccion()
             ));
             return ResponseEntity.ok(response);
 
@@ -138,5 +146,67 @@ public class AuthController {
         response.put("status", "success");
         response.put("message", "Sesión cerrada exitosamente");
         return ResponseEntity.ok(response);
+    }
+
+    // 🔹 PERFIL DEL USUARIO AUTENTICADO
+    @GetMapping("/profile")
+    public ResponseEntity<?> getProfile(HttpSession session) {
+        Optional<User> userOptional = resolveUserFromSession(session);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", "No hay una sesión activa"));
+        }
+        return ResponseEntity.ok(UserProfileDTO.fromUser(userOptional.get()));
+    }
+
+    // 🔹 ACTUALIZAR PERFIL
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(@RequestBody UpdateProfileRequest request, HttpSession session) {
+        Optional<User> userOptional = resolveUserFromSession(session);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", "No hay una sesión activa"));
+        }
+
+        User user = userOptional.get();
+        if (request.getNombre() == null || request.getNombre().isBlank() ||
+                request.getCorreo() == null || request.getCorreo().isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("status", "error", "message", "Nombre y correo son obligatorios"));
+        }
+
+        User userWithSameEmail = userRepository.findByCorreoElectronico(request.getCorreo());
+        if (userWithSameEmail != null && userWithSameEmail.getId_cliente() != user.getId_cliente()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("status", "error", "message", "El correo ya está en uso por otro usuario"));
+        }
+
+        user.setNombre(request.getNombre());
+        user.setApellido(request.getApellido() != null ? request.getApellido() : user.getApellido());
+        user.setCorreoElectronico(request.getCorreo());
+        if (request.getTelefono() != null) {
+            user.setTelefono(request.getTelefono());
+        }
+        if (request.getDireccion() != null) {
+            user.setDireccion(request.getDireccion());
+        }
+
+        userRepository.save(user);
+
+        session.setAttribute("userNombre", user.getNombre());
+        session.setAttribute("userEmail", user.getCorreoElectronico());
+
+        return ResponseEntity.ok(UserProfileDTO.fromUser(user));
+    }
+
+    private Optional<User> resolveUserFromSession(HttpSession session) {
+        if (session == null) {
+            return Optional.empty();
+        }
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            return Optional.empty();
+        }
+        return userRepository.findById(userId);
     }
 }

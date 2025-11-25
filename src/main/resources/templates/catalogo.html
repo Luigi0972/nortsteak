@@ -1,130 +1,212 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <!-- Fuentes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Iconos -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Iconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-  <!-- CSS local -->
-  <link rel="stylesheet" href="/Css/css-catalogo.css">
-  <link rel="stylesheet" th:href="@{/Css/search.css}">
-  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
-  <title>Catálogo</title>
-</head>
-<body>
-  
-  <div class="header">LSJ</div>
+    <!-- CSS local -->
+    <link rel="stylesheet" href="/Css/css-catalogo.css" />
+    <link rel="stylesheet" th:href="@{/Css/search.css}" />
+    <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}" />
+    <title>Catálogo</title>
+  </head>
+  <body>
+    <div class="header">LSJ</div>
 
-  <!-- Header -->
-  <div class="header-container">
-    <a href="/" class="logo">
-      <img class="logo" src="/img2/logo.png" alt="Logo de la tienda">
-    </a>
-    
-    <div class="search-container">
-      <form class="search-form" action="#" method="get" title="buscar">
-        <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
-        <button type="submit" class="search-button">
-          <i class="fas fa-search"></i>
-        </button>
-      </form>
+    <!-- Header -->
+    <div class="header-container">
+      <a href="/" class="logo">
+        <img class="logo" src="/img2/logo.png" alt="Logo de la tienda" />
+      </a>
+
+      <div class="search-container">
+        <form class="search-form" action="#" method="get" title="buscar">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar productos..."
+            name="q"
+          />
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+
+      <div class="icon-container">
+        <a th:href="@{/registro}" class="icon" title="Registro">
+          <i class="fas fa-user-plus"></i>
+        </a>
+        <a th:href="@{/catalogo}" class="icon" title="Catálogo">
+          <i class="fas fa-book"></i>
+        </a>
+        <a
+          th:href="@{/carrito}"
+          class="icon icon-cart"
+          title="Carrito de compras"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          <span
+            class="cart-count-badge"
+            data-cart-count
+            aria-live="polite"
+            aria-label="Productos en carrito"
+            >0</span
+          >
+        </a>
+        <a
+          th:href="@{/cuenta}"
+          class="icon account-pill"
+          data-user-account-icon
+          hidden
+          aria-label="Mi cuenta"
+        >
+          <span class="account-pill-initial" data-user-account-initial>U</span>
+        </a>
+      </div>
     </div>
 
-    
-        <div class="icon-container">
-            <a th:href="@{/registro}" class="icon" title="Registro">
-                <i class="fas fa-user-plus"></i>
-            </a>
-            <a th:href="@{/catalogo}" class="icon" title="Catálogo">
-                <i class="fas fa-book"></i>
-            </a>
-            <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
-            </a>
-            <a th:href="@{/cuenta}" class="icon icon-profile" data-user-account-icon hidden aria-label="Mi cuenta">
-                <span class="icon-profile-initial" data-user-account-initial>U</span>
-            </a>
+    <!-- Título -->
+    <div class="titulo_catalogo">CATÁLOGO DE PRODUCTOS</div>
+
+    <!-- Productos -->
+    <section class="productos">
+      <div
+        th:each="producto : ${productos}"
+        class="producto"
+        th:classappend="${producto.stock == 0} ? 'sin-stock'"
+        th:attr="data-id=${producto.idProducto},data-nombre=${producto.nombreProducto},data-precio=${producto.precioProducto},data-stock=${producto.stock},data-imagen=${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}"
+      >
+        <img
+          th:src="@{${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}}"
+          th:alt="${producto.nombreProducto}"
+        />
+        <h3><em th:text="${producto.nombreProducto}"></em></h3>
+        <p
+          class="precio"
+          th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"
+        ></p>
+        <div class="linea"></div>
+        <div
+          th:if="${producto.stock == 0}"
+          class="no-disponible"
+          style="color: red; font-weight: bold; margin: 10px 0"
+        >
+          NO DISPONIBLE
         </div>
-  </div>
+        <div
+          th:if="${producto.stock > 0}"
+          class="carrito"
+          title="Añadir al carrito"
+        >
+          <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+        <button
+          th:if="${producto.stock == 0}"
+          disabled
+          style="background-color: #ccc; cursor: not-allowed"
+        >
+          No disponible
+        </button>
+      </div>
+    </section>
 
-  <!-- Título -->
-  <div class="titulo_catalogo">CATÁLOGO DE PRODUCTOS</div>
+    <!-- Modal (fuera del section) -->
+    <div id="modal" class="modal" style="display: none">
+      <div class="modal-contenido">
+        <span class="cerrar">&times;</span>
+        <img id="modal-imagen" src="" alt="" />
+        <h3 id="modal-nombre"></h3>
+        <p>Precio unitario: <strong id="modal-precio-unitario"></strong></p>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="modal-cantidad" value="1" min="1" max="99" />
+        <p>Total: <strong id="modal-precio-total"></strong></p>
+        <div class="modal-acciones">
+          <button id="modal-agregar-carrito" type="button">
+            Agregar al carrito
+          </button>
+          <button id="modal-comprar" type="button">Comprar ahora</button>
+        </div>
+      </div>
+    </div>
 
-  <!-- Productos -->
-  <section class="productos">
     <div
-      th:each="producto : ${productos}"
-      class="producto"
-      th:classappend="${producto.stock == 0} ? 'sin-stock'"
-      th:attr="data-id=${producto.idProducto},data-nombre=${producto.nombreProducto},data-precio=${producto.precioProducto},data-stock=${producto.stock},data-imagen=${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}">
-      <img th:src="@{${mapeoImagenes[producto.nombreProducto] != null ? mapeoImagenes[producto.nombreProducto] : '/img2/newyork.jpg'}}" th:alt="${producto.nombreProducto}">
-      <h3><em th:text="${producto.nombreProducto}"></em></h3>
-      <p class="precio" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
-      <div class="linea"></div>
-      <div th:if="${producto.stock == 0}" class="no-disponible" style="color: red; font-weight: bold; margin: 10px 0;">
-        NO DISPONIBLE
-      </div>
-      <div th:if="${producto.stock > 0}" class="carrito" title="Añadir al carrito">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </div>
-      <button th:if="${producto.stock == 0}" disabled style="background-color: #ccc; cursor: not-allowed;">No disponible</button>
-    </div>
-  </section>
+      id="cart-toast"
+      class="cart-toast"
+      role="status"
+      aria-live="polite"
+    ></div>
 
-  <!-- Modal (fuera del section) -->
-  <div id="modal" class="modal" style="display: none;">
-    <div class="modal-contenido">
-      <span class="cerrar">&times;</span>
-      <img id="modal-imagen" src="" alt="" />
-      <h3 id="modal-nombre"></h3>
-      <p>Precio unitario: <strong id="modal-precio-unitario"></strong></p>
-      <label for="cantidad">Cantidad:</label>
-      <input type="number" id="modal-cantidad" value="1" min="1" max="99"/>
-      <p>Total: <strong id="modal-precio-total"></strong></p>
-      <div class="modal-acciones">
-        <button id="modal-agregar-carrito" type="button">Agregar al carrito</button>
-        <button id="modal-comprar" type="button">Comprar ahora</button>
-      </div>
-    </div>
-  </div>
+    <!-- Tu JS -->
+    <script th:src="@{/Css/js/catalogo.js}"></script>
+    <script th:src="@{/Css/js/search.js}"></script>
+    <script th:src="@{/Css/js/cart-badge.js}"></script>
+    <script th:src="@{/Css/js/session-user.js}" defer></script>
 
-  <div id="cart-toast" class="cart-toast" role="status" aria-live="polite"></div>
-
-  <!-- Tu JS -->
-   <script th:src="@{/Css/js/catalogo.js}"></script>
-   <script th:src="@{/Css/js/search.js}"></script>
-   <script th:src="@{/Css/js/cart-badge.js}"></script>
-  <script th:src="@{/Css/js/session-user.js}" defer></script>
-   
-
-   <!-- Footer -->
+    <!-- Footer -->
     <footer class="footer">
       <div class="footer-column1">
-        <img th:src="@{/Css/img/logo-removebg-preview (1).png}" class="logo2">
+        <img th:src="@{/Css/img/logo-removebg-preview (1).png}" class="logo2" />
         <h3><em>Acerca de:</em></h3>
         <ul>
-          <li><a th:href="@{/sobreNosotros#sobre-nosotros}">Sobre nosotros</a></li>
-          <li><a th:href="@{/sobreNosotros#informacion-entrega}">Información de entrega</a></li>
-          <li><a th:href="@{/sobreNosotros#politica-privacidad}">Política de privacidad</a></li>
-          <li><a th:href="@{/sobreNosotros#proveedores}">Proveedores locales</a></li>
+          <li>
+            <a th:href="@{/sobreNosotros#sobre-nosotros}">Sobre nosotros</a>
+          </li>
+          <li>
+            <a th:href="@{/sobreNosotros#informacion-entrega}"
+              >Información de entrega</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/sobreNosotros#politica-privacidad}"
+              >Política de privacidad</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/sobreNosotros#proveedores}">Proveedores locales</a>
+          </li>
         </ul>
         <div class="social-icons">
-          <a href="https://wa.me/573223738274" target="_blank" title="Chatea con nosotros en WhatsApp">
+          <a
+            href="https://wa.me/573223738274"
+            target="_blank"
+            title="Chatea con nosotros en WhatsApp"
+          >
             <i class="fab fa-whatsapp"></i>
           </a>
-          <a href="https://www.instagram.com/nortsteak_oficial" target="_blank" title="Síguenos en Instagram">
+          <a
+            href="https://www.instagram.com/nortsteak_oficial"
+            target="_blank"
+            title="Síguenos en Instagram"
+          >
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="https://web.facebook.com/profile.php?id=61578975458021" target="_blank" title="Visítanos en Facebook">
+          <a
+            href="https://web.facebook.com/profile.php?id=61578975458021"
+            target="_blank"
+            title="Visítanos en Facebook"
+          >
             <i class="fab fa-facebook"></i>
           </a>
         </div>
@@ -142,22 +224,29 @@
 
         <h3><em>Bancos aliados</em></h3>
         <div class="bancos">
-          <img th:src="@{/Css/img/FalabellaBlanco.png}" class="logo-falabella">
-          <img th:src="@{/Css/img/NequiBlanco.png}" class="logo-nequi">
-          <img th:src="@{/Css/img/BancolombiaBlanco.png}" class="logo-bancolombia">
+          <img
+            th:src="@{/Css/img/FalabellaBlanco.png}"
+            class="logo-falabella"
+          />
+          <img th:src="@{/Css/img/NequiBlanco.png}" class="logo-nequi" />
+          <img
+            th:src="@{/Css/img/BancolombiaBlanco.png}"
+            class="logo-bancolombia"
+          />
         </div>
 
-          <h3><em>Ubicación</em></h3>
-    <div class="ubicacion-mapa">
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.938590607054!2d-72.50586998941517!3d7.9014847920886275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e66456e853423bd%3A0x6bd4a033f6ad90de!2sSENA!5e0!3m2!1ses-419!2sco!4v1753975279322!5m2!1ses-419!2sco"
-      style="width: 100%; height: 100%; border: 0; border-radius: 12px;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-    </div>
+        <h3><em>Ubicación</em></h3>
+        <div class="ubicacion-mapa">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.938590607054!2d-72.50586998941517!3d7.9014847920886275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e66456e853423bd%3A0x6bd4a033f6ad90de!2sSENA!5e0!3m2!1ses-419!2sco!4v1753975279322!5m2!1ses-419!2sco"
+            style="width: 100%; height: 100%; border: 0; border-radius: 12px"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+        </div>
       </div>
     </footer>
-</body>
+  </body>
 </html>

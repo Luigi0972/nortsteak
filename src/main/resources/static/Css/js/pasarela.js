@@ -9,11 +9,14 @@ const metodoOptions = document.querySelectorAll(".metodo-option");
 const panelesMetodo = document.querySelectorAll(".panel-metodo");
 
 let carritoActual = [];
+let sesionActual = null;
 const ORDER_KEY_PREFIX = "nortsteak:pedidos:";
+const LOGIN_URL = "/login2";
 
 document.addEventListener("DOMContentLoaded", () => {
   renderizarResumen();
   configurarMetodos();
+  cargarSesion();
   formPago?.addEventListener("submit", manejarEnvio);
 });
 
@@ -102,10 +105,15 @@ function obtenerMetodoSeleccionado() {
   return document.querySelector('input[name="metodo"]:checked')?.value || "NEQUI";
 }
 
-function manejarEnvio(event) {
+async function manejarEnvio(event) {
   event.preventDefault();
 
   if (!formPago?.reportValidity()) {
+    return;
+  }
+
+  const puedeContinuar = await asegurarSesionActiva();
+  if (!puedeContinuar) {
     return;
   }
 
@@ -221,7 +229,7 @@ function toggleCargando(estaCargando) {
 
 function setEstado(mensaje, tipo) {
   if (!estadoPago) return;
-  estadoPago.textContent = mensaje || "";
+  estadoPago.innerHTML = mensaje || "";
   estadoPago.classList.remove("error", "success");
   if (tipo === "error") {
     estadoPago.classList.add("error");
@@ -290,4 +298,41 @@ async function registrarPedidoUsuario(payload, items) {
 function generarCodigoPedido() {
   const random = Math.floor(Math.random() * 9000 + 1000);
   return `NS-${random}`;
+}
+
+async function cargarSesion() {
+  try {
+    const res = await fetch("/api/auth/session", {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    if (!res.ok) {
+      sesionActual = null;
+      return;
+    }
+    const data = await res.json();
+    sesionActual = data?.loggedIn ? data : null;
+  } catch (error) {
+    sesionActual = null;
+  }
+}
+
+async function asegurarSesionActiva() {
+  if (sesionActual?.loggedIn) {
+    return true;
+  }
+  await cargarSesion();
+  if (!sesionActual?.loggedIn) {
+    informarInicioSesionRequerido();
+    return false;
+  }
+  return true;
+}
+
+function informarInicioSesionRequerido() {
+  setEstado(
+    `Debes iniciar sesión para completar tu compra. <a href="${LOGIN_URL}">Inicia sesión</a> y vuelve a intentarlo.`,
+    "error"
+  );
+  estadoPago?.scrollIntoView({ behavior: "smooth", block: "center" });
 }
