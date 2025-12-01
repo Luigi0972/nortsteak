@@ -113,19 +113,22 @@ body {
 }
 
 .account-pill {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: linear-gradient(135deg, #111, #2b2b2b);
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
+  font-family: "Roboto", Arial, sans-serif;
   display: none;
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.15);
   text-decoration: none;
   margin: 0;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .account-pill.visible {
@@ -138,6 +141,9 @@ body {
 
 .account-pill-initial {
   letter-spacing: 0.05rem;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .cart-count-badge {

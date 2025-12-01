@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/Css/css.css}">
     <link rel="stylesheet" th:href="@{/Css/carrito.css}">
+    <link rel="stylesheet" th:href="@{/Css/search.css}">
     <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
     <title>Carrito de compras</title>
 </head>
@@ -20,6 +21,16 @@
         <a th:href="@{ / }" class="logo">
             <img class="logo" th:src="@{/img2/logo.png}" alt="Logo de la tienda">
         </a>
+
+        <!-- Barra de búsqueda -->
+        <div class="search-container">
+            <form class="search-form" action="#" method="get" title="buscar">
+                <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
 
         <div class="icon-container">
             <a th:href="@{/registro}" class="icon" title="Registro">
@@ -60,6 +71,7 @@
 
     <script th:src="@{/Css/js/carrito.js}"></script>
     <script th:src="@{/Css/js/cart-badge.js}"></script>
+    <script th:src="@{/Css/js/search.js}"></script>
     <script th:src="@{/Css/js/session-user.js}" defer></script>
 </body>
 </html>
