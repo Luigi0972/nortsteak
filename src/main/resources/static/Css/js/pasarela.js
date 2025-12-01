@@ -18,7 +18,39 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarMetodos();
   cargarSesion();
   formPago?.addEventListener("submit", manejarEnvio);
+  configurarValidaciones();
 });
+
+function configurarValidaciones() {
+  // Validación para nombre completo (solo letras)
+  const nombreInput = document.getElementById("nombre");
+  if (nombreInput) {
+    nombreInput.addEventListener("input", function(e) {
+      this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+    });
+  }
+
+  // Validación para campos numéricos
+  const camposNumericos = [
+    "cedula",
+    "telefono",
+    "nequi-telefono",
+    "nequi-codigo",
+    "bancolombia-cuenta",
+    "bancolombia-aprobacion",
+    "falabella-tarjeta",
+    "falabella-autorizacion"
+  ];
+
+  camposNumericos.forEach(id => {
+    const campo = document.getElementById(id);
+    if (campo) {
+      campo.addEventListener("input", function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+    }
+  });
+}
 
 window.addEventListener("storage", (event) => {
   if (event.key === "carrito") {
@@ -109,6 +141,14 @@ async function manejarEnvio(event) {
   event.preventDefault();
 
   if (!formPago?.reportValidity()) {
+    return;
+  }
+
+  // Validar que nombre solo contenga letras
+  const nombre = formPago.nombre.value.trim();
+  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+  if (!soloLetras.test(nombre)) {
+    setEstado("❌ El nombre completo solo puede contener letras y espacios", "error");
     return;
   }
 

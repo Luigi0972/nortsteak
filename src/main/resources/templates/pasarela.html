@@ -75,15 +75,15 @@
         <div class="form-grid">
           <div class="form-field">
             <label for="nombre">Nombre completo *</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <input type="text" id="nombre" name="nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo se permiten letras y espacios">
           </div>
           <div class="form-field">
             <label for="cedula">Número de identificación *</label>
-            <input type="text" id="cedula" name="cedula" required>
+            <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" title="Solo se permiten números">
           </div>
           <div class="form-field">
             <label for="telefono">Teléfono de contacto *</label>
-            <input type="tel" id="telefono" name="telefono" required>
+            <input type="tel" id="telefono" name="telefono" required pattern="[0-9]+" title="Solo se permiten números">
           </div>
           <div class="form-field">
             <label for="correo">Correo electrónico *</label>
@@ -126,11 +126,11 @@
             <div class="panel-form">
               <div class="form-field">
                 <label for="nequi-telefono">Teléfono o alias utilizado *</label>
-                <input type="text" id="nequi-telefono">
+                <input type="text" id="nequi-telefono" pattern="[0-9]+" title="Solo se permiten números">
               </div>
               <div class="form-field">
                 <label for="nequi-codigo">Código de aprobación *</label>
-                <input type="text" id="nequi-codigo" maxlength="8">
+                <input type="text" id="nequi-codigo" maxlength="8" pattern="[0-9]+" title="Solo se permiten números">
               </div>
             </div>
           </div>
@@ -145,11 +145,11 @@
             <div class="panel-form panel-form-full">
               <div class="form-field">
                 <label for="bancolombia-cuenta">Número de cuenta origen *</label>
-                <input type="text" id="bancolombia-cuenta">
+                <input type="text" id="bancolombia-cuenta" pattern="[0-9]+" title="Solo se permiten números">
               </div>
               <div class="form-field">
                 <label for="bancolombia-aprobacion">Número de aprobación *</label>
-                <input type="text" id="bancolombia-aprobacion">
+                <input type="text" id="bancolombia-aprobacion" pattern="[0-9]+" title="Solo se permiten números">
               </div>
             </div>
           </div>
@@ -164,11 +164,11 @@
             <div class="panel-form panel-form-full">
               <div class="form-field">
                 <label for="falabella-tarjeta">Número de tarjeta *</label>
-                <input type="text" id="falabella-tarjeta" maxlength="16">
+                <input type="text" id="falabella-tarjeta" maxlength="16" pattern="[0-9]+" title="Solo se permiten números">
               </div>
               <div class="form-field">
                 <label for="falabella-autorizacion">Código de autorización *</label>
-                <input type="text" id="falabella-autorizacion" maxlength="6">
+                <input type="text" id="falabella-autorizacion" maxlength="6" pattern="[0-9]+" title="Solo se permiten números">
               </div>
             </div>
           </div>

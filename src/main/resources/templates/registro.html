@@ -58,11 +58,22 @@
 
     <!-- Formulario con validación HTML -->
     <form id="registroForm">
-      <input type="text" id="nombre" placeholder="Nombre" required />
-      <input type="text" id="apellido" placeholder="Apellido" required />
-      <input type="email" id="email" placeholder="Correo electrónico" required />
-      <input type="password" id="password" placeholder="Contraseña" required />
-      <input type="text" id="direccion" placeholder="Dirección (opcional)" />
+      <div class="input-wrapper">
+        <input type="text" id="nombre" placeholder="Nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo se permiten letras y espacios" />
+      </div>
+      <div class="input-wrapper">
+        <input type="text" id="apellido" placeholder="Apellido" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo se permiten letras y espacios" />
+      </div>
+      <div class="input-wrapper">
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+      </div>
+      <div class="input-wrapper password-wrapper">
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <i class="fas fa-eye password-toggle" id="togglePassword" aria-label="Mostrar contraseña"></i>
+      </div>
+      <div class="input-wrapper">
+        <input type="text" id="direccion" placeholder="Dirección (opcional)" />
+      </div>
 
       <div class="checkbox">
         <input type="checkbox" id="terminos" required>
@@ -94,18 +105,66 @@
 
 </body>
 <script>
+// Validación para solo permitir letras en nombre y apellido
+document.getElementById("nombre").addEventListener("input", function(e) {
+  this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+});
+
+document.getElementById("apellido").addEventListener("input", function(e) {
+  this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+});
+
+// Funcionalidad para mostrar/ocultar contraseña
+document.getElementById("togglePassword").addEventListener("click", function() {
+  const passwordInput = document.getElementById("password");
+  const icon = this;
+  
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+    icon.setAttribute("aria-label", "Ocultar contraseña");
+  } else {
+    passwordInput.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+    icon.setAttribute("aria-label", "Mostrar contraseña");
+  }
+});
+
 document.getElementById("registroForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
+  const nombre = document.getElementById("nombre").value.trim();
+  const apellido = document.getElementById("apellido").value.trim();
+  const mensaje = document.getElementById("mensaje");
+
+  // Validar que nombre y apellido solo contengan letras
+  const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+  
+  if (!soloLetras.test(nombre)) {
+    mensaje.textContent = "❌ El nombre solo puede contener letras";
+    mensaje.style.display = "block";
+    mensaje.style.backgroundColor = "#ffebee";
+    mensaje.style.color = "#c62828";
+    return;
+  }
+
+  if (!soloLetras.test(apellido)) {
+    mensaje.textContent = "❌ El apellido solo puede contener letras";
+    mensaje.style.display = "block";
+    mensaje.style.backgroundColor = "#ffebee";
+    mensaje.style.color = "#c62828";
+    return;
+  }
+
   const payload = {
-    nombre: document.getElementById("nombre").value.trim(),
-    apellido: document.getElementById("apellido").value.trim(),
+    nombre: nombre,
+    apellido: apellido,
     correo: document.getElementById("email").value.trim(),
     contrasena: document.getElementById("password").value.trim(),
     direccion: document.getElementById("direccion").value.trim()
   };
-
-  const mensaje = document.getElementById("mensaje");
 
   try {
     const res = await fetch("/api/auth/register", {
