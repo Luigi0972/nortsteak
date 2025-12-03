@@ -148,9 +148,16 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
       mensaje.style.backgroundColor = "#e8f5e8";
       mensaje.style.color = "#2e7d32";
       
-      // Redirige después de 1 segundo
+      // Redirección basada en si es admin o no
+      const adminEmails = ["luigi0972@gmail.com", "sebasmondragon@gmail.com"];
+      const esAdmin = adminEmails.includes(correo);
+
       setTimeout(() => {
-        window.location.href = "/";
+        if (esAdmin) {
+          window.location.href = "/admin/panel";
+        } else {
+          window.location.href = "/";
+        }
       }, 1000);
     } else {
       mensaje.textContent = "❌ " + (data.message || "Error al iniciar sesión");

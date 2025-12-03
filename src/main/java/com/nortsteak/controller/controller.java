@@ -14,11 +14,6 @@ public class controller {
         String userEmail = (String) session.getAttribute("userEmail");
 		boolean isAdmin = "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail);
         
-        // Si es un usuario administrador, redirigir directamente al panel de admin
-        if (isAdmin) {
-            return "redirect:/admin/panel";
-        }
-        
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("userEmail", userEmail);
         // busca index.html en resources/templates
