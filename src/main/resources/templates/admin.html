@@ -67,8 +67,8 @@
                         </thead>
                         <tbody>
                             <tr th:each="producto : ${productos}">
-                                <td th:text="${producto.idProducto}"></td>
-                                <td th:text="${producto.nombreProducto}"></td>
+                                <td data-label="ID" th:text="${producto.idProducto}"></td>
+                                <td data-label="Producto" th:text="${producto.nombreProducto}"></td>
                                 <td data-label="Precio">
                                     <form class="product-form" th:action="@{/admin/actualizarProducto}" method="post">
                                         <input type="hidden" name="id" th:value="${producto.idProducto}">
