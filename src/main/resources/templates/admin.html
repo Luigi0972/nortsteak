@@ -62,6 +62,8 @@
                             <p class="admin-card-subtitle">Actualiza el precio y el stock de cada producto.</p>
                         </div>
                     </div>
+                    
+                    <div id="mensajeActualizacionProducto" class="admin-mensaje" style="display: none;"></div>
 
                     <div class="table-wrapper">
                         <table class="admin-table">
@@ -106,7 +108,7 @@
                                             </div>
                                     </td>
                                     <td class="text-right" data-label="Acciones">
-                                            <button type="submit" class="update-btn">
+                                            <button type="submit" class="update-btn" onclick="mostrarMensajeActualizacionProducto(this)">
                                                 📝 Actualizar
                                             </button>
                                         </form>
@@ -141,6 +143,8 @@
                             <p class="admin-card-subtitle">Información completa de cada pedido realizado.</p>
                         </div>
                     </div>
+                    
+                    <div id="mensajeActualizacion" class="admin-mensaje" style="display: none;"></div>
 
                     <div class="table-wrapper">
                         <table class="admin-table">
@@ -198,7 +202,7 @@
                                                     <option value="ENTREGADO" th:selected="${pedido.estado == 'ENTREGADO'}">Entregado</option>
                                                     <option value="COMPLETADO" th:selected="${pedido.estado == 'COMPLETADO'}">Completado</option>
                                                 </select>
-                                                <button type="submit" class="update-btn" style="margin-top: 6px;">
+                                                <button type="submit" class="update-btn" style="margin-top: 6px;" onclick="mostrarMensajeActualizacion(this)">
                                                     📝 Actualizar
                                                 </button>
                                             </div>
@@ -268,5 +272,106 @@
             </div>
         </main>
     </div>
+    
+    <script>
+        // Función para mostrar mensaje al hacer clic en el botón de actualizar pedido
+        function mostrarMensajeActualizacion(button) {
+            const mensajeDiv = document.getElementById('mensajeActualizacion');
+            const form = button.closest('form');
+            const select = form.querySelector('select[name="nuevoEstado"]');
+            const nuevoEstado = select.options[select.selectedIndex].text;
+            
+            if (mensajeDiv) {
+                mensajeDiv.textContent = '⏳ Actualizando estado del pedido a "' + nuevoEstado + '"...';
+                mensajeDiv.className = 'admin-mensaje admin-mensaje--info';
+                mensajeDiv.style.display = 'block';
+            }
+        }
+        
+        // Función para mostrar mensaje al hacer clic en el botón de actualizar producto
+        function mostrarMensajeActualizacionProducto(button) {
+            const mensajeDiv = document.getElementById('mensajeActualizacionProducto');
+            const form = button.closest('form');
+            const nombreProducto = form.closest('tr').querySelector('td[data-label="Producto"]').textContent.trim();
+            const nuevoStock = form.querySelector('input[name="nuevoStock"]').value;
+            const nuevoPrecio = form.querySelector('input[name="nuevoPrecio"]').value;
+            
+            if (mensajeDiv) {
+                let mensaje = '⏳ Actualizando producto "' + nombreProducto + '"...';
+                if (nuevoStock && nuevoPrecio) {
+                    mensaje += ' (Stock: ' + nuevoStock + ', Precio: $' + parseFloat(nuevoPrecio).toLocaleString('es-CO') + ')';
+                } else if (nuevoStock) {
+                    mensaje += ' (Stock: ' + nuevoStock + ')';
+                } else if (nuevoPrecio) {
+                    mensaje += ' (Precio: $' + parseFloat(nuevoPrecio).toLocaleString('es-CO') + ')';
+                }
+                mensajeDiv.textContent = mensaje;
+                mensajeDiv.className = 'admin-mensaje admin-mensaje--info';
+                mensajeDiv.style.display = 'block';
+            }
+        }
+        
+        // Mostrar mensaje de confirmación cuando se actualiza el estado del pedido
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mensajeDivPedido = document.getElementById('mensajeActualizacion');
+            const mensajeDivProducto = document.getElementById('mensajeActualizacionProducto');
+            const seccion = urlParams.get('seccion') || 'productos';
+            
+            // Mensajes para pedidos
+            if (seccion === 'pedidos' && mensajeDivPedido) {
+                if (urlParams.get('actualizado') === 'true') {
+                    mensajeDivPedido.textContent = '✅ Estado del pedido actualizado correctamente. El cambio se reflejará en el perfil del cliente.';
+                    mensajeDivPedido.className = 'admin-mensaje admin-mensaje--exito';
+                    mensajeDivPedido.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        mensajeDivPedido.style.display = 'none';
+                    }, 5000);
+                    
+                    window.history.replaceState({}, document.title, window.location.pathname + '?seccion=pedidos');
+                }
+                
+                if (urlParams.get('error') === 'true') {
+                    mensajeDivPedido.textContent = '❌ Error al actualizar el estado del pedido. Por favor, intenta nuevamente.';
+                    mensajeDivPedido.className = 'admin-mensaje admin-mensaje--error';
+                    mensajeDivPedido.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        mensajeDivPedido.style.display = 'none';
+                    }, 5000);
+                    
+                    window.history.replaceState({}, document.title, window.location.pathname + '?seccion=pedidos');
+                }
+            }
+            
+            // Mensajes para productos
+            if (seccion === 'productos' && mensajeDivProducto) {
+                if (urlParams.get('actualizado') === 'true') {
+                    mensajeDivProducto.textContent = '✅ Producto actualizado correctamente.';
+                    mensajeDivProducto.className = 'admin-mensaje admin-mensaje--exito';
+                    mensajeDivProducto.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        mensajeDivProducto.style.display = 'none';
+                    }, 5000);
+                    
+                    window.history.replaceState({}, document.title, window.location.pathname + '?seccion=productos');
+                }
+                
+                if (urlParams.get('error') === 'true') {
+                    mensajeDivProducto.textContent = '❌ Error al actualizar el producto. Por favor, intenta nuevamente.';
+                    mensajeDivProducto.className = 'admin-mensaje admin-mensaje--error';
+                    mensajeDivProducto.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        mensajeDivProducto.style.display = 'none';
+                    }, 5000);
+                    
+                    window.history.replaceState({}, document.title, window.location.pathname + '?seccion=productos');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

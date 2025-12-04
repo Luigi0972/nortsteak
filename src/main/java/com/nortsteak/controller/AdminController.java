@@ -60,8 +60,9 @@ public class AdminController {
         if (producto != null) {
             producto.setStock(nuevoStock);
             productoRepository.save(producto);
+            return "redirect:/admin/panel?seccion=productos&actualizado=true";
         }
-        return "redirect:/admin/panel?seccion=productos";
+        return "redirect:/admin/panel?seccion=productos&error=true";
     }
 
     @PostMapping("/actualizarPrecio")
@@ -76,8 +77,9 @@ public class AdminController {
         if (producto != null) {
             producto.setPrecioProducto(nuevoPrecio);
             productoRepository.save(producto);
+            return "redirect:/admin/panel?seccion=productos&actualizado=true";
         }
-        return "redirect:/admin/panel?seccion=productos";
+        return "redirect:/admin/panel?seccion=productos&error=true";
     }
 
     @PostMapping("/actualizarProducto")
@@ -94,8 +96,9 @@ public class AdminController {
             producto.setStock(nuevoStock);
             producto.setPrecioProducto(nuevoPrecio);
             productoRepository.save(producto);
+            return "redirect:/admin/panel?seccion=productos&actualizado=true";
         }
-        return "redirect:/admin/panel?seccion=productos";
+        return "redirect:/admin/panel?seccion=productos&error=true";
     }
 
     @PostMapping("/actualizarEstadoPedido")
@@ -111,7 +114,8 @@ public class AdminController {
         if (pedido != null) {
             pedido.setEstado(nuevoEstado);
             pedidoRepository.save(pedido);
+            return "redirect:/admin/panel?seccion=pedidos&actualizado=true";
         }
-        return "redirect:/admin/panel?seccion=pedidos";
+        return "redirect:/admin/panel?seccion=pedidos&error=true";
     }
 }
