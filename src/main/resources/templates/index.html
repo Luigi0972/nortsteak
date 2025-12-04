@@ -81,6 +81,7 @@
     <script th:src="@{/Css/js/search.js}"></script>
     <script th:src="@{/Css/js/cart-badge.js}"></script>
     <script th:src="@{/Css/js/session-user.js}" defer></script>
+    <script th:src="@{/Css/js/destacados.js}" defer></script>
 
     <div class="promo">
         <marquee>Todos los martes 15 % de descuento en todos nuestros productos seleccionados</marquee>
@@ -90,23 +91,44 @@
     <br><br>
 
 	<div class="contenedor-cortes">
-        <div class="tarjeta-corte">
+        <div class="tarjeta-corte" 
+             th:if="${productosDestacados != null && productosDestacados['Corte New York'] != null}"
+             th:attr="data-id=${productosDestacados['Corte New York'].idProducto},
+                      data-nombre=${productosDestacados['Corte New York'].nombreProducto},
+                      data-precio=${productosDestacados['Corte New York'].precioProducto},
+                      data-stock=${productosDestacados['Corte New York'].stock},
+                      data-imagen='/img2/newyork.jpg'">
           <img th:src="@{/Css/img/destacado1.webp}" alt="Corte New York">
-          <h3><em>Corte New York</em></h3>
+          <h3><em th:text="${productosDestacados['Corte New York'].nombreProducto}">Corte New York</em></h3>
+          <p class="precio-destacado" th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte New York'].precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
           <hr>
-          <i class="fas fa-shopping-cart"></i>
+          <i class="fas fa-shopping-cart destacado-carrito" title="Añadir al carrito"></i>
         </div>
-        <div class="tarjeta-corte">
+        <div class="tarjeta-corte"
+             th:if="${productosDestacados != null && productosDestacados['Corte Tomahawk'] != null}"
+             th:attr="data-id=${productosDestacados['Corte Tomahawk'].idProducto},
+                      data-nombre=${productosDestacados['Corte Tomahawk'].nombreProducto},
+                      data-precio=${productosDestacados['Corte Tomahawk'].precioProducto},
+                      data-stock=${productosDestacados['Corte Tomahawk'].stock},
+                      data-imagen='/img2/tomahawk.jpg'">
           <img th:src="@{/Css/img/destacada2.jpg}" alt="Corte Tomahawk">
-          <h3><em>Corte Tomahawk</em></h3>
+          <h3><em th:text="${productosDestacados['Corte Tomahawk'].nombreProducto}">Corte Tomahawk</em></h3>
+          <p class="precio-destacado" th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte Tomahawk'].precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
           <hr>
-          <i class="fas fa-shopping-cart"></i>
+          <i class="fas fa-shopping-cart destacado-carrito" title="Añadir al carrito"></i>
         </div>
-        <div class="tarjeta-corte">
+        <div class="tarjeta-corte"
+             th:if="${productosDestacados != null && productosDestacados['Corte Filete Mignon'] != null}"
+             th:attr="data-id=${productosDestacados['Corte Filete Mignon'].idProducto},
+                      data-nombre=${productosDestacados['Corte Filete Mignon'].nombreProducto},
+                      data-precio=${productosDestacados['Corte Filete Mignon'].precioProducto},
+                      data-stock=${productosDestacados['Corte Filete Mignon'].stock},
+                      data-imagen='/img2/milegnon.jpg'">
           <img th:src="@{/Css/img/destacada3.jpg}" alt="Corte Filete Mignon">
-          <h3><em>Corte Filete Mignon</em></h3>
+          <h3><em th:text="${productosDestacados['Corte Filete Mignon'].nombreProducto}">Corte Filete Mignon</em></h3>
+          <p class="precio-destacado" th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte Filete Mignon'].precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
           <hr>
-          <i class="fas fa-shopping-cart"></i>
+          <i class="fas fa-shopping-cart destacado-carrito" title="Añadir al carrito"></i>
         </div>
     </div>
   <br>
