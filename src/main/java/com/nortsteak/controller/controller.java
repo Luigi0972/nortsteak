@@ -12,11 +12,24 @@ public class controller {
     @GetMapping("/")
     public String index(Model model, HttpSession session) {
         String userEmail = (String) session.getAttribute("userEmail");
-		boolean isAdmin = "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail);
-        
+        boolean isAdmin = "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail);
+
         model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("userEmail", userEmail);
         // busca index.html en resources/templates
         return "index";
+    }
+
+    @GetMapping("/index2")
+    public String adminLanding(Model model, HttpSession session) {
+        String userEmail = (String) session.getAttribute("userEmail");
+        boolean isAdmin = "luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail);
+
+        if (!isAdmin) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("userEmail", userEmail);
+        return "index2";
     }
 }

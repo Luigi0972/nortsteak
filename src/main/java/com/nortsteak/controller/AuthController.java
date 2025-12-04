@@ -103,15 +103,21 @@ public class AuthController {
             session.setAttribute("userNombre", user.getNombre());
             session.setAttribute("userId", user.getId_cliente());
 
+            // Construir mapa de usuario evitando NPE por campos nulos
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("nombre", user.getNombre());
+            userInfo.put("apellido", user.getApellido());
+            userInfo.put("correo", user.getCorreoElectronico());
+            if (user.getTelefono() != null) {
+                userInfo.put("telefono", user.getTelefono());
+            }
+            if (user.getDireccion() != null) {
+                userInfo.put("direccion", user.getDireccion());
+            }
+
             response.put("status", "success");
             response.put("message", "Inicio de sesión exitoso");
-            response.put("user", Map.of(
-                    "nombre", user.getNombre(),
-                    "apellido", user.getApellido(),
-                    "correo", user.getCorreoElectronico(),
-                    "telefono", user.getTelefono(),
-                    "direccion", user.getDireccion()
-            ));
+            response.put("user", userInfo);
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {

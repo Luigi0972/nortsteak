@@ -181,13 +181,14 @@ body.admin-body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 10px;
+  padding: 6px 58px;
   border-radius: 999px;
   background-color: #e32626;
   color: #ffffff;
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  text-align: center;
 }
 
 /* CARD */
@@ -372,7 +373,12 @@ body.admin-body {
 
   .admin-topbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
+  }
+
+  .admin-title-bar {
+    align-items: center;
   }
 
   .admin-header {
@@ -481,10 +487,27 @@ body.admin-body {
 
   .admin-sidebar {
     padding-inline: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .admin-brand {
+    justify-content: center;
+    width: 100%;
   }
 
   .admin-brand-text {
-    display: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+  .admin-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
   }
 
   .admin-nav-item span:last-child {
@@ -500,16 +523,35 @@ body.admin-body {
     border-radius: 14px;
   }
 
-  /* Mejorar lectura dentro de cada tarjeta de producto */
+  /* Tarjetas de producto en diseño pequeño */
+  .admin-table tr {
+    margin-bottom: 14px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
   .admin-table td {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 4px;
   }
 
   .admin-table td::before {
     margin-right: 0;
     margin-bottom: 2px;
+    width: 100%;
+  }
+
+  /* Cabecera roja por producto (ID) */
+  .admin-table tr td:first-child {
+    background: #e32626;
+    color: #ffffff;
+  }
+
+  .admin-table tr td:first-child::before {
+    color: #ffe3e3;
   }
 
   .price-input,
