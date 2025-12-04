@@ -464,9 +464,18 @@ body.admin-body {
 
   .update-btn {
     width: 90%;
+    max-width: 280px;
     justify-content: center;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 13px;
+    margin: 6px auto 0;
+  }
+  
+  /* Asegurar que el botón en pedidos también tenga buen tamaño */
+  .admin-table td[data-label="Acciones"] .update-btn {
+    width: 90%;
+    max-width: 280px;
+    margin: 6px auto 0;
   }
 
   .admin-topbar {
@@ -568,12 +577,19 @@ body.admin-body {
   }
 
   .update-btn {
-    width: 65%;
-    max-width: 220px;
+    width: 90%;
+    max-width: 280px;
     margin: 6px auto 0;
     justify-content: center;
-    padding: 6px 10px;
-    font-size: 12px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  
+  /* Asegurar que el botón en pedidos también tenga buen tamaño */
+  .admin-table td[data-label="Acciones"] .update-btn {
+    width: 90%;
+    max-width: 280px;
+    margin: 6px auto 0;
   }
 }
 
