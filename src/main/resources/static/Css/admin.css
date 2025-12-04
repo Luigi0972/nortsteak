@@ -58,8 +58,13 @@ body.admin-body {
   color: #495057;
   text-decoration: none;
   font-size: 14px;
-  cursor: default;
+  cursor: pointer;
   transition: background 0.25s ease, color 0.25s ease, transform 0.1s ease;
+}
+
+.admin-nav-item:hover {
+  background-color: rgba(227, 38, 38, 0.1);
+  color: #e32626;
 }
 
 .admin-nav-item span:first-child {
@@ -73,8 +78,9 @@ body.admin-body {
   transform: translateX(1px);
 }
 
-.admin-nav-item--disabled {
-  opacity: 0.5;
+.admin-nav-item--active:hover {
+  background-color: #c91e1e;
+  color: #fff;
 }
 
 .admin-sidebar-footer {

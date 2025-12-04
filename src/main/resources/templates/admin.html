@@ -17,102 +17,256 @@
                 <span class="admin-brand-text">NortSteak Admin</span>
             </div>
             <nav class="admin-nav">
-                <a class="admin-nav-item admin-nav-item--active">
+                <a th:href="@{/admin/panel(seccion='productos')}" 
+                   class="admin-nav-item" 
+                   th:classappend="${seccion == 'productos'} ? 'admin-nav-item--active' : ''">
                     <span>📦</span>
                     <span>Productos</span>
                 </a>
-                <a class="admin-nav-item admin-nav-item--disabled">
+                <a th:href="@{/admin/panel(seccion='pedidos')}" 
+                   class="admin-nav-item" 
+                   th:classappend="${seccion == 'pedidos'} ? 'admin-nav-item--active' : ''">
                     <span>🧾</span>
                     <span>Pedidos</span>
                 </a>
-                <a class="admin-nav-item admin-nav-item--disabled">
+                <a th:href="@{/admin/panel(seccion='clientes')}" 
+                   class="admin-nav-item" 
+                   th:classappend="${seccion == 'clientes'} ? 'admin-nav-item--active' : ''">
                     <span>👥</span>
-                    <span>Usuarios</span>
+                    <span>Clientes</span>
                 </a>
             </nav>
         </aside>
 
         <main class="admin-main">
-            <header class="admin-topbar">
-                <div>
-                    <div class="admin-title-bar">
-                        <span class="admin-title-pill">ADMIN</span>
-                        <h1 class="admin-header">INVENTARIO DE PRODUCTOS</h1>
-                    </div>
-                    <p class="admin-subtitle">Gestiona precios y stock de tus productos en tiempo real.</p>
-                </div>
-                <div class="admin-top-actions">
-                    <span class="admin-badge" th:text="'Productos: ' + ${#lists.size(productos)}">Productos: 0</span>
-                    <a href="/" class="btn-secondary">Ver sitio</a>
-                </div>
-            </header>
-
-            <section class="admin-card">
-                <div class="admin-card-header">
+            <!-- SECCIÓN PRODUCTOS -->
+            <div th:if="${seccion == 'productos' or seccion == null}">
+                <header class="admin-topbar">
                     <div>
-                        <h2 class="admin-card-title">Listado de productos</h2>
-                        <p class="admin-card-subtitle">Actualiza el precio y el stock de cada producto.</p>
+                        <div class="admin-title-bar">
+                            <span class="admin-title-pill">ADMIN</span>
+                            <h1 class="admin-header">INVENTARIO DE PRODUCTOS</h1>
+                        </div>
+                        <p class="admin-subtitle">Gestiona precios y stock de tus productos en tiempo real.</p>
                     </div>
-                </div>
+                    <div class="admin-top-actions">
+                        <span class="admin-badge" th:text="'Productos: ' + ${#lists.size(productos)}">Productos: 0</span>
+                        <a href="/" class="btn-secondary">Ver sitio</a>
+                    </div>
+                </header>
 
-                <div class="table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th class="text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="producto : ${productos}">
-                                <td data-label="ID" th:text="${producto.idProducto}"></td>
-                                <td data-label="Producto" th:text="${producto.nombreProducto}"></td>
-                                <td data-label="Precio">
-                                    <form class="product-form" th:action="@{/admin/actualizarProducto}" method="post">
-                                        <input type="hidden" name="id" th:value="${producto.idProducto}">
-                                        <div class="field-group">
-                                            <label class="field-label">Precio actual</label>
-                                            <span class="price-cell" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></span>
-                                            <input type="number"
-                                                   class="price-input"
-                                                   name="nuevoPrecio"
-                                                   min="0"
-                                                   step="0.01"
-                                                   th:value="${producto.precioProducto}"
-                                                   placeholder="Nuevo precio">
+                <section class="admin-card">
+                    <div class="admin-card-header">
+                        <div>
+                            <h2 class="admin-card-title">Listado de productos</h2>
+                            <p class="admin-card-subtitle">Actualiza el precio y el stock de cada producto.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th class="text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="producto : ${productos}">
+                                    <td data-label="ID" th:text="${producto.idProducto}"></td>
+                                    <td data-label="Producto" th:text="${producto.nombreProducto}"></td>
+                                    <td data-label="Precio">
+                                        <form class="product-form" th:action="@{/admin/actualizarProducto}" method="post">
+                                            <input type="hidden" name="id" th:value="${producto.idProducto}">
+                                            <div class="field-group">
+                                                <label class="field-label">Precio actual</label>
+                                                <span class="price-cell" th:text="'$' + ${#numbers.formatDecimal(producto.precioProducto, 0, 'COMMA', 0, 'POINT')}"></span>
+                                                <input type="number"
+                                                       class="price-input"
+                                                       name="nuevoPrecio"
+                                                       min="0"
+                                                       step="0.01"
+                                                       th:value="${producto.precioProducto}"
+                                                       placeholder="Nuevo precio">
+                                            </div>
+                                    </td>
+                                    <td data-label="Stock">
+                                            <div class="field-group">
+                                                <label class="field-label">Stock actual</label>
+                                                <span class="stock-cell" th:text="${producto.stock}"></span>
+                                                <input type="number"
+                                                       class="stock-input"
+                                                       name="nuevoStock"
+                                                       min="0"
+                                                       th:value="${producto.stock}"
+                                                       placeholder="Nuevo stock">
+                                            </div>
+                                    </td>
+                                    <td class="text-right" data-label="Acciones">
+                                            <button type="submit" class="update-btn">
+                                                📝 Actualizar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECCIÓN PEDIDOS -->
+            <div th:if="${seccion == 'pedidos'}">
+                <header class="admin-topbar">
+                    <div>
+                        <div class="admin-title-bar">
+                            <span class="admin-title-pill">ADMIN</span>
+                            <h1 class="admin-header">GESTIÓN DE PEDIDOS</h1>
+                        </div>
+                        <p class="admin-subtitle">Visualiza todos los pedidos realizados por los clientes.</p>
+                    </div>
+                    <div class="admin-top-actions">
+                        <span class="admin-badge" th:text="'Pedidos: ' + ${#lists.size(pedidos)}">Pedidos: 0</span>
+                        <a href="/" class="btn-secondary">Ver sitio</a>
+                    </div>
+                </header>
+
+                <section class="admin-card">
+                    <div class="admin-card-header">
+                        <div>
+                            <h2 class="admin-card-title">Listado de pedidos</h2>
+                            <p class="admin-card-subtitle">Información completa de cada pedido realizado.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Dirección</th>
+                                    <th>Productos</th>
+                                    <th>Método de Pago</th>
+                                    <th>Total</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th class="text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(pedidos)}">
+                                    <td colspan="9" style="text-align: center; padding: 40px;">
+                                        <p>No hay pedidos registrados aún.</p>
+                                    </td>
+                                </tr>
+                                <tr th:each="pedido : ${pedidos}">
+                                    <td data-label="ID Pedido" th:text="${pedido.idPedido}"></td>
+                                    <td data-label="Cliente">
+                                        <strong th:text="${pedido.nombreCliente}"></strong><br>
+                                        <small th:text="${pedido.correo}"></small>
+                                    </td>
+                                    <td data-label="Dirección" th:text="${pedido.direccion}"></td>
+                                    <td data-label="Productos">
+                                        <div th:each="item : ${pedido.items}">
+                                            <span th:text="${item.cantidad} + 'x ' + ${item.producto.nombreProducto}"></span><br>
                                         </div>
-                                </td>
-                                <td data-label="Stock">
-                                        <div class="field-group">
-                                            <label class="field-label">Stock actual</label>
-                                            <span class="stock-cell" th:text="${producto.stock}"></span>
-                                            <input type="number"
-                                                   class="stock-input"
-                                                   name="nuevoStock"
-                                                   min="0"
-                                                   th:value="${producto.stock}"
-                                                   placeholder="Nuevo stock">
-                                        </div>
-                                </td>
-                                <td class="text-right" data-label="Acciones">
-                                        <button type="submit" class="update-btn">
-                                            📝 Actualizar
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                                    </td>
+                                    <td data-label="Método de Pago">
+                                        <span th:text="${pedido.metodoPago}"></span><br>
+                                        <small th:text="${pedido.referenciaPago}"></small>
+                                    </td>
+                                    <td data-label="Total" style="color: #e32626; font-weight: bold;">
+                                        $<span th:text="${#numbers.formatDecimal(pedido.total, 0, 'COMMA', 0, 'POINT')}"></span>
+                                    </td>
+                                    <td data-label="Fecha" th:text="${pedido.fechaPedido != null ? #temporals.format(pedido.fechaPedido, 'dd/MM/yyyy HH:mm') : 'N/A'}"></td>
+                                    <td data-label="Estado">
+                                        <span class="admin-badge" th:text="${pedido.estado}"></span>
+                                    </td>
+                                    <td class="text-right" data-label="Acciones">
+                                        <form class="product-form" th:action="@{/admin/actualizarEstadoPedido}" method="post">
+                                            <input type="hidden" name="id" th:value="${pedido.idPedido}">
+                                            <div class="field-group">
+                                                <select name="nuevoEstado" class="stock-input" style="max-width: 180px; padding: 6px 8px;">
+                                                    <option value="PENDIENTE" th:selected="${pedido.estado == 'PENDIENTE'}">Pendiente</option>
+                                                    <option value="CONFIRMADO" th:selected="${pedido.estado == 'CONFIRMADO'}">Confirmado</option>
+                                                    <option value="PREPARACION" th:selected="${pedido.estado == 'PREPARACION'}">Preparación</option>
+                                                    <option value="EN_CAMINO" th:selected="${pedido.estado == 'EN_CAMINO'}">En camino</option>
+                                                    <option value="ENTREGADO" th:selected="${pedido.estado == 'ENTREGADO'}">Entregado</option>
+                                                    <option value="COMPLETADO" th:selected="${pedido.estado == 'COMPLETADO'}">Completado</option>
+                                                </select>
+                                                <button type="submit" class="update-btn" style="margin-top: 6px;">
+                                                    📝 Actualizar
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECCIÓN CLIENTES -->
+            <div th:if="${seccion == 'clientes'}">
+                <header class="admin-topbar">
+                    <div>
+                        <div class="admin-title-bar">
+                            <span class="admin-title-pill">ADMIN</span>
+                            <h1 class="admin-header">GESTIÓN DE CLIENTES</h1>
+                        </div>
+                        <p class="admin-subtitle">Administra la información de todos los clientes registrados.</p>
+                    </div>
+                    <div class="admin-top-actions">
+                        <span class="admin-badge" th:text="'Clientes: ' + ${#lists.size(clientes)}">Clientes: 0</span>
+                        <a href="/" class="btn-secondary">Ver sitio</a>
+                    </div>
+                </header>
+
+                <section class="admin-card">
+                    <div class="admin-card-header">
+                        <div>
+                            <h2 class="admin-card-title">Listado de clientes</h2>
+                            <p class="admin-card-subtitle">Información completa de cada cliente.</p>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Correo</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(clientes)}">
+                                    <td colspan="6" style="text-align: center; padding: 40px;">
+                                        <p>No hay clientes registrados aún.</p>
+                                    </td>
+                                </tr>
+                                <tr th:each="cliente : ${clientes}">
+                                    <td data-label="ID" th:text="${cliente.id_cliente}"></td>
+                                    <td data-label="Nombre" th:text="${cliente.nombre}"></td>
+                                    <td data-label="Apellido" th:text="${cliente.apellido}"></td>
+                                    <td data-label="Correo" th:text="${cliente.correoElectronico}"></td>
+                                    <td data-label="Dirección" th:text="${cliente.direccion}"></td>
+                                    <td data-label="Teléfono" th:text="${cliente.telefono}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
         </main>
     </div>
 </body>
 </html>
-
-
-
-

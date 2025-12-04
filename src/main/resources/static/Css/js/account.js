@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   currentProfile = await obtenerPerfilServidor();
   poblarFormulario(currentProfile || currentSession);
-  ordersData = obtenerPedidos(currentSession);
+  ordersData = await obtenerPedidos();
   renderizarPedidos();
 
   form?.addEventListener("submit", manejarEnvioFormulario);
   logoutBtn?.addEventListener("click", cerrarSesion);
-  refreshBtn?.addEventListener("click", () => {
-  ordersData = obtenerPedidos(currentSession, true);
+  refreshBtn?.addEventListener("click", async () => {
+    ordersData = await obtenerPedidos();
     renderizarPedidos();
   });
 });
@@ -156,19 +156,20 @@ async function cerrarSesion() {
   }
 }
 
-function obtenerPedidos(session) {
-  const email = session?.userEmail || session?.userCorreo;
-  if (!email) return [];
-  const storageKey = `${ORDER_KEY_PREFIX}${email}`;
+async function obtenerPedidos() {
   try {
-    const raw = localStorage.getItem(storageKey);
-    if (!raw) return [];
-    const lista = JSON.parse(raw);
-    if (Array.isArray(lista)) {
-      return lista;
+    const res = await fetch("/api/auth/orders", {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" },
+    });
+    if (!res.ok) {
+      console.warn("No fue posible obtener los pedidos del servidor");
+      return [];
     }
-    return [];
-  } catch {
+    const pedidos = await res.json();
+    return Array.isArray(pedidos) ? pedidos : [];
+  } catch (error) {
+    console.warn("Error al obtener pedidos del servidor", error);
     return [];
   }
 }
@@ -223,15 +224,22 @@ function renderizarPedidos() {
 }
 
 function formatearEstado(estado) {
-  switch (estado) {
+  if (!estado) return "Confirmado";
+  const estadoUpper = estado.toUpperCase();
+  switch (estadoUpper) {
     case "COMPLETADO":
+    case "ENTREGADO":
       return "Entregado";
     case "EN_CAMINO":
       return "En camino";
     case "PREPARACION":
       return "Preparando";
-    default:
+    case "PENDIENTE":
+      return "Pendiente";
+    case "CONFIRMADO":
       return "Confirmado";
+    default:
+      return estado;
   }
 }
 

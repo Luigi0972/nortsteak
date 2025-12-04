@@ -2,8 +2,8 @@ package com.nortsteak.controller;
 
 import com.nortsteak.dto.UpdateProfileRequest;
 import com.nortsteak.dto.UserProfileDTO;
-import com.nortsteak.models.User;
-import com.nortsteak.repository.UserRepository;
+import com.nortsteak.models.*;
+import com.nortsteak.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -12,9 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,6 +24,9 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     // 🔹 REGISTRO DE USUARIO
     @PostMapping("/register")
@@ -203,6 +205,67 @@ public class AuthController {
         session.setAttribute("userEmail", user.getCorreoElectronico());
 
         return ResponseEntity.ok(UserProfileDTO.fromUser(user));
+    }
+
+    // 🔹 OBTENER PEDIDOS DEL CLIENTE
+    @GetMapping("/orders")
+    public ResponseEntity<?> getOrders(HttpSession session) {
+        String userEmail = (String) session.getAttribute("userEmail");
+        if (userEmail == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("status", "error", "message", "No hay una sesión activa"));
+        }
+
+        List<Pedido> pedidos = pedidoRepository.findByCorreoOrderByFechaPedidoDesc(userEmail);
+        List<Map<String, Object>> pedidosDTO = pedidos.stream().map(pedido -> {
+            Map<String, Object> pedidoDTO = new HashMap<>();
+            pedidoDTO.put("codigo", "NS-" + pedido.getIdPedido());
+            pedidoDTO.put("fecha", pedido.getFechaPedido() != null ? pedido.getFechaPedido().toString() : "");
+            pedidoDTO.put("direccion", pedido.getDireccion());
+            pedidoDTO.put("total", "$" + String.format("%.0f", pedido.getTotal()).replace(",", "."));
+            pedidoDTO.put("estado", pedido.getEstado());
+            pedidoDTO.put("resumen", "Pago con " + pedido.getMetodoPago());
+            
+            // Mapear el estado a un step (0-3) para la barra de progreso
+            int step = 0;
+            if (pedido.getEstado() != null) {
+                switch (pedido.getEstado().toUpperCase()) {
+                    case "PENDIENTE":
+                    case "CONFIRMADO":
+                        step = 0;
+                        break;
+                    case "PREPARACION":
+                        step = 1;
+                        break;
+                    case "EN_CAMINO":
+                        step = 2;
+                        break;
+                    case "ENTREGADO":
+                    case "COMPLETADO":
+                        step = 3;
+                        break;
+                }
+            }
+            pedidoDTO.put("step", step);
+            
+            // Mapear los items
+            if (pedido.getItems() != null && !pedido.getItems().isEmpty()) {
+                List<Map<String, Object>> items = pedido.getItems().stream().map(item -> {
+                    Map<String, Object> itemDTO = new HashMap<>();
+                    itemDTO.put("nombre", item.getProducto().getNombreProducto());
+                    itemDTO.put("cantidad", item.getCantidad());
+                    itemDTO.put("subtotal", "$" + String.format("%.0f", item.getSubtotal()).replace(",", "."));
+                    return itemDTO;
+                }).collect(Collectors.toList());
+                pedidoDTO.put("items", items);
+            } else {
+                pedidoDTO.put("items", new ArrayList<>());
+            }
+            
+            return pedidoDTO;
+        }).collect(Collectors.toList());
+        
+        return ResponseEntity.ok(pedidosDTO);
     }
 
     private Optional<User> resolveUserFromSession(HttpSession session) {
