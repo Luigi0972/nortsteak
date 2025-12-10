@@ -1,5 +1,5 @@
 // Selectores y elementos del DOM
-const productos = document.querySelectorAll(".producto");
+const productoCards = document.querySelectorAll(".producto");
 const modal = document.getElementById("modal");
 const cerrar = document.querySelector(".cerrar");
 const modalContenido = document.querySelector(".modal-contenido");
@@ -79,7 +79,7 @@ function obtenerCantidadSeleccionada() {
 }
 
 // Abrir modal con datos del producto
-productos.forEach(producto => {
+productoCards.forEach(producto => {
   producto.addEventListener("click", (event) => {
     if (event.target.closest(".carrito")) {
       return;
@@ -337,7 +337,7 @@ function highlightProductoFromSearch() {
 
   if (productoName) {
     // Buscar el producto que coincida
-    productos.forEach(producto => {
+    productoCards.forEach(producto => {
       const nombreProducto = producto.querySelector('h3').innerText.trim();
       if (nombreProducto === productoName) {
         // Agregar clase de resaltado

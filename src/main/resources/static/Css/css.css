@@ -507,7 +507,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -617,7 +618,6 @@ ul li {
 
 .contact-button:hover {
   background-color: #cc0000;
-  cursor: pointer;
 }
 
 .contact-button i {
