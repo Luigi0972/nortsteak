@@ -246,7 +246,7 @@ function enviarPago(payload) {
       return response.json();
     })
     .then((data) => {
-      setEstado("¡Pago confirmado! Actualizamos el inventario en tiempo real.", "success");
+      setEstado("¡Pago confirmado! mira tu perfil para ver el estado de tu pedido", "success");
       registrarPedidoUsuario(payload, carritoActual);
       localStorage.removeItem("carrito");
       notificarCambioCarrito();
