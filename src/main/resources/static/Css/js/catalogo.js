@@ -16,7 +16,59 @@ let toastTimeout;
 
 let precioUnitario = 0;
 let productoSeleccionado = null;
-const ULTIMO_AGREGADO_KEY = "carrito:lastAdded";
+let CART_KEY = "carrito:anon";
+let CART_LAST_KEY = "carrito:lastAdded:anon";
+const SESSION_URL = "/api/auth/session";
+let cartKeyReady = false;
+
+const ULTIMO_AGREGADO_KEY = () => CART_LAST_KEY;
+
+function sanitizarCorreo(correo = "") {
+  return correo.replace(/[^a-zA-Z0-9._-]/g, "_").toLowerCase();
+}
+
+async function actualizarCartKeyDesdeSesion() {
+  try {
+    const res = await fetch(SESSION_URL, {
+      credentials: "same-origin",
+      headers: { Accept: "application/json" }
+    });
+    if (!res.ok) {
+      CART_KEY = "carrito:anon";
+      CART_LAST_KEY = "carrito:lastAdded:anon";
+      return;
+    }
+    const data = await res.json();
+    const correo = data?.loggedIn ? (data.userEmail || data.userCorreo || "") : "";
+    const nuevaKey = correo ? `carrito:${sanitizarCorreo(correo)}` : "carrito:anon";
+    const nuevaLastKey = correo ? `carrito:lastAdded:${sanitizarCorreo(correo)}` : "carrito:lastAdded:anon";
+    if (nuevaKey !== CART_KEY) {
+      // Migrar carrito invitado si el nuevo está vacío
+      const antiguo = localStorage.getItem(CART_KEY);
+      const destinoActual = localStorage.getItem(nuevaKey);
+      if (antiguo && (!destinoActual || destinoActual === "[]")) {
+        localStorage.setItem(nuevaKey, antiguo);
+        localStorage.removeItem(CART_KEY);
+      }
+      const antiguoLast = localStorage.getItem(CART_LAST_KEY);
+      if (antiguoLast && !localStorage.getItem(nuevaLastKey)) {
+        localStorage.setItem(nuevaLastKey, antiguoLast);
+        localStorage.removeItem(CART_LAST_KEY);
+      }
+      CART_KEY = nuevaKey;
+      CART_LAST_KEY = nuevaLastKey;
+      notificarCambioCarrito();
+    }
+  } catch (e) {
+    // ignorar
+  } finally {
+    cartKeyReady = true;
+  }
+}
+
+actualizarCartKeyDesdeSesion();
+// Reaccionar cuando session-user actualice el dueño del carrito
+window.addEventListener("carrito:owner", actualizarCartKeyDesdeSesion);
 
 function obtenerCarritoSeguro() {
   try {
@@ -227,7 +279,7 @@ function extraerPrecioDesdeTexto(texto = "") {
 
 function obtenerCarrito() {
   try {
-    const almacenado = localStorage.getItem("carrito");
+    const almacenado = localStorage.getItem(CART_KEY);
     if (!almacenado) return [];
     const parsed = JSON.parse(almacenado);
     if (!Array.isArray(parsed)) return [];
@@ -244,7 +296,7 @@ function obtenerCarrito() {
 }
 
 function guardarCarrito(carrito) {
-  localStorage.setItem("carrito", JSON.stringify(carrito));
+  localStorage.setItem(CART_KEY, JSON.stringify(carrito));
   notificarCambioCarrito();
 }
 
@@ -431,7 +483,7 @@ function persistirUltimoAgregado(producto, cantidad) {
       cantidad: Math.max(1, cantidad),
       timestamp: Date.now()
     };
-    localStorage.setItem(ULTIMO_AGREGADO_KEY, JSON.stringify(info));
+    localStorage.setItem(ULTIMO_AGREGADO_KEY(), JSON.stringify(info));
   } catch (error) {
     console.warn("No se pudo guardar el último producto agregado", error);
   }

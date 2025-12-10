@@ -1,198 +1,316 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pasarela de pago simulada</title>
-  <link rel="stylesheet" th:href="@{/Css/css.css}">
-  <link rel="stylesheet" th:href="@{/Css/search.css}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pasarela de pago simulada</title>
+    <link rel="stylesheet" th:href="@{/Css/css.css}" />
+    <link rel="stylesheet" th:href="@{/Css/search.css}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}" />
+  </head>
 
-<body>
-  <div class="header">LSJ</div>
+  <body>
+    <div class="header">LSJ</div>
 
-  <div class="header-container">
-    <a th:href="@{/}" class="logo">
-      <img class="logo" th:src="@{/img2/logo.png}" alt="Logo de la tienda">
-    </a>
-
-    <div class="search-container">
-      <form class="search-form" action="#" method="get" title="Buscar en el sitio">
-        <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
-        <button type="submit" class="search-button">
-          <i class="fas fa-search"></i>
-        </button>
-      </form>
-    </div>
-
-    <div class="icon-container">
-      <a th:href="@{/registro}" class="icon" title="Registro">
-        <i class="fas fa-user-plus"></i>
+    <div class="header-container">
+      <a th:href="@{/}" class="logo">
+        <img class="logo" th:src="@{/img2/logo.png}" alt="Logo de la tienda" />
       </a>
-      <a th:href="@{/catalogo}" class="icon" title="Catálogo">
-        <i class="fas fa-book"></i>
-      </a>
-      <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
-      </a>
-      <a th:href="@{/cuenta}" class="icon account-pill" data-user-account-icon hidden aria-label="Mi cuenta">
-        <span class="account-pill-initial" data-user-account-initial>U</span>
-      </a>
-    </div>
-  </div>
 
-  <main class="pasarela-layout">
-    <section class="pasarela-card resumen">
-      <header>
-        <h2>Resumen de compra</h2>
-        <p>Confirma los productos antes de continuar</p>
-      </header>
-
-      <div id="resumen-empty" class="resumen-vacio">
-        <i class="fas fa-box-open"></i>
-        <p>Tu carrito está vacío. Regresa al catálogo para elegir productos.</p>
+      <div class="search-container">
+        <form
+          class="search-form"
+          action="#"
+          method="get"
+          title="Buscar en el sitio"
+        >
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar productos..."
+            name="q"
+          />
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
       </div>
 
-      <div id="carrito-lista" class="resumen-lista"></div>
-
-      <div class="resumen-total">
-        <span>Total a pagar</span>
-        <strong id="total-pagar">$0</strong>
+      <div class="icon-container">
+        <a
+          th:href="@{/admin/panel}"
+          class="icon"
+          data-admin-icon
+          hidden
+          title="Panel admin"
+        >
+          <i class="fas fa-user-shield"></i>
+        </a>
+        <a th:href="@{/registro}" class="icon" title="Registro">
+          <i class="fas fa-user-plus"></i>
+        </a>
+        <a th:href="@{/catalogo}" class="icon" title="Catálogo">
+          <i class="fas fa-book"></i>
+        </a>
+        <a
+          th:href="@{/carrito}"
+          class="icon icon-cart"
+          title="Carrito de compras"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          <span
+            class="cart-count-badge"
+            data-cart-count
+            aria-live="polite"
+            aria-label="Productos en carrito"
+            >0</span
+          >
+        </a>
+        <a
+          th:href="@{/cuenta}"
+          class="icon account-pill"
+          data-user-account-icon
+          hidden
+          aria-label="Mi cuenta"
+        >
+          <span class="account-pill-initial" data-user-account-initial>U</span>
+        </a>
       </div>
+    </div>
 
-      <a class="btn-link" th:href="@{/carrito}">Editar carrito</a>
-    </section>
+    <main class="pasarela-layout">
+      <section class="pasarela-card resumen">
+        <header>
+          <h2>Resumen de compra</h2>
+          <p>Confirma los productos antes de continuar</p>
+        </header>
 
-    <section class="pasarela-card simulador">
-      <header>
-        <h2>Formulario de pago</h2>
-        <p>Completa tus datos y confirma la transferencia</p>
-      </header>
-
-      <form id="form-pago" class="form-pago" autocomplete="off">
-        <div class="form-grid">
-          <div class="form-field">
-            <label for="nombre">Nombre completo *</label>
-            <input type="text" id="nombre" name="nombre" required pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+" title="Solo se permiten letras y espacios">
-          </div>
-          <div class="form-field">
-            <label for="cedula">Número de identificación *</label>
-            <input type="text" id="cedula" name="cedula" required pattern="[0-9]+" title="Solo se permiten números">
-          </div>
-          <div class="form-field">
-            <label for="telefono">Teléfono de contacto *</label>
-            <input type="tel" id="telefono" name="telefono" required pattern="[0-9]+" title="Solo se permiten números">
-          </div>
-          <div class="form-field">
-            <label for="correo">Correo electrónico *</label>
-            <input type="email" id="correo" name="correo" required>
-          </div>
-          <div class="form-field form-field-full">
-            <label for="direccion">Dirección de envío *</label>
-            <input type="text" id="direccion" name="direccion" required>
-          </div>
+        <div id="resumen-empty" class="resumen-vacio">
+          <i class="fas fa-box-open"></i>
+          <p>
+            Tu carrito está vacío. Regresa al catálogo para elegir productos.
+          </p>
         </div>
 
-        <div class="metodos">
-          <h3>Método de pago</h3>
-          <div class="metodos-grid">
-            <label class="metodo-option active" data-metodo="NEQUI">
-              <input type="radio" name="metodo" value="NEQUI" checked>
-              <span>Nequi</span>
-              <img th:src="@{/Css/img/nequis.png}" alt="Logo Nequi">
-            </label>
-            <label class="metodo-option" data-metodo="BANCOLOMBIA">
-              <input type="radio" name="metodo" value="BANCOLOMBIA">
-              <span>Bancolombia</span>
-              <img th:src="@{/Css/img/Bancolombia.png}" alt="Logo Bancolombia">
-            </label>
-            <label class="metodo-option" data-metodo="FALABELLA">
-              <input type="radio" name="metodo" value="FALABELLA">
-              <span>Falabella</span>
-              <img th:src="@{/Css/img/Falabella.png}" alt="Logo Falabella">
-            </label>
-          </div>
+        <div id="carrito-lista" class="resumen-lista"></div>
+
+        <div class="resumen-total">
+          <span>Total a pagar</span>
+          <strong id="total-pagar">$0</strong>
         </div>
 
-        <div class="panel-metodo active" data-panel="NEQUI">
-          <div class="panel-header">
-            <h4>Pago con Nequi</h4>
-            <p>Escanea el código y escribe el código de aprobación</p>
+        <a class="btn-link" th:href="@{/carrito}">Editar carrito</a>
+      </section>
+
+      <section class="pasarela-card simulador">
+        <header>
+          <h2>Formulario de pago</h2>
+          <p>Completa tus datos y confirma la transferencia</p>
+        </header>
+
+        <form id="form-pago" class="form-pago" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="nombre">Nombre completo *</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                required
+                pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                title="Solo se permiten letras y espacios"
+              />
+            </div>
+            <div class="form-field">
+              <label for="cedula">Número de identificación *</label>
+              <input
+                type="text"
+                id="cedula"
+                name="cedula"
+                required
+                pattern="[0-9]+"
+                title="Solo se permiten números"
+              />
+            </div>
+            <div class="form-field">
+              <label for="telefono">Teléfono de contacto *</label>
+              <input
+                type="tel"
+                id="telefono"
+                name="telefono"
+                required
+                pattern="[0-9]+"
+                title="Solo se permiten números"
+              />
+            </div>
+            <div class="form-field">
+              <label for="correo">Correo electrónico *</label>
+              <input type="email" id="correo" name="correo" required />
+            </div>
+            <div class="form-field form-field-full">
+              <label for="direccion">Dirección de envío *</label>
+              <input type="text" id="direccion" name="direccion" required />
+            </div>
           </div>
-          <div class="panel-contenido">
-            <img class="panel-qr" th:src="@{/Css/img/qr.jfif}" alt="QR Nequi">
-            <div class="panel-form">
-              <div class="form-field">
-                <label for="nequi-telefono">Teléfono o alias utilizado *</label>
-                <input type="text" id="nequi-telefono" pattern="[0-9]+" title="Solo se permiten números">
-              </div>
-              <div class="form-field">
-                <label for="nequi-codigo">Código de aprobación *</label>
-                <input type="text" id="nequi-codigo" maxlength="8" pattern="[0-9]+" title="Solo se permiten números">
+
+          <div class="metodos">
+            <h3>Método de pago</h3>
+            <div class="metodos-grid">
+              <label class="metodo-option active" data-metodo="NEQUI">
+                <input type="radio" name="metodo" value="NEQUI" checked />
+                <span>Nequi</span>
+                <img th:src="@{/Css/img/nequis.png}" alt="Logo Nequi" />
+              </label>
+              <label class="metodo-option" data-metodo="BANCOLOMBIA">
+                <input type="radio" name="metodo" value="BANCOLOMBIA" />
+                <span>Bancolombia</span>
+                <img
+                  th:src="@{/Css/img/Bancolombia.png}"
+                  alt="Logo Bancolombia"
+                />
+              </label>
+              <label class="metodo-option" data-metodo="FALABELLA">
+                <input type="radio" name="metodo" value="FALABELLA" />
+                <span>Falabella</span>
+                <img th:src="@{/Css/img/Falabella.png}" alt="Logo Falabella" />
+              </label>
+            </div>
+          </div>
+
+          <div class="panel-metodo active" data-panel="NEQUI">
+            <div class="panel-header">
+              <h4>Pago con Nequi</h4>
+              <p>Escanea el código y escribe el código de aprobación</p>
+            </div>
+            <div class="panel-contenido">
+              <img
+                class="panel-qr"
+                th:src="@{/Css/img/qr.jfif}"
+                alt="QR Nequi"
+              />
+              <div class="panel-form">
+                <div class="form-field">
+                  <label for="nequi-telefono"
+                    >Teléfono o alias utilizado *</label
+                  >
+                  <input
+                    type="text"
+                    id="nequi-telefono"
+                    pattern="[0-9]+"
+                    title="Solo se permiten números"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="nequi-codigo">Código de aprobación *</label>
+                  <input
+                    type="text"
+                    id="nequi-codigo"
+                    maxlength="8"
+                    pattern="[0-9]+"
+                    title="Solo se permiten números"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="panel-metodo" data-panel="BANCOLOMBIA">
-          <div class="panel-header">
-            <h4>Pago con bancolombia</h4>
-            <p>Usa una cuenta de ahorros y confirma el número del comprobante</p>
-          </div>
-          <div class="panel-contenido">
-            <div class="panel-form panel-form-full">
-              <div class="form-field">
-                <label for="bancolombia-cuenta">Número de cuenta origen *</label>
-                <input type="text" id="bancolombia-cuenta" pattern="[0-9]+" title="Solo se permiten números">
-              </div>
-              <div class="form-field">
-                <label for="bancolombia-aprobacion">Número de aprobación *</label>
-                <input type="text" id="bancolombia-aprobacion" pattern="[0-9]+" title="Solo se permiten números">
+          <div class="panel-metodo" data-panel="BANCOLOMBIA">
+            <div class="panel-header">
+              <h4>Pago con bancolombia</h4>
+              <p>
+                Usa una cuenta de ahorros y confirma el número del comprobante
+              </p>
+            </div>
+            <div class="panel-contenido">
+              <div class="panel-form panel-form-full">
+                <div class="form-field">
+                  <label for="bancolombia-cuenta"
+                    >Número de cuenta origen *</label
+                  >
+                  <input
+                    type="text"
+                    id="bancolombia-cuenta"
+                    pattern="[0-9]+"
+                    title="Solo se permiten números"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="bancolombia-aprobacion"
+                    >Número de aprobación *</label
+                  >
+                  <input
+                    type="text"
+                    id="bancolombia-aprobacion"
+                    pattern="[0-9]+"
+                    title="Solo se permiten números"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="panel-metodo" data-panel="FALABELLA">
-          <div class="panel-header">
-            <h4>Paga con Falabella</h4>
-            <p>Ingresa los datos de tu tarjeta para simular la compra</p>
-          </div>
-          <div class="panel-contenido">
-            <div class="panel-form panel-form-full">
-              <div class="form-field">
-                <label for="falabella-tarjeta">Número de tarjeta *</label>
-                <input type="text" id="falabella-tarjeta" maxlength="16" pattern="[0-9]+" title="Solo se permiten números">
-              </div>
-              <div class="form-field">
-                <label for="falabella-autorizacion">Código de autorización *</label>
-                <input type="text" id="falabella-autorizacion" maxlength="6" pattern="[0-9]+" title="Solo se permiten números">
+          <div class="panel-metodo" data-panel="FALABELLA">
+            <div class="panel-header">
+              <h4>Paga con Falabella</h4>
+              <p>Ingresa los datos de tu tarjeta para simular la compra</p>
+            </div>
+            <div class="panel-contenido">
+              <div class="panel-form panel-form-full">
+                <div class="form-field">
+                  <label for="falabella-tarjeta">Número de tarjeta *</label>
+                  <input
+                    type="text"
+                    id="falabella-tarjeta"
+                    maxlength="16"
+                    pattern="[0-9]+"
+                    title="Solo se permiten números"
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="falabella-autorizacion"
+                    >Código de autorización *</label
+                  >
+                  <input
+                    type="text"
+                    id="falabella-autorizacion"
+                    maxlength="6"
+                    pattern="[0-9]+"
+                    title="Solo se permiten números"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <label class="checkbox-confirmacion">
-          <input type="checkbox" id="confirmacion" required>
-          Confirmo que realicé la transferencia por el valor mostrado.
-        </label>
+          <label class="checkbox-confirmacion">
+            <input type="checkbox" id="confirmacion" required />
+            Confirmo que realicé la transferencia por el valor mostrado.
+          </label>
 
-        <div class="acciones-pago">
-          <button type="submit" id="btn-simular">Confirmar pago </button>
-          <a class="btn-secundario" th:href="@{/catalogo}">Seguir comprando</a>
-        </div>
+          <div class="acciones-pago">
+            <button type="submit" id="btn-simular">Confirmar pago</button>
+            <a class="btn-secundario" th:href="@{/catalogo}"
+              >Seguir comprando</a
+            >
+          </div>
 
-        <div id="estado-pago" class="estado-pago" role="status" aria-live="polite"></div>
-      </form>
-    </section>
-  </main>
+          <div
+            id="estado-pago"
+            class="estado-pago"
+            role="status"
+            aria-live="polite"
+          ></div>
+        </form>
+      </section>
+    </main>
 
-  <script th:src="@{/Css/js/pasarela.js}"></script>
-  <script th:src="@{/Css/js/search.js}"></script>
-  <script th:src="@{/Css/js/cart-badge.js}"></script>
-  <script th:src="@{/Css/js/session-user.js}" defer></script>
-</body>
+    <script th:src="@{/Css/js/pasarela.js}"></script>
+    <script th:src="@{/Css/js/search.js}"></script>
+    <script th:src="@{/Css/js/cart-badge.js}"></script>
+    <script th:src="@{/Css/js/session-user.js}" defer></script>
+  </body>
 </html>

@@ -5,7 +5,14 @@ const btnVaciar = document.getElementById("btnVaciarCarrito");
 const btnIrPasarela = document.getElementById("btnIrPasarela");
 const alertaReciente = document.getElementById("carrito-alerta");
 
-const ULTIMO_AGREGADO_KEY = "carrito:lastAdded";
+const CART_USER_KEY = "cart:user";
+
+const obtenerCartKey = () => {
+  const owner = localStorage.getItem(CART_USER_KEY) || "anon";
+  return `carrito:${owner}`;
+};
+
+const obtenerLastAddedKey = () => `carrito:lastAdded:${localStorage.getItem(CART_USER_KEY) || "anon"}`;
 
 function initCarrito() {
   renderizarCarrito();
@@ -18,10 +25,12 @@ if (document.readyState === "loading") {
 }
 
 window.addEventListener("storage", (event) => {
-  if (event.key === "carrito") {
+  if (event.key === obtenerCartKey()) {
     renderizarCarrito();
   }
 });
+
+window.addEventListener("carrito:owner", renderizarCarrito);
 
 listaCarrito?.addEventListener("click", (event) => {
   const botonMas = event.target.closest(".mas");
@@ -38,7 +47,7 @@ listaCarrito?.addEventListener("click", (event) => {
 });
 
 btnVaciar?.addEventListener("click", () => {
-  localStorage.removeItem("carrito");
+  localStorage.removeItem(obtenerCartKey());
   notificarCambioCarrito();
   renderizarCarrito();
 });
@@ -49,7 +58,7 @@ btnIrPasarela?.addEventListener("click", () => {
 
 function obtenerCarrito() {
   try {
-    const almacenado = localStorage.getItem("carrito");
+    const almacenado = localStorage.getItem(obtenerCartKey());
     if (!almacenado) return [];
     const parsed = JSON.parse(almacenado);
     if (!Array.isArray(parsed)) return [];
@@ -70,7 +79,7 @@ function obtenerCarrito() {
 }
 
 function guardarCarrito(carrito) {
-  localStorage.setItem("carrito", JSON.stringify(carrito));
+  localStorage.setItem(obtenerCartKey(), JSON.stringify(carrito));
   notificarCambioCarrito();
 }
 
@@ -163,13 +172,13 @@ function eliminarProducto(index) {
 
 function obtenerUltimoAgregado() {
   try {
-    const raw = localStorage.getItem(ULTIMO_AGREGADO_KEY);
+    const raw = localStorage.getItem(obtenerLastAddedKey());
     if (!raw) return null;
     const info = JSON.parse(raw);
     if (!info?.timestamp) return null;
     const expiracionMs = 5 * 60 * 1000;
     if (Date.now() - info.timestamp > expiracionMs) {
-      localStorage.removeItem(ULTIMO_AGREGADO_KEY);
+      localStorage.removeItem(obtenerLastAddedKey());
       return null;
     }
     return info;

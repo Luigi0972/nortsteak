@@ -442,6 +442,7 @@ body {
   text-align: center;
   padding: 15px;
   transition: transform 0.3s;
+  font-family: "oswald", sans-serif;
 }
 
 .tarjeta-corte img {
@@ -451,7 +452,7 @@ body {
 
 .tarjeta-corte h3 {
   margin-top: 15px;
-  font-size: 18px;
+  font-size: 1.5 rem;
   font-style: italic;
 }
 
@@ -470,6 +471,8 @@ body {
 
 .tarjeta-corte i:hover {
   color: #c00;
+  transform: scale(1.1);
+  color: rgb(235, 21, 21);
 }
 
 .tarjeta-corte:hover {
@@ -479,8 +482,9 @@ body {
 .precio-destacado {
   font-size: 1.2rem;
   font-weight: bold;
-  color: rgb(235, 21, 21);
+  color: rgb(0, 0, 0);
   margin: 10px 0;
+  font-family: "Roboto Slab", serif;
 }
 
 .destacado-carrito {

@@ -1,77 +1,151 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NortSteak</title>
+    <!-- Fuentes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Iconos Font Awesome -->
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}">
+    <link
+      rel="stylesheet"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}"
+    />
 
     <!-- Tu CSS externo -->
-    <link rel="stylesheet" th:href="@{/Css/css.css}">
-    <link rel="stylesheet" th:href="@{/Css/search.css}">
-    <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}">
-</head>
-<body>
+    <link rel="stylesheet" th:href="@{/Css/css.css}" />
+    <link rel="stylesheet" th:href="@{/Css/search.css}" />
+    <link rel="icon" type="image/png" th:href="@{/Css/img/logo4.png}" />
+  </head>
+  <body>
     <div class="header">LSJ</div>
     <div class="header-container">
-        <a th:href="@{/}" class="logo">
-          <img class="logo" th:src="@{/Css/img/logo.png}" alt="Logo de la tienda">
-        </a>
+      <a th:href="@{/}" class="logo">
+        <img
+          class="logo"
+          th:src="@{/Css/img/logo.png}"
+          alt="Logo de la tienda"
+        />
+      </a>
 
-    <!-- Barra de búsqueda -->
-    <div class="search-container">
+      <!-- Barra de búsqueda -->
+      <div class="search-container">
         <form class="search-form" action="#" method="get" title="buscar">
-            <input type="text" class="search-input" placeholder="Buscar productos..." name="q">
-            <button type="submit" class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Buscar productos..."
+            name="q"
+          />
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
         </form>
-    </div>
+      </div>
 
-    <!-- Iconos -->
-        <div class="icon-container">
-            <a th:href="@{/registro}" class="icon" title="Registro">
-                <i class="fas fa-user-plus"></i>
-            </a>
-            <a th:href="@{/catalogo}" class="icon" title="Catálogo">
-                <i class="fas fa-book"></i>
-            </a>
-            <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
-            </a>
-            <a th:href="@{/cuenta}" class="icon account-pill" data-user-account-icon hidden aria-label="Mi cuenta">
-                <span class="account-pill-initial" data-user-account-initial>U</span>
-            </a>
-        </div>
+      <!-- Iconos -->
+      <div class="icon-container">
+        <a th:href="@{/registro}" class="icon" title="Registro">
+          <i class="fas fa-user-plus"></i>
+        </a>
+        <a
+          th:href="@{/admin/panel}"
+          class="icon"
+          data-admin-icon
+          hidden
+          title="Panel admin"
+        >
+          <i class="fas fa-user-shield"></i>
+        </a>
+        <a th:href="@{/catalogo}" class="icon" title="Catálogo">
+          <i class="fas fa-book"></i>
+        </a>
+        <a
+          th:href="@{/carrito}"
+          class="icon icon-cart"
+          title="Carrito de compras"
+        >
+          <i class="fas fa-shopping-cart"></i>
+          <span
+            class="cart-count-badge"
+            data-cart-count
+            aria-live="polite"
+            aria-label="Productos en carrito"
+            >0</span
+          >
+        </a>
+        <a
+          th:href="@{/cuenta}"
+          class="icon account-pill"
+          data-user-account-icon
+          hidden
+          aria-label="Mi cuenta"
+        >
+          <span class="account-pill-initial" data-user-account-initial>U</span>
+        </a>
+      </div>
     </div>
 
     <!-- Carrusel -->
     <div class="carrusel">
-        <div class="atras" style="cursor:pointer">
-            <img id="atras" th:src="@{/Css/img/atras.svg}" alt="Atrás" loading="lazy"/>
-        </div>
+      <div class="atras" style="cursor: pointer">
+        <img
+          id="atras"
+          th:src="@{/Css/img/atras.svg}"
+          alt="Atrás"
+          loading="lazy"
+        />
+      </div>
 
-        <div class="imagenes">
-            <div id="img">
-                <img class="img" th:src="@{/Css/img/Vaca2.jpeg}" alt="Imagen 1" loading="lazy"/>
-            </div>
-            <div id="texto" class="texto">
-                <h3>Premium Beef</h3>
-                <p>En NortSteak encontrarás la carne de mejor calidad, adquirida 100% de ganaderos de Norte de Santander. Apoyamos a nuestros campesinos locales.</p>
-            </div>
+      <div class="imagenes">
+        <div id="img">
+          <img
+            class="img"
+            th:src="@{/Css/img/Vaca2.jpeg}"
+            alt="Imagen 1"
+            loading="lazy"
+          />
         </div>
+        <div id="texto" class="texto">
+          <h3>Premium Beef</h3>
+          <p>
+            En NortSteak encontrarás la carne de mejor calidad, adquirida 100%
+            de ganaderos de Norte de Santander. Apoyamos a nuestros campesinos
+            locales.
+          </p>
+        </div>
+      </div>
 
-        <div class="adelante" id="adelante" style="cursor:pointer">
-            <img th:src="@{/Css/img/adelante.svg}" alt="Adelante" loading="lazy">
-        </div>
+      <div class="adelante" id="adelante" style="cursor: pointer">
+        <img th:src="@{/Css/img/adelante.svg}" alt="Adelante" loading="lazy" />
+      </div>
 
-        <div class="controles-movil">
-            <img id="atras-movil" th:src="@{/Css/img/atras.svg}" alt="Atrás" loading="lazy">
-            <img id="adelante-movil" th:src="@{/Css/img/adelante.svg}" alt="Adelante" loading="lazy">
-        </div>
+      <div class="controles-movil">
+        <img
+          id="atras-movil"
+          th:src="@{/Css/img/atras.svg}"
+          alt="Atrás"
+          loading="lazy"
+        />
+        <img
+          id="adelante-movil"
+          th:src="@{/Css/img/adelante.svg}"
+          alt="Adelante"
+          loading="lazy"
+        />
+      </div>
     </div>
 
     <div class="puntos" id="puntos"></div>
@@ -82,83 +156,153 @@
     <script th:src="@{/Css/js/cart-badge.js}"></script>
     <script th:src="@{/Css/js/session-user.js}" defer></script>
     <script th:src="@{/Css/js/destacados.js}" defer></script>
+    <div
+      id="cart-toast"
+      class="cart-toast"
+      role="status"
+      aria-live="polite"
+    ></div>
 
     <div class="promo">
-        <marquee>Todos los martes 15 % de descuento en todos nuestros productos seleccionados</marquee>
+      <marquee
+        >Todos los martes 15 % de descuento en todos nuestros productos
+        seleccionados</marquee
+      >
     </div>
 
     <div class="productos">PRODUCTOS DESTACADOS</div>
-    <br><br>
+    <br /><br />
 
-	<div class="contenedor-cortes">
-        <div class="tarjeta-corte" 
-             th:if="${productosDestacados != null && productosDestacados['Corte New York'] != null}"
-             th:attr="data-id=${productosDestacados['Corte New York'].idProducto},
+    <div class="contenedor-cortes">
+      <div
+        class="tarjeta-corte"
+        th:if="${productosDestacados != null && productosDestacados['Corte New York'] != null}"
+        th:attr="data-id=${productosDestacados['Corte New York'].idProducto},
                       data-nombre=${productosDestacados['Corte New York'].nombreProducto},
                       data-precio=${productosDestacados['Corte New York'].precioProducto},
                       data-stock=${productosDestacados['Corte New York'].stock},
-                      data-imagen='/img2/newyork.jpg'">
-          <img th:src="@{/Css/img/destacado1.webp}" alt="Corte New York">
-          <h3><em th:text="${productosDestacados['Corte New York'].nombreProducto}">Corte New York</em></h3>
-          <p class="precio-destacado" th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte New York'].precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
-          <hr>
-          <i class="fas fa-shopping-cart destacado-carrito" title="Añadir al carrito"></i>
-        </div>
-        <div class="tarjeta-corte"
-             th:if="${productosDestacados != null && productosDestacados['Corte Tomahawk'] != null}"
-             th:attr="data-id=${productosDestacados['Corte Tomahawk'].idProducto},
+                      data-imagen='/img2/newyork.jpg'"
+      >
+        <img th:src="@{/Css/img/destacado1.webp}" alt="Corte New York" />
+        <h3>
+          <em th:text="${productosDestacados['Corte New York'].nombreProducto}"
+            >Corte New York</em
+          >
+        </h3>
+        <p
+          class="precio-destacado"
+          th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte New York'].precioProducto, 0, 'COMMA', 0, 'POINT')}"
+        ></p>
+        <hr />
+        <i
+          class="fas fa-shopping-cart destacado-carrito"
+          title="Añadir al carrito"
+        ></i>
+      </div>
+      <div
+        class="tarjeta-corte"
+        th:if="${productosDestacados != null && productosDestacados['Corte Tomahawk'] != null}"
+        th:attr="data-id=${productosDestacados['Corte Tomahawk'].idProducto},
                       data-nombre=${productosDestacados['Corte Tomahawk'].nombreProducto},
                       data-precio=${productosDestacados['Corte Tomahawk'].precioProducto},
                       data-stock=${productosDestacados['Corte Tomahawk'].stock},
-                      data-imagen='/img2/tomahawk.jpg'">
-          <img th:src="@{/Css/img/destacada2.jpg}" alt="Corte Tomahawk">
-          <h3><em th:text="${productosDestacados['Corte Tomahawk'].nombreProducto}">Corte Tomahawk</em></h3>
-          <p class="precio-destacado" th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte Tomahawk'].precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
-          <hr>
-          <i class="fas fa-shopping-cart destacado-carrito" title="Añadir al carrito"></i>
-        </div>
-        <div class="tarjeta-corte"
-             th:if="${productosDestacados != null && productosDestacados['Corte Filete Mignon'] != null}"
-             th:attr="data-id=${productosDestacados['Corte Filete Mignon'].idProducto},
+                      data-imagen='/img2/tomahawk.jpg'"
+      >
+        <img th:src="@{/Css/img/destacada2.jpg}" alt="Corte Tomahawk" />
+        <h3>
+          <em th:text="${productosDestacados['Corte Tomahawk'].nombreProducto}"
+            >Corte Tomahawk</em
+          >
+        </h3>
+        <p
+          class="precio-destacado"
+          th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte Tomahawk'].precioProducto, 0, 'COMMA', 0, 'POINT')}"
+        ></p>
+        <hr />
+        <i
+          class="fas fa-shopping-cart destacado-carrito"
+          title="Añadir al carrito"
+        ></i>
+      </div>
+      <div
+        class="tarjeta-corte"
+        th:if="${productosDestacados != null && productosDestacados['Corte Filete Mignon'] != null}"
+        th:attr="data-id=${productosDestacados['Corte Filete Mignon'].idProducto},
                       data-nombre=${productosDestacados['Corte Filete Mignon'].nombreProducto},
                       data-precio=${productosDestacados['Corte Filete Mignon'].precioProducto},
                       data-stock=${productosDestacados['Corte Filete Mignon'].stock},
-                      data-imagen='/img2/milegnon.jpg'">
-          <img th:src="@{/Css/img/destacada3.jpg}" alt="Corte Filete Mignon">
-          <h3><em th:text="${productosDestacados['Corte Filete Mignon'].nombreProducto}">Corte Filete Mignon</em></h3>
-          <p class="precio-destacado" th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte Filete Mignon'].precioProducto, 0, 'COMMA', 0, 'POINT')}"></p>
-          <hr>
-          <i class="fas fa-shopping-cart destacado-carrito" title="Añadir al carrito"></i>
-        </div>
+                      data-imagen='/img2/milegnon.jpg'"
+      >
+        <img th:src="@{/Css/img/destacada3.jpg}" alt="Corte Filete Mignon" />
+        <h3>
+          <em
+            th:text="${productosDestacados['Corte Filete Mignon'].nombreProducto}"
+            >Corte Filete Mignon</em
+          >
+        </h3>
+        <p
+          class="precio-destacado"
+          th:text="'$' + ${#numbers.formatDecimal(productosDestacados['Corte Filete Mignon'].precioProducto, 0, 'COMMA', 0, 'POINT')}"
+        ></p>
+        <hr />
+        <i
+          class="fas fa-shopping-cart destacado-carrito"
+          title="Añadir al carrito"
+        ></i>
+      </div>
     </div>
-  <br>
-  <br>
+    <br />
+    <br />
 
-  <div class="Boton admin" th:if="${isAdmin}">
-    <a th:href="@{/index2}">
-      <button>ADMIN</button>
-    </a>
-  </div>
+    <div class="Boton admin" th:if="${isAdmin}">
+      <a th:href="@{/index2}">
+        <button>ADMIN</button>
+      </a>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-column1">
-        <img th:src="@{/Css/img/logo-removebg-preview (1).png}" class="logo2">
+        <img th:src="@{/Css/img/logo-removebg-preview (1).png}" class="logo2" />
         <h3><em>Acerca de:</em></h3>
         <ul>
-          <li><a th:href="@{/sobreNosotros#sobre-nosotros}">Sobre nosotros</a></li>
-          <li><a th:href="@{/sobreNosotros#informacion-entrega}">Información de entrega</a></li>
-          <li><a th:href="@{/sobreNosotros#politica-privacidad}">Política de privacidad</a></li>
-          <li><a th:href="@{/sobreNosotros#proveedores}">Proveedores locales</a></li>
+          <li>
+            <a th:href="@{/sobreNosotros#sobre-nosotros}">Sobre nosotros</a>
+          </li>
+          <li>
+            <a th:href="@{/sobreNosotros#informacion-entrega}"
+              >Información de entrega</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/sobreNosotros#politica-privacidad}"
+              >Política de privacidad</a
+            >
+          </li>
+          <li>
+            <a th:href="@{/sobreNosotros#proveedores}">Proveedores locales</a>
+          </li>
         </ul>
         <div class="social-icons">
-          <a href="https://wa.me/573223738274" target="_blank" title="Chatea con nosotros en WhatsApp">
+          <a
+            href="https://wa.me/573223738274"
+            target="_blank"
+            title="Chatea con nosotros en WhatsApp"
+          >
             <i class="fab fa-whatsapp"></i>
           </a>
-          <a href="https://www.instagram.com/nortsteak_oficial" target="_blank" title="Síguenos en Instagram">
+          <a
+            href="https://www.instagram.com/nortsteak_oficial"
+            target="_blank"
+            title="Síguenos en Instagram"
+          >
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="https://web.facebook.com/profile.php?id=61578975458021" target="_blank" title="Visítanos en Facebook">
+          <a
+            href="https://web.facebook.com/profile.php?id=61578975458021"
+            target="_blank"
+            title="Visítanos en Facebook"
+          >
             <i class="fab fa-facebook"></i>
           </a>
         </div>
@@ -176,26 +320,29 @@
 
         <h3><em>Bancos aliados</em></h3>
         <div class="bancos">
-          <img th:src="@{/Css/img/FalabellaBlanco.png}" class="logo-falabella">
-          <img th:src="@{/Css/img/NequiBlanco.png}" class="logo-nequi">
-          <img th:src="@{/Css/img/BancolombiaBlanco.png}" class="logo-bancolombia">
+          <img
+            th:src="@{/Css/img/FalabellaBlanco.png}"
+            class="logo-falabella"
+          />
+          <img th:src="@{/Css/img/NequiBlanco.png}" class="logo-nequi" />
+          <img
+            th:src="@{/Css/img/BancolombiaBlanco.png}"
+            class="logo-bancolombia"
+          />
         </div>
 
-         <h3><em>Ubicación</em></h3>
-  <div class="ubicacion-mapa">
-   <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.938590607054!2d-72.50586998941517!3d7.9014847920886275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e66456e853423bd%3A0x6bd4a033f6ad90de!2sSENA!5e0!3m2!1ses-419!2sco!4v1753975279322!5m2!1ses-419!2sco"
-    style="width: 100%; height: 100%; border: 0; border-radius: 12px;"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
-  </div>
+        <h3><em>Ubicación</em></h3>
+        <div class="ubicacion-mapa">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.938590607054!2d-72.50586998941517!3d7.9014847920886275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e66456e853423bd%3A0x6bd4a033f6ad90de!2sSENA!5e0!3m2!1ses-419!2sco!4v1753975279322!5m2!1ses-419!2sco"
+            style="width: 100%; height: 100%; border: 0; border-radius: 12px"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+        </div>
       </div>
     </footer>
-
-</body>
+  </body>
 </html>
-
-
-
