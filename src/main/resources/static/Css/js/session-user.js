@@ -60,9 +60,7 @@
 
     adminIcons().forEach((icon) => {
       const esAdmin = !!data?.isAdmin;
-      const adminTitle = esAdmin
-        ? `Panel admin • ${title}`
-        : "Panel admin";
+      const adminTitle = "Panel admin";
       icon.hidden = !esAdmin;
       icon.classList.toggle("visible", esAdmin);
       icon.style.display = esAdmin ? "" : "none";

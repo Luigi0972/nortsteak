@@ -203,12 +203,12 @@
 
         const producto = obtenerProductoDesdeCard(tarjeta);
         if (!producto) {
-          mostrarMensaje("No se pudo obtener la información del producto.", true);
+          mostrarToast("No se pudo obtener la información del producto.", true);
           return;
         }
 
         if (producto.stock <= 0) {
-          mostrarMensaje("Este producto no tiene stock disponible.", true);
+          mostrarToast("Este producto no tiene stock disponible.", true);
           return;
         }
 
