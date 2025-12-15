@@ -13,6 +13,11 @@ let currentSession = null;
 let currentProfile = null;
 let ordersData = [];
 const ORDER_KEY_PREFIX = "nortsteak:pedidos:";
+const currentOrderKey = () => {
+  const email =
+    currentSession?.userEmail || currentSession?.userCorreo || currentProfile?.correo;
+  return email ? `${ORDER_KEY_PREFIX}${email}` : null;
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   currentSession = await obtenerSesion();
@@ -20,6 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   currentProfile = await obtenerPerfilServidor();
   poblarFormulario(currentProfile || currentSession);
+  limpiarPedidosLocales();
   ordersData = await obtenerPedidos();
   renderizarPedidos();
 
@@ -29,6 +35,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     ordersData = await obtenerPedidos();
     renderizarPedidos();
   });
+
+  document.addEventListener("visibilitychange", async () => {
+    if (!document.hidden) {
+      ordersData = await obtenerPedidos();
+      renderizarPedidos();
+    }
+  });
+
+  setInterval(async () => {
+    ordersData = await obtenerPedidos();
+    renderizarPedidos();
+  }, 20000);
 });
 
 async function obtenerSesion() {
@@ -158,8 +176,9 @@ async function cerrarSesion() {
 
 async function obtenerPedidos() {
   try {
-    const res = await fetch("/api/auth/orders", {
+    const res = await fetch(`/api/auth/orders?t=${Date.now()}`, {
       credentials: "same-origin",
+      cache: "no-store",
       headers: { Accept: "application/json" },
     });
     if (!res.ok) {
@@ -171,6 +190,16 @@ async function obtenerPedidos() {
   } catch (error) {
     console.warn("Error al obtener pedidos del servidor", error);
     return [];
+  }
+}
+
+function limpiarPedidosLocales() {
+  const key = currentOrderKey();
+  if (!key) return;
+  try {
+    localStorage.removeItem(key);
+  } catch (e) {
+    // ignorar
   }
 }
 

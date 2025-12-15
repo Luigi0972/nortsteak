@@ -2,10 +2,14 @@
 (function() {
   'use strict';
 
-  // Funciones del carrito (reutilizadas del catálogo)
+  const CART_USER_KEY = "cart:user";
+  const cartOwner = () => localStorage.getItem(CART_USER_KEY) || "anon";
+  const cartKey = () => `carrito:${cartOwner()}`;
+
+  // Funciones del carrito (alineadas con catálogo)
   function obtenerCarrito() {
     try {
-      const almacenado = localStorage.getItem("carrito");
+      const almacenado = localStorage.getItem(cartKey());
       if (!almacenado) return [];
       const parsed = JSON.parse(almacenado);
       if (!Array.isArray(parsed)) return [];
@@ -22,7 +26,7 @@
   }
 
   function guardarCarrito(carrito) {
-    localStorage.setItem("carrito", JSON.stringify(carrito));
+    localStorage.setItem(cartKey(), JSON.stringify(carrito));
     notificarCambioCarrito();
   }
 
@@ -48,14 +52,28 @@
     };
   }
 
+  function cantidadEnCarrito(producto) {
+    if (!producto?.id) return 0;
+    const carrito = obtenerCarrito();
+    const existente = carrito.find(item => item.id != null && Number(item.id) === Number(producto.id));
+    return existente ? Math.max(0, Number(existente.cantidad) || 0) : 0;
+  }
+
+  function stockDisponible(producto) {
+    const base = Number(producto?.stock ?? 0);
+    if (!Number.isFinite(base)) return 0;
+    return Math.max(0, base - cantidadEnCarrito(producto));
+  }
+
   function agregarProductoAlCarrito(producto, cantidad = 1) {
     if (!producto.precio) {
-      mostrarMensaje("No se pudo agregar el producto.", true);
+      mostrarToast("No se pudo agregar el producto.", true);
       return;
     }
 
-    if (producto.stock <= 0) {
-      mostrarMensaje("Este producto no tiene stock disponible.", true);
+    const disponible = stockDisponible(producto);
+    if (disponible <= 0) {
+      mostrarToast("Este producto no tiene stock disponible.", true);
       return;
     }
 
@@ -67,14 +85,19 @@
       return item.nombre === producto.nombre;
     });
 
-    const cantidadAgregar = Math.max(1, Math.min(cantidad, producto.stock));
+    let cantidadAgregar = Math.max(1, cantidad);
+    const yaEnCarrito = existente ? Math.max(0, existente.cantidad || 0) : 0;
+    if (yaEnCarrito >= disponible) {
+      mostrarToast("Alcanzaste el stock disponible de este producto.", true);
+      return;
+    }
+    if (cantidadAgregar > disponible - yaEnCarrito) {
+      cantidadAgregar = disponible - yaEnCarrito;
+      mostrarToast(`Solo quedan ${cantidadAgregar} disponibles.`, true);
+    }
+
     if (existente) {
-      const nuevaCantidad = (existente.cantidad || 1) + cantidadAgregar;
-      if (nuevaCantidad > producto.stock) {
-        mostrarMensaje(`Solo hay ${producto.stock} unidades disponibles.`, true);
-        return;
-      }
-      existente.cantidad = nuevaCantidad;
+      existente.cantidad = yaEnCarrito + cantidadAgregar;
       existente.precioUnitario = Number(existente.precioUnitario || producto.precio);
     } else {
       carrito.push({
@@ -90,38 +113,33 @@
     if (producto.elemento) {
       animarTarjeta(producto.elemento);
     }
-    mostrarMensaje(`${producto.nombre} se agregó al carrito.`);
+    mostrarToast(`${producto.nombre} se agregó al carrito.`);
   }
 
-  function mostrarMensaje(mensaje, esError = false) {
-    // Crear un toast simple si no existe
-    let toast = document.getElementById("destacado-toast");
+  function mostrarToast(mensaje, esError = false) {
+    let toast = document.getElementById("cart-toast");
     if (!toast) {
       toast = document.createElement("div");
-      toast.id = "destacado-toast";
-      toast.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: ${esError ? '#f8d7da' : '#d1e7dd'};
-        color: ${esError ? '#842029' : '#0f5132'};
-        padding: 12px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 10000;
-        font-size: 14px;
-        display: none;
-        animation: slideIn 0.3s ease-out;
-      `;
+      toast.id = "cart-toast";
+      toast.className = "cart-toast";
       document.body.appendChild(toast);
     }
 
-    toast.textContent = mensaje;
-    toast.style.display = 'block';
+    const iconClass = esError ? "fa-circle-exclamation" : "fa-circle-check";
+    toast.classList.remove("visible", "error", "success");
+    void toast.offsetWidth;
+    toast.innerHTML = `
+      <span class="toast-icon">
+        <i class="fa-solid ${iconClass}"></i>
+      </span>
+      <span class="toast-message">${mensaje}</span>
+    `;
+    toast.classList.add(esError ? "error" : "success");
+    toast.classList.add("visible");
 
     setTimeout(() => {
-      toast.style.display = 'none';
-    }, 3000);
+      toast.classList.remove("visible");
+    }, 2400);
   }
 
   function animarTarjeta(tarjeta) {
@@ -185,12 +203,12 @@
 
         const producto = obtenerProductoDesdeCard(tarjeta);
         if (!producto) {
-          mostrarMensaje("No se pudo obtener la información del producto.", true);
+          mostrarToast("No se pudo obtener la información del producto.", true);
           return;
         }
 
         if (producto.stock <= 0) {
-          mostrarMensaje("Este producto no tiene stock disponible.", true);
+          mostrarToast("Este producto no tiene stock disponible.", true);
           return;
         }
 

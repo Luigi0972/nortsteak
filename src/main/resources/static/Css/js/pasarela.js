@@ -12,6 +12,10 @@ let carritoActual = [];
 let sesionActual = null;
 const ORDER_KEY_PREFIX = "nortsteak:pedidos:";
 const LOGIN_URL = "/login2";
+const CART_USER_KEY = "cart:user";
+
+const cartKey = () =>
+  `carrito:${localStorage.getItem(CART_USER_KEY) || "anon"}`;
 
 document.addEventListener("DOMContentLoaded", () => {
   renderizarResumen();
@@ -25,8 +29,8 @@ function configurarValidaciones() {
   // Validación para nombre completo (solo letras)
   const nombreInput = document.getElementById("nombre");
   if (nombreInput) {
-    nombreInput.addEventListener("input", function(e) {
-      this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+    nombreInput.addEventListener("input", function (e) {
+      this.value = this.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, "");
     });
   }
 
@@ -39,37 +43,39 @@ function configurarValidaciones() {
     "bancolombia-cuenta",
     "bancolombia-aprobacion",
     "falabella-tarjeta",
-    "falabella-autorizacion"
+    "falabella-autorizacion",
   ];
 
-  camposNumericos.forEach(id => {
+  camposNumericos.forEach((id) => {
     const campo = document.getElementById(id);
     if (campo) {
-      campo.addEventListener("input", function(e) {
-        this.value = this.value.replace(/[^0-9]/g, '');
+      campo.addEventListener("input", function (e) {
+        this.value = this.value.replace(/[^0-9]/g, "");
       });
     }
   });
 }
 
 window.addEventListener("storage", (event) => {
-  if (event.key === "carrito") {
+  if (event.key === cartKey()) {
     renderizarResumen();
   }
 });
 
+window.addEventListener("carrito:owner", renderizarResumen);
+
 function obtenerCarrito() {
   try {
-    const almacenado = localStorage.getItem("carrito");
+    const almacenado = localStorage.getItem(cartKey());
     if (!almacenado) return [];
     const parsed = JSON.parse(almacenado);
     if (!Array.isArray(parsed)) return [];
-    return parsed.map(item => ({
+    return parsed.map((item) => ({
       ...item,
       id: item.id != null ? Number(item.id) : null,
       cantidad: Number(item.cantidad ?? 1),
       precioUnitario: Number(item.precioUnitario ?? item.precio ?? 0),
-      imagen: item.imagen || "/img2/newyork.jpg"
+      imagen: item.imagen || "/img2/newyork.jpg",
     }));
   } catch (error) {
     console.error("No se pudo leer el carrito", error);
@@ -95,7 +101,7 @@ function renderizarResumen() {
   btnSimular?.removeAttribute("disabled");
   let total = 0;
 
-  carritoActual.forEach(item => {
+  carritoActual.forEach((item) => {
     const cantidad = Math.max(item.cantidad || 1, 1);
     const subtotal = item.precioUnitario * cantidad;
     total += subtotal;
@@ -117,7 +123,7 @@ function renderizarResumen() {
 }
 
 function configurarMetodos() {
-  metodoRadios.forEach(radio => {
+  metodoRadios.forEach((radio) => {
     radio.addEventListener("change", actualizarPanelMetodo);
   });
   actualizarPanelMetodo();
@@ -125,16 +131,18 @@ function configurarMetodos() {
 
 function actualizarPanelMetodo() {
   const metodo = obtenerMetodoSeleccionado();
-  metodoOptions.forEach(option => {
+  metodoOptions.forEach((option) => {
     option.classList.toggle("active", option.dataset.metodo === metodo);
   });
-  panelesMetodo.forEach(panel => {
+  panelesMetodo.forEach((panel) => {
     panel.classList.toggle("active", panel.dataset.panel === metodo);
   });
 }
 
 function obtenerMetodoSeleccionado() {
-  return document.querySelector('input[name="metodo"]:checked')?.value || "NEQUI";
+  return (
+    document.querySelector('input[name="metodo"]:checked')?.value || "NEQUI"
+  );
 }
 
 async function manejarEnvio(event) {
@@ -148,7 +156,10 @@ async function manejarEnvio(event) {
   const nombre = formPago.nombre.value.trim();
   const soloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
   if (!soloLetras.test(nombre)) {
-    setEstado("❌ El nombre completo solo puede contener letras y espacios", "error");
+    setEstado(
+      "❌ El nombre completo solo puede contener letras y espacios",
+      "error"
+    );
     return;
   }
 
@@ -158,13 +169,19 @@ async function manejarEnvio(event) {
   }
 
   if (!carritoActual.length) {
-    setEstado("Tu carrito está vacío. Vuelve al catálogo para agregar productos.", "error");
+    setEstado(
+      "Tu carrito está vacío. Vuelve al catálogo para agregar productos.",
+      "error"
+    );
     return;
   }
 
-  const productosSinId = carritoActual.filter(item => item.id == null);
+  const productosSinId = carritoActual.filter((item) => item.id == null);
   if (productosSinId.length) {
-    setEstado("Algunos productos no tienen referencia válida. Agrégalos nuevamente desde el catálogo.", "error");
+    setEstado(
+      "Algunos productos no tienen referencia válida. Agrégalos nuevamente desde el catálogo.",
+      "error"
+    );
     return;
   }
 
@@ -187,10 +204,10 @@ async function manejarEnvio(event) {
     correo: formPago.correo.value.trim(),
     direccion: formPago.direccion.value.trim(),
     totalEsperado: calcularTotal(),
-    items: carritoActual.map(item => ({
+    items: carritoActual.map((item) => ({
       productoId: item.id,
-      cantidad: Math.max(item.cantidad || 1, 1)
-    }))
+      cantidad: Math.max(item.cantidad || 1, 1),
+    })),
   };
 
   enviarPago(payload);
@@ -208,7 +225,9 @@ function obtenerReferenciaMetodo(metodo) {
 
   if (metodo === "BANCOLOMBIA") {
     const cuenta = document.getElementById("bancolombia-cuenta")?.value.trim();
-    const aprobacion = document.getElementById("bancolombia-aprobacion")?.value.trim();
+    const aprobacion = document
+      .getElementById("bancolombia-aprobacion")
+      ?.value.trim();
     if (!cuenta || !aprobacion) {
       throw new Error("Completa los datos de la transferencia Bancolombia.");
     }
@@ -217,7 +236,9 @@ function obtenerReferenciaMetodo(metodo) {
 
   if (metodo === "FALABELLA") {
     const tarjeta = document.getElementById("falabella-tarjeta")?.value.trim();
-    const autorizacion = document.getElementById("falabella-autorizacion")?.value.trim();
+    const autorizacion = document
+      .getElementById("falabella-autorizacion")
+      ?.value.trim();
     if (!tarjeta || !autorizacion) {
       throw new Error("Completa los datos de la tarjeta Falabella.");
     }
@@ -234,9 +255,9 @@ function enviarPago(payload) {
   fetch("/api/pago/simulado", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   })
     .then(async (response) => {
       if (!response.ok) {
@@ -246,9 +267,12 @@ function enviarPago(payload) {
       return response.json();
     })
     .then((data) => {
-      setEstado("¡Pago confirmado! Actualizamos el inventario en tiempo real.", "success");
+      setEstado(
+        "¡Pago confirmado! mira tu perfil para ver el estado de tu pedido",
+        "success"
+      );
       registrarPedidoUsuario(payload, carritoActual);
-      localStorage.removeItem("carrito");
+      localStorage.removeItem(cartKey());
       notificarCambioCarrito();
       setTimeout(() => {
         window.location.href = "/catalogo";
@@ -264,7 +288,9 @@ function enviarPago(payload) {
 function toggleCargando(estaCargando) {
   if (!btnSimular) return;
   btnSimular.disabled = estaCargando;
-  btnSimular.textContent = estaCargando ? "Procesando..." : "Confirmar pago simulado";
+  btnSimular.textContent = estaCargando
+    ? "Procesando..."
+    : "Confirmar pago simulado";
 }
 
 function setEstado(mensaje, tipo) {
@@ -279,7 +305,12 @@ function setEstado(mensaje, tipo) {
 }
 
 function formatearPesos(valor) {
-  return "$" + new Intl.NumberFormat("es-CO", { minimumFractionDigits: 0 }).format(valor || 0);
+  return (
+    "$" +
+    new Intl.NumberFormat("es-CO", { minimumFractionDigits: 0 }).format(
+      valor || 0
+    )
+  );
 }
 
 function calcularTotal() {
@@ -292,7 +323,7 @@ function calcularTotal() {
 function notificarCambioCarrito() {
   window.dispatchEvent(
     new CustomEvent("carrito:sync", {
-      detail: { updatedAt: Date.now() }
+      detail: { updatedAt: Date.now() },
     })
   );
 }

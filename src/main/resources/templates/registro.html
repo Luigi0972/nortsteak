@@ -32,19 +32,22 @@
 
 
         <div class="icon-container">
-            <a th:href="@{/registro}" class="icon" title="Registro">
-                <i class="fas fa-user-plus"></i>
-            </a>
-            <a th:href="@{/catalogo}" class="icon" title="Catálogo">
-                <i class="fas fa-book"></i>
-            </a>
-            <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
-            </a>
-            <a th:href="@{/cuenta}" class="icon account-pill" data-user-account-icon hidden aria-label="Mi cuenta">
-                <span class="account-pill-initial" data-user-account-initial>U</span>
-            </a>
+          <a th:href="@{/admin/panel}" class="icon" data-admin-icon hidden title="Panel admin">
+            <i class="fas fa-user-shield"></i>
+          </a>
+          <a th:href="@{/registro}" class="icon" title="Registro">
+            <i class="fas fa-user-plus"></i>
+          </a>
+          <a th:href="@{/catalogo}" class="icon" title="Catálogo">
+            <i class="fas fa-book"></i>
+          </a>
+          <a th:href="@{/carrito}" class="icon icon-cart" title="Carrito de compras">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count-badge" data-cart-count aria-live="polite" aria-label="Productos en carrito">0</span>
+          </a>
+          <a th:href="@{/cuenta}" class="icon account-pill" data-user-account-icon hidden aria-label="Mi cuenta">
+            <span class="account-pill-initial" data-user-account-initial>U</span>
+          </a>
         </div>
     </div>
 

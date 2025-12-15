@@ -166,6 +166,7 @@ body.admin-body {
   background: #fa2222f6;
   text-decoration: none;
   font-size: 13px;
+  cursor: pointer;
   transition: background 0.25s ease, border-color 0.25s ease,
     transform 0.1s ease;
 }
@@ -225,6 +226,40 @@ body.admin-body {
   margin: 2px 0 0;
   font-size: 13px;
   color: #6c757d;
+}
+
+/* Herramientas de la tarjeta (filtros/orden en clientes) */
+.admin-card-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+
+.admin-search input {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #ced4da;
+  background: #f8f9fa;
+  font-size: 13px;
+  color: #212529;
+  min-width: 240px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.admin-search input:focus {
+  outline: none;
+  border-color: #e32626;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(227, 38, 38, 0.15);
+}
+
+.admin-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 /* TABLE */
@@ -406,6 +441,23 @@ body.admin-body {
     min-width: 0;
   }
 
+  .admin-card-tools {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .admin-sort {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-sort .btn-secondary {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+  }
+
   .admin-top-actions {
     width: 100%;
     justify-content: space-between;
@@ -470,7 +522,7 @@ body.admin-body {
     font-size: 13px;
     margin: 6px auto 0;
   }
-  
+
   /* Asegurar que el botón en pedidos también tenga buen tamaño */
   .admin-table td[data-label="Acciones"] .update-btn {
     width: 90%;
@@ -584,7 +636,7 @@ body.admin-body {
     padding: 8px 14px;
     font-size: 13px;
   }
-  
+
   /* Asegurar que el botón en pedidos también tenga buen tamaño */
   .admin-table td[data-label="Acciones"] .update-btn {
     width: 90%;

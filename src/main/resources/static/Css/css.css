@@ -442,6 +442,7 @@ body {
   text-align: center;
   padding: 15px;
   transition: transform 0.3s;
+  font-family: "oswald", sans-serif;
 }
 
 .tarjeta-corte img {
@@ -451,7 +452,7 @@ body {
 
 .tarjeta-corte h3 {
   margin-top: 15px;
-  font-size: 18px;
+  font-size: 1.5 rem;
   font-style: italic;
 }
 
@@ -470,6 +471,8 @@ body {
 
 .tarjeta-corte i:hover {
   color: #c00;
+  transform: scale(1.1);
+  color: rgb(235, 21, 21);
 }
 
 .tarjeta-corte:hover {
@@ -479,8 +482,9 @@ body {
 .precio-destacado {
   font-size: 1.2rem;
   font-weight: bold;
-  color: rgb(235, 21, 21);
+  color: rgb(0, 0, 0);
   margin: 10px 0;
+  font-family: "Roboto Slab", serif;
 }
 
 .destacado-carrito {
@@ -507,7 +511,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {
@@ -617,7 +622,6 @@ ul li {
 
 .contact-button:hover {
   background-color: #cc0000;
-  cursor: pointer;
 }
 
 .contact-button i {
@@ -1704,5 +1708,74 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Estilos del toast de carrito (igual que en catálogo) */
+.cart-toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: #101010;
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 18px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.35);
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: 999;
+  font-family: "Archivo Black", sans-serif;
+  text-transform: uppercase;
+}
+
+.cart-toast.success {
+  background: linear-gradient(120deg, #2b0000, #c40000);
+}
+
+.cart-toast.error {
+  background: linear-gradient(120deg, #111, #a50000);
+}
+
+.cart-toast.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.toast-message {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 580px) {
+  .cart-toast {
+    left: 50%;
+    right: auto;
+    bottom: 20px;
+    transform: translate(-50%, 20px);
+    width: calc(100% - 2.5rem);
+    justify-content: center;
+    text-align: center;
+  }
+
+  .cart-toast.visible {
+    transform: translate(-50%, 0);
   }
 }

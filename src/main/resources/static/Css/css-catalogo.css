@@ -1,15 +1,15 @@
 /* Importar la fuente Roboto desde Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Oswald:wght@200..700&family=Roboto+Slab:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Oswald:wght@200..700&family=Roboto+Slab:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 * {
   box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    overflow-x: hidden;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 .header {
@@ -18,7 +18,7 @@ body {
   text-align: center;
   padding: 0.5rem;
   font-size: 2rem;
-  font-family: 'Roboto', Arial, sans-serif;
+  font-family: "Roboto", Arial, sans-serif;
   width: 100%;
   box-sizing: border-box;
   margin: 0;
@@ -32,123 +32,121 @@ body {
   }
 }
 
-
 /* Contenedor del encabezado */
 .header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    /*gap: 1rem;*/
-    flex-wrap: wrap;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 100%;
-    box-sizing: border-box; /* 🔒 Importante para evitar desbordes */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  /*gap: 1rem;*/
+  flex-wrap: wrap;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  box-sizing: border-box; /* 🔒 Importante para evitar desbordes */
 }
 .logo {
-    max-width: 150px;
-    /*padding: 1rem;*/
+  max-width: 150px;
+  /*padding: 1rem;*/
 }
 
 /* Buscador */
 .search-container {
-    flex-grow: 1; /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
-    max-width: 800px; /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
-    margin: 0 20px;
+  flex-grow: 1; /*hace que el contenedor donde esta la barra de busquedo, ocupe el espacio disponible*/
+  max-width: 800px; /*fuerza que tenga 800px aunque tenga mas espacio disponible*/
+  margin: 0 20px;
 }
 
 .search-form {
-    display: flex; /*lo transforma en un contenedor flex*/
-    width: 100%;/*ocupara el maximo*/
+  display: flex; /*lo transforma en un contenedor flex*/
+  width: 100%; /*ocupara el maximo*/
 }
 
 .search-input {
-    min-width: 0; /*hace que el elemento se encoja lo que pueda para adaptarse al contenedor*/  
-    flex-grow: 1; /*crecera para ocupar el esapcio restante*/
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px 0 0 10px;
-    font-size: 16px;
-    outline: none;
+  min-width: 0; /*hace que el elemento se encoja lo que pueda para adaptarse al contenedor*/
+  flex-grow: 1; /*crecera para ocupar el esapcio restante*/
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px 0 0 10px;
+  font-size: 16px;
+  outline: none;
 }
 
 .search-button {
-    padding: 10px 20px;
-    background-color: rgb(235, 21, 21);
-    color: white;
-    border: none;
-    border-radius: 0 10px 10px 0;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 10px 20px;
+  background-color: rgb(235, 21, 21);
+  color: white;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .search-button:hover {
-    background-color: #b30000;
+  background-color: #b30000;
 }
 
 /* Íconos */
 .icon-container {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .icon {
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 2rem;
-    color: #333;
-    padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 2rem;
+  color: #333;
+  padding: 8px;
 }
 
 .icon:hover {
-    transform: scale(1.1);
-    color:rgb(235, 21, 21);
+  transform: scale(1.1);
+  color: rgb(235, 21, 21);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .logo {
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto;
-        max-width: 200px;
-    }
-
+  .logo {
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 200px;
   }
-
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .search-container {
-        width: 100%;
-        margin: 10px 0;
-    }
-
-    .icon-container {
-        justify-content: center;
-        width: 100%;
-    }
 }
 
 @media (max-width: 768px) {
-    .search-input {
-        font-size: 14px;
-        padding: 8px;
-    }
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .search-button {
-        padding: 8px 16px;
-    }
+  .search-container {
+    width: 100%;
+    margin: 10px 0;
+  }
 
-    .icon {
-        font-size: 1.8rem;
-    }
+  .icon-container {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .search-button {
+    padding: 8px 16px;
+  }
+
+  .icon {
+    font-size: 1.8rem;
+  }
 }
 
 .titulo_catalogo {
@@ -179,211 +177,217 @@ body {
   }
 }
 
-
-
-.productos { /*esto es donde se guardaran la tarjeta de productos*/
-      max-width: 1300px; 
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 3rem;
-      position: relative;
-      top: 2rem;
+.productos {
+  /*esto es donde se guardaran la tarjeta de productos*/
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3rem;
+  position: relative;
+  top: 2rem;
 }
 
-  @media (max-width: 1500px) { /* si el ancho de la pantalla es <= de 1000px */
+@media (max-width: 1500px) {
+  /* si el ancho de la pantalla es <= de 1000px */
   .productos {
-    grid-template-columns: repeat(3, 1fr); /* 1fr es fractional unit hace que las demas columnas sean del mismo tamaño*/
-    width: 100%;
-    padding: 0 2rem; /* 0 es la distancia desde el borde izquierdo y el borde derecho de la pantalla, 1rem es el padding de cada elemento de la clase producto */
-    gap: 2rem;
-    
-  }
-}
-
-  @media (max-width: 1200px) { /* si el ancho de la pantalla es <= de 1000px */
-  .productos {
-    grid-template-columns: repeat(3, 1fr); /* 1fr es fractional unit hace que las demas columnas sean del mismo tamaño*/
+    grid-template-columns: repeat(
+      3,
+      1fr
+    ); /* 1fr es fractional unit hace que las demas columnas sean del mismo tamaño*/
     width: 100%;
     padding: 0 2rem; /* 0 es la distancia desde el borde izquierdo y el borde derecho de la pantalla, 1rem es el padding de cada elemento de la clase producto */
     gap: 2rem;
   }
 }
 
-  @media (max-width: 900px) { /* si el ancho de la pantalla es <= de 800px */
+@media (max-width: 1200px) {
+  /* si el ancho de la pantalla es <= de 1000px */
   .productos {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(
+      3,
+      1fr
+    ); /* 1fr es fractional unit hace que las demas columnas sean del mismo tamaño*/
     width: 100%;
-    padding: 0 2rem; 
+    padding: 0 2rem; /* 0 es la distancia desde el borde izquierdo y el borde derecho de la pantalla, 1rem es el padding de cada elemento de la clase producto */
     gap: 2rem;
   }
 }
 
-  @media (max-width: 500px) { /* si el ancho de la pantalla es <= de 1500px */
+@media (max-width: 900px) {
+  /* si el ancho de la pantalla es <= de 800px */
   .productos {
-    grid-template-columns: repeat(1, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     width: 100%;
-    padding: 0 2rem; 
+    padding: 0 2rem;
     gap: 2rem;
   }
 }
 
-    .producto { /*esta es la tarjeta de cada producto*/
-      text-align: center;
-      padding: 15px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px #ccc;
-      transition: transform 0.3s ease;
-      background: white;
-    }
-    .producto:hover {
-      transform: translateY(-5px); /* cuando el mouse esta encima de la tarjeta, se desplaza la tarjeta un poco  hacia arriba */
-      box-shadow: 0 8px 20px rgba(246, 61, 61, 0.6); /* sombra roja más intensa */
-      cursor: pointer;
-    }
-
-    .producto-adding {
-      animation: productoAdding 0.8s ease;
-      box-shadow: 0 18px 45px rgba(235, 21, 21, 0.35);
-    }
-
-    @keyframes productoAdding {
-      0% {
-        transform: scale(1);
-      }
-      35% {
-        transform: scale(1.02);
-      }
-      60% {
-        transform: scale(0.99);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    /* Estilos para el resaltado de productos desde búsqueda */
-    .producto.highlighted {
-      animation: highlightProduct 3s ease-in-out;
-      border: 3px solid rgb(235, 21, 21) !important;
-      transform: scale(1.05);
-      transition: all 0.3s;
-    }
-
-    @keyframes highlightProduct {
-      0%, 100% {
-        box-shadow: 0 0 0 0 rgba(235, 21, 21, 0);
-      }
-      50% {
-        box-shadow: 0 0 20px 10px rgba(235, 21, 21, 0.8);
-      }
-    }
-
-    .linea {
-    height: 3px;
-    background-color: rgba(246, 32, 32, 0.816);
-    width: 50%;
-    margin: 1rem auto; /*va a tener un margen de 1rem de arriba y abajo ,auto es centrado*/
-    transition: width 0.5s ease; /*que haga la transicion suave con el ancho*/
+@media (max-width: 500px) {
+  /* si el ancho de la pantalla es <= de 1500px */
+  .productos {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+    padding: 0 2rem;
+    gap: 2rem;
+  }
 }
-    .producto:hover .linea { /*cuando el mouse esta encima de la tarjeta, se desplaza la linea del medio*/
-    width: 77%;
-    }
 
+.producto {
+  /*esta es la tarjeta de cada producto*/
+  text-align: center;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px #ccc;
+  transition: transform 0.3s ease;
+  background: white;
+}
+.producto:hover {
+  transform: translateY(
+    -5px
+  ); /* cuando el mouse esta encima de la tarjeta, se desplaza la tarjeta un poco  hacia arriba */
+  box-shadow: 0 8px 20px rgba(246, 61, 61, 0.6); /* sombra roja más intensa */
+  cursor: pointer;
+}
 
-    .producto:nth-child(1) { /*nth-child es una pseudo-clase que selecciona el primer elemento de la clase producto en este caso es el primero*/
-      animation-delay: 0.0s; /*tenga un delay de la animacion*/
-    }
-    .producto:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-    .producto:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-    .producto:nth-child(4) {
-      animation-delay: 0.8s;
-    }
-    .producto:nth-child(5) {
-      animation-delay: 1.0s;
-    }
-    .producto:nth-child(6) {
-      animation-delay: 1.2s;
-    }
-    .producto:nth-child(7) {
-      animation-delay: 1.4s;
-    }
-    .producto:nth-child(8) {
-      animation-delay: 1.6s;
-    }
-    .producto:nth-child(9) {
-      animation-delay: 1.8s;
-    }
+.producto-adding {
+  animation: productoAdding 0.8s ease;
+  box-shadow: 0 18px 45px rgba(235, 21, 21, 0.35);
+}
 
-    
+@keyframes productoAdding {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.02);
+  }
+  60% {
+    transform: scale(0.99);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
+/* Estilos para el resaltado de productos desde búsqueda */
+.producto.highlighted {
+  animation: highlightProduct 3s ease-in-out;
+  border: 3px solid rgb(235, 21, 21) !important;
+  transform: scale(1.05);
+  transition: all 0.3s;
+}
 
-    .producto img {
-      width: 100%;
-      border-radius: 10px;
-      aspect-ratio: 5 / 3; /* me evito hacer que las imagnes todas tengan el mismo tamaño en px */
-      object-fit: cover;
-      
-    }
+@keyframes highlightProduct {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(235, 21, 21, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(235, 21, 21, 0.8);
+  }
+}
 
-    .producto h3 {
-      margin-top: 0.2rem;
-      margin-bottom: 0.2rem;
-      font-size: 1.5rem;
-      font-family: "oswald", sans-serif;
-      /*font-family: "Oswald", sans-serif;
+.linea {
+  height: 3px;
+  background-color: rgba(246, 32, 32, 0.816);
+  width: 50%;
+  margin: 1rem auto; /*va a tener un margen de 1rem de arriba y abajo ,auto es centrado*/
+  transition: width 0.5s ease; /*que haga la transicion suave con el ancho*/
+}
+.producto:hover .linea {
+  /*cuando el mouse esta encima de la tarjeta, se desplaza la linea del medio*/
+  width: 77%;
+}
+
+.producto:nth-child(1) {
+  /*nth-child es una pseudo-clase que selecciona el primer elemento de la clase producto en este caso es el primero*/
+  animation-delay: 0s; /*tenga un delay de la animacion*/
+}
+.producto:nth-child(2) {
+  animation-delay: 0.4s;
+}
+.producto:nth-child(3) {
+  animation-delay: 0.6s;
+}
+.producto:nth-child(4) {
+  animation-delay: 0.8s;
+}
+.producto:nth-child(5) {
+  animation-delay: 1s;
+}
+.producto:nth-child(6) {
+  animation-delay: 1.2s;
+}
+.producto:nth-child(7) {
+  animation-delay: 1.4s;
+}
+.producto:nth-child(8) {
+  animation-delay: 1.6s;
+}
+.producto:nth-child(9) {
+  animation-delay: 1.8s;
+}
+
+.producto img {
+  width: 100%;
+  border-radius: 10px;
+  aspect-ratio: 5 / 3; /* me evito hacer que las imagnes todas tengan el mismo tamaño en px */
+  object-fit: cover;
+}
+
+.producto h3 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+  font-size: 1.5rem;
+  font-family: "oswald", sans-serif;
+  /*font-family: "Oswald", sans-serif;
       font-weight: 0;*/
-    }
+}
 
+.producto .precio {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  font-family: "Roboto Slab", serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
 
-
-
-
-    .producto .precio {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-      margin-top: 0.5rem;
-      font-family: "Roboto Slab", serif;
-      font-weight: 800;
-      font-size: 1.2rem;
-    }
-
-    /*.producto .icono {
+/*.producto .icono {
       font-size: 24px;
       margin-bottom: 0.5rem;
     } */
 
 .producto button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 0.8rem 1.6rem;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      font-weight: 700;
-      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      font-family: "Josefin Sans", sans-serif;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0.75rem auto 0;
-      width: fit-content;
-      box-shadow: 0 10px 25px rgba(235, 21, 21, 0.25);
-    }
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 700;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  font-family: "Josefin Sans", sans-serif;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.75rem auto 0;
+  width: fit-content;
+  box-shadow: 0 10px 25px rgba(235, 21, 21, 0.25);
+}
 
-    .producto button:hover {
-      background-color: darkred;
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 15px 30px rgba(235, 21, 21, 0.35);
-      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    }
+.producto button:hover {
+  background-color: darkred;
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(235, 21, 21, 0.35);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
 
-  .carrito { /*para el icono del carrito*/
+.carrito {
+  /*para el icono del carrito*/
   font-size: 1.8rem;
   color: #000;
   cursor: pointer;
@@ -391,7 +395,6 @@ body {
   transition: transform 0.3s ease-in-out;
   width: max-content; /*ase que ocupa e*/
 }
-
 
 .carrito:hover {
   color: #c00;
@@ -487,16 +490,9 @@ body {
   will-change: transform, opacity;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
-  
-
-
-
-
-
-
 
 .modal {
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -505,7 +501,6 @@ body {
   justify-content: center;
   align-items: center;
   animation: fadeIn 0.3s ease-in-out;
-
 }
 
 .modal-contenido {
@@ -519,9 +514,7 @@ body {
   animation: slideUp 0.4s ease;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   font-family: sans-serif;
-
 }
-
 
 .modal-contenido img {
   max-width: 100%;
@@ -535,7 +528,6 @@ body {
   font-weight: bold;
   margin-bottom: 10px;
   font-family: "oswald", sans-serif;
-
 }
 
 .modal-contenido p {
@@ -582,7 +574,8 @@ body {
   background-color: #cc0000;
 }
 
-.cerrar { /* para el icono del cerrar */
+.cerrar {
+  /* para el icono del cerrar */
   position: absolute; /* para moverlo libremente */
   top: -10px; /* hacia arriba */
   right: -10px; /* hacia la derecha */
@@ -596,7 +589,7 @@ body {
   border-radius: 50%;
   justify-content: center; /* para centrar verticalmente */
   align-items: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   transition: background 0.3s ease;
   z-index: 1000;
 }
@@ -607,8 +600,12 @@ body {
 
 /* Animaciones al darle click al producto */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -622,10 +619,6 @@ body {
   }
 }
 
-
-
-
-
 /* aqui sera el contenedor negro de la parte de abajo*/
 
 .footer {
@@ -637,17 +630,16 @@ body {
   padding: 5px 30px 40px 30px;
   gap: 40px;
   flex-wrap: wrap;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   margin-top: 60px;
-  
 }
 
 .footer-column1 {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;  /* Alinea todo a la izquierda */
-  padding-top: 0;           /* Elimina espacio superior */
-  gap: 10px;                /* Espaciado entre elementos */
+  align-items: flex-start; /* Alinea todo a la izquierda */
+  padding-top: 0; /* Elimina espacio superior */
+  gap: 10px; /* Espaciado entre elementos */
 }
 
 .footer-column2 {
@@ -667,7 +659,6 @@ body {
   color: #ff4040; /* Rojo brillante u otro tono que combine */
 }
 
-
 .logo2 {
   max-width: 200px;
   margin-bottom: 20px;
@@ -677,7 +668,6 @@ body {
 h3 {
   font-size: 1.5rem;
   margin-bottom: 5px;
-  
 }
 
 ul {
@@ -696,15 +686,15 @@ ul li {
 }
 
 .fa-whatsapp {
-  color: #25D366;
+  color: #25d366;
 }
 
 .fa-instagram {
-  color: #E1306C;
+  color: #e1306c;
 }
 
 .fa-facebook {
-  color: #1877F2;
+  color: #1877f2;
 }
 
 .social-icons i {
@@ -715,7 +705,7 @@ ul li {
 
 .social-icons a {
   text-decoration: none; /* Quita la línea azul debajo */
-  color: inherit;         /* Mantiene el color original del ícono */
+  color: inherit; /* Mantiene el color original del ícono */
 }
 .social-icons i:hover {
   transform: scale(1.2);
@@ -742,9 +732,7 @@ ul li {
   margin-left: 10px;
 }
 
-
 .bancos img {
-  
   height: auto; /* mantiene proporciones */
   margin: 0 10px; /* espacio entre los logos */
   transition: transform 0.3s;
@@ -752,19 +740,19 @@ ul li {
 
 .bancos img:hover {
   transform: scale(1.2);
-    filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%) hue-rotate(357deg) brightness(98%) contrast(105%);
+  filter: brightness(0) saturate(100%) invert(13%) sepia(98%) saturate(7499%)
+    hue-rotate(357deg) brightness(98%) contrast(105%);
 }
 
 .logo-bancolombia {
   width: 230px;
-  
 }
 
-.logo-falabella{
+.logo-falabella {
   width: 180px;
 }
 
-.logo-nequi{
+.logo-nequi {
   width: 180px;
 }
 
@@ -781,16 +769,15 @@ ul li {
 }
 
 .ubicacion-mapa {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    aspect-ratio: 4 / 1.8; /* o usa padding-bottom si no tienes soporte para aspect-ratio */
-    margin: auto;
-    overflow: hidden;
-    border-radius: 12px;
-  }
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 4 / 1.8; /* o usa padding-bottom si no tienes soporte para aspect-ratio */
+  margin: auto;
+  overflow: hidden;
+  border-radius: 12px;
+}
 
-  
 .footer-column1 ul li a {
   text-decoration: none;
   color: white; /* O el color que estés usando */
@@ -800,7 +787,6 @@ ul li {
 .footer-column1 ul li a:hover {
   color: #ff4040; /* Rojo brillante u otro tono que combine */
 }
-
 
 /* esto es lo que lo hace responsive */
 @media screen and (max-width: 768px) {
@@ -819,10 +805,9 @@ ul li {
   }
 
   .footer p.copyright {
-  font-size: 1.2rem;
-  color: #bbb;
+    font-size: 1.2rem;
+    color: #bbb;
   }
-
 
   .bancos {
     flex-direction: column;
@@ -835,7 +820,8 @@ ul li {
   }
 }
 
-  @media (max-width: 1100px) { /* si el ancho de la pantalla es <= de 800px */
+@media (max-width: 1100px) {
+  /* si el ancho de la pantalla es <= de 800px */
   .footer-column2 {
     display: flex;
     flex-direction: column;
@@ -849,15 +835,14 @@ ul li {
     gap: 10px;
   }
   .footer {
-  gap: 20px;
+    gap: 20px;
   }
 
   .footer p.copyright {
-  font-size: 1.2rem;
-  color: #bbb;
-  margin-top: 25px;
-  
-}
+    font-size: 1.2rem;
+    color: #bbb;
+    margin-top: 25px;
+  }
 }
 
 .cart-toast {

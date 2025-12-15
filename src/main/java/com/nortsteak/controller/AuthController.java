@@ -134,11 +134,14 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> getSession(HttpSession session) {
         Map<String, Object> response = new HashMap<>();
         String userEmail = (String) session.getAttribute("userEmail");
+        boolean isAdmin = userEmail != null &&
+                ("luigi0972@gmail.com".equals(userEmail) || "sebasmondragon@gmail.com".equals(userEmail));
 
         if (userEmail != null) {
             response.put("loggedIn", true);
             response.put("userEmail", userEmail);
             response.put("userNombre", session.getAttribute("userNombre"));
+            response.put("isAdmin", isAdmin);
         } else {
             response.put("loggedIn", false);
         }

@@ -2,9 +2,16 @@
   const badges = document.querySelectorAll("[data-cart-count]");
   if (!badges.length) return;
 
+  const CART_USER_KEY = "cart:user";
+
+  const cartKey = () => {
+    const owner = localStorage.getItem(CART_USER_KEY) || "anon";
+    return `carrito:${owner}`;
+  };
+
   function obtenerCarritoSeguro() {
     try {
-      const raw = localStorage.getItem("carrito");
+      const raw = localStorage.getItem(cartKey());
       if (!raw) {
         return [];
       }
@@ -43,10 +50,12 @@
   }
 
   window.addEventListener("storage", (event) => {
-    if (event.key === "carrito") {
+    if (event.key === cartKey()) {
       refrescar();
     }
   });
+
+  window.addEventListener("carrito:owner", refrescar);
 
   window.addEventListener("carrito:sync", refrescar);
   document.addEventListener("visibilitychange", () => {
